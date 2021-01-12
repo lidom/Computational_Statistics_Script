@@ -132,7 +132,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li><center><a href="http://www.dliebl.com/AdvRA/"><img src="images/Florence_Nightingale.jpg" alt="logo" width="60%" height="60%"style="margin: 15px 0 0 0"></a></center></li>
+<li><center><a href="http://www.dliebl.com/Computational_Statistics_Script/"><img src="images/Florence_Nightingale.jpg" alt="logo" width="60%" height="60%"style="margin: 15px 0 0 0"></a></center></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Informationen</a><ul>
@@ -221,13 +221,13 @@ für alle <span class="math inline">\(i=1,\dots,n\)</span>.</li>
 <li><p><strong>Umsetzung der Schätz-Idee:</strong> Maximiere (bzgl. <span class="math inline">\(\boldsymbol{\pi}\)</span>, <span class="math inline">\(\boldsymbol{\mu}\)</span> und <span class="math inline">\(\boldsymbol{\sigma}\)</span>) die Likelihood Funktion
 <span class="math display">\[\mathcal{L}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x})=\prod_{i=1}^nf_G(x_i|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})\]</span>
 Bzw. maximiere die Log-Likelihood Funktion (einfachere Maximierung)
-<span class="math display" id="eq:loglikfct">\[\begin{equation}
-%\ln\left(\mathcal{L}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x})\right)=
-\ell(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x})  
-=\sum_{i=1}^n\ln\left(f_G(x_i|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})\right)
-=\sum_{i=1}^n\ln\left(\sum_{g=1}^G\pi_g\phi_{\mu_g\sigma_g}(x_i)\right) \tag{1.2}
-\end{equation}\]</span>
-<strong>Beachte:</strong> Die Maximierung muss die Parameterrestriktionen in <a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#eq:GMMdens">(1.1)</a> <a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#eq:loglikfct">(1.2)</a> berücksichtigen (<span class="math inline">\(\sigma_g&gt;0\)</span> und <span class="math inline">\(\pi_g&gt;0\)</span> für alle <span class="math inline">\(g=1,\dots,G\)</span> und <span class="math inline">\(\sum_{g=1}^G\pi_g=1\)</span>).</p></li>
+<span class="math display">\[\begin{align*}
+\ln\left(\mathcal{L}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x})\right)=
+\ell(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x})
+=&amp;\sum_{i=1}^n\ln\left(f_G(x_i|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})\right)\\
+=&amp;\sum_{i=1}^n\ln\left(\sum_{g=1}^G\pi_g\phi_{\mu_g\sigma_g}(x_i)\right)
+\end{align*}\]</span>
+<strong>Beachte:</strong> Die Maximierung muss die Parameterrestriktionen in <a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#eq:GMMdens">(1.1)</a> berücksichtigen (<span class="math inline">\(\sigma_g&gt;0\)</span> und <span class="math inline">\(\pi_g&gt;0\)</span> für alle <span class="math inline">\(g=1,\dots,G\)</span> und <span class="math inline">\(\sum_{g=1}^G\pi_g=1\)</span>).</p></li>
 <li><p>Die maximierenden Parameterwerte <span style="color:#FF5733"><span class="math inline">\(\hat{\boldsymbol{\pi}}\)</span></span>, <span style="color:#FF5733"><span class="math inline">\(\hat{\boldsymbol{\mu}}\)</span></span> und <span style="color:#FF5733"><span class="math inline">\(\hat{\boldsymbol{\sigma}}\)</span></span> sind die <span style="color:#FF5733"><strong>ML-Schätzer</strong></span>. Das kann man so ausdrücken:
 <span class="math display">\[
 (\hat{\boldsymbol{\pi}},\hat{\boldsymbol{\mu}},\hat{\boldsymbol{\sigma}})=\arg\min_{\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}}\ell(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x})
@@ -351,9 +351,9 @@ für <span class="math inline">\(i=1,\dots,n\)</span> und <span class="math inli
 <span id="cb4-59"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-59"></a><span class="co">##</span></span>
 <span id="cb4-60"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-60"></a>results <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(., <span class="dv">2</span>)</span>
 <span id="cb4-61"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-61"></a><span class="co">#&gt;                      Gruppe 1 Gruppe 2</span></span>
-<span id="cb4-62"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-62"></a><span class="co">#&gt; Gewichte                 0.31     0.69</span></span>
-<span id="cb4-63"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-63"></a><span class="co">#&gt; Mittelwerte            194.25   216.19</span></span>
-<span id="cb4-64"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-64"></a><span class="co">#&gt; Standardabweichungen     6.25     7.32</span></span></code></pre></div>
+<span id="cb4-62"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-62"></a><span class="co">#&gt; Gewichte                 0.69     0.31</span></span>
+<span id="cb4-63"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-63"></a><span class="co">#&gt; Mittelwerte            216.20   194.26</span></span>
+<span id="cb4-64"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-64"></a><span class="co">#&gt; Standardabweichungen     7.32     6.26</span></span></code></pre></div>
 <p>Das Schätzergebnis erlaubt es uns, Abbildung <a href="1-1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#fig:GMM-plot1">1.1</a> zu replizieren:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb5-1"></a><span class="co">## Auswerten der Gaußsche Mischungs-Dichtefunktion</span></span>
 <span id="cb5-2"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb5-2"></a>np      &lt;-<span class="st"> </span><span class="dv">100</span> <span class="co"># Anzahl der Auswertungspunkte</span></span>
@@ -376,7 +376,7 @@ für <span class="math inline">\(i=1,\dots,n\)</span> und <span class="math inli
 <span id="cb5-19"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb5-19"></a>           <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">col=</span><span class="kw">alpha</span>(col_v[<span class="dv">1</span>],.<span class="dv">5</span>), <span class="dt">bg=</span><span class="kw">alpha</span>(col_v[<span class="dv">1</span>],.<span class="dv">5</span>), <span class="dt">cex=</span><span class="fl">1.3</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb5-20"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb5-20"></a><span class="kw">stripchart</span>(Penguine_Flosse[class<span class="op">==</span><span class="dv">2</span>], <span class="dt">method =</span> <span class="st">&quot;jitter&quot;</span>, <span class="dt">jitter =</span> <span class="fl">.0005</span>, <span class="dt">at =</span> <span class="fl">.001</span>,</span>
 <span id="cb5-21"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb5-21"></a>           <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">col=</span><span class="kw">alpha</span>(col_v[<span class="dv">2</span>],.<span class="dv">5</span>), <span class="dt">bg=</span><span class="kw">alpha</span>(col_v[<span class="dv">2</span>],.<span class="dv">5</span>), <span class="dt">cex=</span><span class="fl">1.3</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
-<p><img src="SFDS_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="SFDS_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" /></p>
 </div>
 </div>
             </section>
@@ -401,9 +401,9 @@ für <span class="math inline">\(i=1,\dots,n\)</span> und <span class="math inli
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
-"github": false,
+"github": true,
 "facebook": false,
-"twitter": false,
+"twitter": true,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
@@ -416,7 +416,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/lidom/AdvRA/edit/master/02-EM-Algorithmus.Rmd",
+"link": "https://github.com/lidom/Computational_Statistics_Script/edit/master/02-EM-Algorithmus.Rmd",
 "text": "Edit"
 },
 "history": {

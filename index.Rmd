@@ -111,12 +111,12 @@ Das Logo zu diesem Skript stammt von einer [Briefmarke](https://de.wikipedia.org
 
 
 
-<!-- ```{r, eval=knitr::opts_knit$get("rmarkdown.pandoc.to") == "html", results='asis', echo=FALSE} -->
-<!-- cat('<br> -->
-<!-- ![Creative Commons License](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc-sa.eu.svg) -->
+```{r, eval=knitr::opts_knit$get("rmarkdown.pandoc.to") == "html", results='asis', echo=FALSE}
+cat('<br>
+![Creative Commons License](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc-sa.eu.svg)
 
-<!-- Dieses Skript ist lizenziert unter  book is licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).') -->
-<!-- ``` -->
+Dieses Skript ist lizenziert unter der Creative Commons Lizenz [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).')
+```
 
 
 <!-- # Einführung in `r ttcode("R")` und *RStudio* -->
