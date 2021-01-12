@@ -1,5 +1,6 @@
 book_filename: "Computational_Statistics_Script"
 output_dir: docs
+repo: "https://github.com/lidom/Computational_Statistics_Script/"
 delete_merged_file: true
 rmd_files: ["index.Rmd",
             "02-EM-Algorithmus.Rmd",            
