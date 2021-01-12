@@ -178,7 +178,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="der-alternative-wahre-blick-auf-den-em-algorithmus" class="section level2">
 <h2><span class="header-section-number">1.3</span> Der alternative (wahre) Blick auf den EM-Algorithmus</h2>
-<p>Der EM Algorithmus ermöglicht es Maximum Likelihood Probleme zu vereinfachen, indem man die Daten durch nicht beobachtete („latente“) Variablen vervollständigt.</p>
+<p>Der EM Algorithmus ermöglicht es Maximum Likelihood Probleme zu vereinfachen, indem man die Daten durch nicht beobachtete („latente“) Variablen vervollständigt. Dieses Prinzip ist der eigentliche wahre Beitrag des EM-Algorithmus. Es ermöglicht die Lösung verschiedener Maximum Likelihood Probleme - wie bleiben aber zunächst bei der Schätzung von GMMs.</p>
 <blockquote>
 <p>Zur Erinnerung: Wie haben es ja nicht geschafft, die Log-Likelihood Funktion
 <span class="math display">\[
@@ -187,39 +187,54 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 \]</span>
 direkt zu maximieren. Die <span class="math inline">\(\log(\sum_{g=1}^G[\dots])\)</span>-Konstruktion macht einem das Leben schwer.</p>
 </blockquote>
-<p>In unseren Pinguin-Daten gibt zwei Gruppen (<span class="math inline">\(g\in\{1,2\}\)</span>). Ist gäbe im Prinzip also latente (unbeobachtete) Zuordnungsdaten <span class="math inline">\(z_{ig}\)</span> mit
+<p>In unseren Pinguin-Daten gibt zwei Gruppen (<span class="math inline">\(g\in\{1,2\}\)</span>). Es gäbe also im Prinzip <span class="math inline">\(G\)</span>-dimensionale Zuordnungsvektoren <span class="math inline">\((z_{i1},z_{i2})\)</span> mit
 <span class="math display">\[
-z_{ig}=
+(z_{i1},z_{i2})=
 \left\{\begin{array}{ll}
-1&amp;\text{falls Pinguin }i\text{ zu Gruppe }g\text{ gehört.}\\
-0&amp;\text{sonst.}\\
-\end{array}\right.,
+(1,0)&amp;\text{falls Pinguin }i\text{ zu Gruppe }g=1\text{ gehört.}\\
+(0,1)&amp;\text{falls Pinguin }i\text{ zu Gruppe }g=2\text{ gehört.}\\
+\end{array}\right.
 \]</span>
-wobei <span class="math inline">\(\sum_{g=1}^Gz_{ig}=1\)</span> für alle <span class="math inline">\(i=1,\dots,n\)</span>.</p>
+Im Fall von <span class="math inline">\(G&gt;2\)</span> Gruppen:<br />
+<span class="math display">\[
+(z_{i1},\dots,z_{iG})=
+\left\{\begin{array}{ll}
+(1,0,\dots,0)&amp;\text{falls Datenpunkt }i\text{ zu Gruppe }g=1\text{ gehört.}\\
+(0,1,\dots,0)&amp;\text{falls Datenpunkt }i\text{ zu Gruppe }g=2\text{ gehört.}\\
+\quad\quad\vdots&amp;\\
+(0,0,\dots,1)&amp;\text{falls Datenpunkt }i\text{ zu Gruppe }g=G\text{ gehört.}\\
+\end{array}\right.
+\]</span></p>
+<p>Die Zuordnungen <span class="math inline">\(z_{ig}\)</span> können also die Werte <span class="math inline">\(z_{ig}\in\{0,1\}\)</span> annehmen, wobei <span class="math inline">\(\sum_{g=1}^Gz_{ig}=1\)</span> für alle <span class="math inline">\(i=1,\dots,n\)</span>.</p>
 <blockquote>
-<p><strong>Beachte:</strong> Für jeden Datenpunkt <span class="math inline">\(i\)</span> (jeder Pinguin <span class="math inline">\(i\)</span>) gibt es nur <strong>eine</strong> Gruppe (daher <span class="math inline">\(\sum_{g=1}^Gz_{ig}=1\)</span>). Dies ist eine wichtige Restriktion von GMMs, welche bei den Pinguin-Daten unproblematisch ist, in anderen Anwendungen aber evtl. problematisch sein kann.</p>
+<p><strong>Beachte:</strong> Für jeden Datenpunkt <span class="math inline">\(i\)</span> (jeder Pinguin <span class="math inline">\(i\)</span>) gibt es nur <strong>eine</strong> Gruppe (daher <span class="math inline">\(\sum_{g=1}^Gz_{ig}=1\)</span>). Dies ist eine wichtige Restriktion von GMMs, welche bei den Pinguin-Daten unproblematisch ist, in anderen Anwendungen mit hirarchischen Gruppierungen aber evtl. problematisch ist.</p>
 </blockquote>
-<p>Die Zuordnungsdaten <span class="math inline">\(\mathbf{z}=(z_{11},\dots,z_{nG})\)</span> sind leider unbekannt (latent). Wir wissen aber trotzdem etwas über diese Zuordnungen. Laut unserem Modell
+<p>Die Zuordnungen <span class="math inline">\(z_{ig}\)</span> sind leider unbekannt (latent). Wir wissen aber trotzdem einiges etwas über diese Zuordnungen. Die Gewichte <span class="math inline">\(\pi_1,\dots,\pi_G\)</span> der Gaußschen Mischverteilung
 <span class="math display">\[
 f_G(x|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})=\sum_{g=1}^G\pi_gf(x|\mu_g\sigma_g),
 \]</span>
-ist die Zuordnung <span class="math inline">\(z_{ig}\)</span> nämlich eine Realisation einer Bernoulli Zufallsvariable
+geben die Anteile der Einzelverteilungen <span class="math inline">\(f_g\)</span> an der Gesamtverteilung <span class="math inline">\(f\)</span> an. Im Schnitt kommen <span class="math inline">\(\pi_g\cdot 100\%\)</span> der Datenpunkte von Verteilung <span class="math inline">\(f_g\)</span>, <span class="math inline">\(g=1,\dots,G\)</span>. Somit können wir die Zuordnungsdaten <span class="math inline">\(\mathbf{z}=\big((z_{11},\dots,z_{1G}),\dots,(z_{n1},\dots,z_{nG})\big)\)</span> als eine Realisation einer einfachen (i.i.d.) Zufallsstichprobe <span class="math inline">\((Z_1,\dots,Z_n)\)</span> auffassen, wobei <span class="math inline">\(Z_i\in\{(z_1,\dots,z_G)\in\{0,1\}^G\text{ so, dass }\sum_{g=1}^Gz_g=1\}\)</span> eine diskrete Zufallsvariable ist. Die Wahrscheinlichkeitsfunktion <span class="math inline">\(p_Z\)</span> von <span class="math inline">\(Z_i=(Z_{i1},\dots,Z_{iG})\)</span> lautet:
 <span class="math display">\[
-Z_{ig}\sim\mathcal{B}(\pi_g)
+\begin{array}{ll}
+p_Z\big((1,0,\dots,0)\big)&amp;=\pi_1\\
+p_Z\big((0,1,\dots,0)\big)&amp;=\pi_2\\
+\quad\quad\quad\quad\vdots&amp;\\
+p_Z\big((0,0,\dots,1)\big)&amp;=\pi_G\\
+\end{array}
 \]</span>
-Also
-<span class="math display">\[\begin{align*}
-P(Z_{ig}=1)&amp;=\;\;\;\pi_g\;\;=P(\text{Pinguin $i$ gehört zu Gruppe }g)\\
-P(Z_{ig}=0)&amp;=1-\pi_g=P(\text{Pinguin $i$ gehört nicht zu Gruppe }g)
-\end{align*}\]</span>
-Man bezeichnet <span class="math inline">\(\pi_1,\dots,\pi_G\)</span> als die <strong>„a-priori-Wahrscheinlichkeiten“</strong>. Wenn wir nichts über die Flossenlänge von Pinguin <span class="math inline">\(i\)</span> wissen, dann bleiben uns nur die a-priori-Wahrscheinlichkeiten: Mit Wahrscheinlichkeit <span class="math inline">\(\pi_g\)</span> gehört Pinguin <span class="math inline">\(i\)</span> zu Gruppe <span class="math inline">\(g\)</span>.</p>
-<p>Falls wir die Flossenlänge von Pinguin <span class="math inline">\(i\)</span> erfahren, können wir die a-priori-Wahrscheinlichkeiten mit Hilfe des Satzes von Bayes aktualisieren. Dies führt dann zur a-posteriori-Wahrscheinlichkeit:</p>
-<p><strong>A-posteriori-Wahrscheinlichkeit <span class="math inline">\(\;p_{ig}\)</span>:</strong></p>
+Achtung: Wegen der restrition sind dann immer all anderen null.</p>
+<!-- (Im Falle von $G=2$, wie bei den Pinguinen, kann man das alles vereinfachen zu einer Bernoulli Zufallsvariable) -->
+<!-- \begin{align*} -->
+<!-- P(Z_{ig}=1)&=\;\;\;\pi_g\;\;=P(\text{Pinguin $i$ gehört zu Gruppe }g)\\ -->
+<!-- P(Z_{ig}=0)&=1-\pi_g=P(\text{Pinguin $i$ gehört nicht zu Gruppe }g) -->
+<!-- \end{align*} -->
+<p>Man bezeichnet die Wahrscheinlichkeiten <span class="math inline">\(\pi_1,\dots,\pi_G\)</span> als die <strong>„a-priori-Wahrscheinlichkeiten“</strong>. Wenn wir nichts über die Flossenlänge von Pinguin <span class="math inline">\(i\)</span> wissen, dann bleiben uns nur die a-priori-Wahrscheinlichkeiten: Mit Wahrscheinlichkeit <span class="math inline">\(\pi_g\)</span> gehört Pinguin <span class="math inline">\(i\)</span> zu Gruppe <span class="math inline">\(g\)</span>.</p>
+<p>Falls wir die Flossenlänge von Pinguin <span class="math inline">\(i\)</span> erfahren, können wir die a-priori-Wahrscheinlichkeiten mit Hilfe des Satzes von Bayes aktualisieren. Dies führt dann zur <strong>a-posteriori-Wahrscheinlichkeit <span class="math inline">\(\;p_{ig}\)</span>:</strong></p>
 <p>(Satz von Bayes)
 <span class="math display">\[\begin{align*}
 p_{ig}
 &amp;=\frac{\pi_g\phi_{\mu_g\sigma_g}(x_i)}{f_G(x_i|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})}\\[2ex]
-&amp;=\frac{\overbrace{P(Z_{ig}=1)}^{\text{„A-priori-Wahrs.“}}\phi_{\mu_g\sigma_g}(x_i)}{f_G(x_i|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})}=\overbrace{P(Z_{ig}=1|X_i=x_i)}^{\text{„A-posteriori-Wahrs.“}}=p_{ig}\\
+%&amp;=\frac{\overbrace{P(Z_{ig}=1)}^{\text{„A-priori-Wahrs.“}}\phi_{\mu_g\sigma_g}(x_i)}{f_G(x_i|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})}=\overbrace{P(Z_{ig}=1|X_i=x_i)}^{\text{„A-posteriori-Wahrs.“}}=p_{ig}\\
 \end{align*}\]</span>
 Beachte: <span class="math inline">\(p_{ig}\)</span> ist ein (bedingter) Mittelwert <span style="color:#FF5733"><strong>(Expectation)</strong></span>
 <span class="math display">\[\begin{align*}
