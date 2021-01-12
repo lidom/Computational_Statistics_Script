@@ -80,7 +80,9 @@ cat('<hr style="background-color:#3C6690;height:2px">')
 ```
 
 
+### RCodes
 
+Die RCodes zu den einzelnen Kapiteln können hier heruntergeladen werden: [LINK](https://github.com/lidom/Computational_Statistics_Script/tree/main/RCodes)
 
 
 ### Leseecke {-}
