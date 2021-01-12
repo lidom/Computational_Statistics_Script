@@ -1,4 +1,4 @@
-book_filename: "SFDS"
+book_filename: "Computational_Statistics_Script"
 output_dir: docs
 delete_merged_file: true
 rmd_files: ["index.Rmd",

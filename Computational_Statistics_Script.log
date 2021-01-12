@@ -1,9 +1,9 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2020.10.1)  12 JAN 2021 19:08
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2020.10.1)  12 JAN 2021 19:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**SFDS.tex
-(./SFDS.tex
+**Computational_Statistics_Script.tex
+(./Computational_Statistics_Script.tex
 LaTeX2e <2020-02-02> patch level 2
 L3 programming layer <2020-02-14> (/usr/share/texlive/texmf-dist/tex/latex/base
 /book.cls
@@ -733,12 +733,12 @@ Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibsep=\skip68
 LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count318
-) (./SFDS.aux
+) (./Computational_Statistics_Script.aux
 LaTeX Info: Redefining \rmfamily on input line 21.
 LaTeX Info: Redefining \sffamily on input line 21.
 LaTeX Info: Redefining \ttfamily on input line 21.
 )
-\openout1 = `SFDS.aux'.
+\openout1 = `Computational_Statistics_Script.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 182.
 LaTeX Font Info:    ... okay on input line 182.
@@ -1096,7 +1096,7 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 
 ] [2
 
-] (./SFDS.toc
+] (./Computational_Statistics_Script.toc
 LaTeX Info: Redefining \rmfamily on input line 1.
 LaTeX Info: Redefining \sffamily on input line 1.
 LaTeX Info: Redefining \ttfamily on input line 1.
@@ -1118,7 +1118,7 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 (Font)              scaled to size 4.99947pt on input line 10.
 )
 \tf@toc=\write7
-\openout7 = `SFDS.toc'.
+\openout7 = `Computational_Statistics_Script.toc'.
 
 [3] [4
 
@@ -1139,8 +1139,9 @@ ALGORITHMUS
  []
 
 [8]
-File: SFDS_files/figure-latex/unnamed-chunk-9-1.pdf Graphic file (type pdf)
-<use SFDS_files/figure-latex/unnamed-chunk-9-1.pdf>
+File: Computational_Statistics_Script_files/figure-latex/unnamed-chunk-9-1.pdf 
+Graphic file (type pdf)
+<use Computational_Statistics_Script_files/figure-latex/unnamed-chunk-9-1.pdf>
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -1154,8 +1155,9 @@ ILUNGEN \TU/lmr/m/n/10 9
  []
 
 [9]
-File: SFDS_files/figure-latex/GMM-plot1-1.pdf Graphic file (type pdf)
-<use SFDS_files/figure-latex/GMM-plot1-1.pdf>
+File: Computational_Statistics_Script_files/figure-latex/GMM-plot1-1.pdf Graphi
+c file (type pdf)
+<use Computational_Statistics_Script_files/figure-latex/GMM-plot1-1.pdf>
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -1270,8 +1272,10 @@ Overfull \hbox (10.94223pt too wide) has occurred while \output is active
  []
 
 [16]
-File: SFDS_files/figure-latex/unnamed-chunk-13-1.pdf Graphic file (type pdf)
-<use SFDS_files/figure-latex/unnamed-chunk-13-1.pdf>
+File: Computational_Statistics_Script_files/figure-latex/unnamed-chunk-13-1.pdf
+ Graphic file (type pdf)
+<use Computational_Statistics_Script_files/figure-latex/unnamed-chunk-13-1.pdf>
+
 LaTeX Info: Redefining \rmfamily on input line 696.
 LaTeX Info: Redefining \sffamily on input line 696.
 LaTeX Info: Redefining \ttfamily on input line 696.
@@ -1296,7 +1300,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 752--753
 
  []
 
-(./SFDS.bbl
+(./Computational_Statistics_Script.bbl
 LaTeX Info: Redefining \rmfamily on input line 1.
 LaTeX Info: Redefining \sffamily on input line 1.
 LaTeX Info: Redefining \ttfamily on input line 1.
@@ -1356,7 +1360,7 @@ braces):
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 771.
 [21]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 771.
-(./SFDS.aux
+(./Computational_Statistics_Script.aux
 LaTeX Info: Redefining \rmfamily on input line 21.
 LaTeX Info: Redefining \sffamily on input line 21.
 LaTeX Info: Redefining \ttfamily on input line 21.
@@ -1366,11 +1370,11 @@ Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 771.
  ) 
 Here is how much of TeX's memory you used:
  27741 strings out of 479819
- 512844 string characters out of 5895846
- 953940 words of memory out of 5000000
+ 513789 string characters out of 5895846
+ 954048 words of memory out of 5000000
  44324 multiletter control sequences out of 15000+600000
  540298 words of font info for 93 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 60i,13n,115p,803b,461s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,13n,115p,830b,461s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on SFDS.pdf (21 pages).
+Output written on Computational_Statistics_Script.pdf (21 pages).

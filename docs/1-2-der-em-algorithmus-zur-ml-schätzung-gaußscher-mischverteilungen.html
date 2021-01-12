@@ -244,13 +244,11 @@ Bzw. maximiere die Log-Likelihood Funktion (einfachere Maximierung)
 <!-- </center> -->
 <!-- ### Die ML-Schätzer $\hat{\boldsymbol{\pi}}$, $\hat{\boldsymbol{\mu}}$ und $\hat{\boldsymbol{\sigma}}$  -->
 <p>😒 <strong>Analytische Lösung:</strong> Es ist zwar etwas mühsam, aber man kann versuchen die Log-Likelihood analytisch zu maximieren. Tut man dies sich das an, kommt man zu folgenden Ausdrücken:
-<span class="math display">\[
-\begin{align*}
+<span class="math display">\[\begin{align*}
 \hat\pi_g&amp;=\frac{1}{n}\sum_{i=1}^np_{ig}\\
 \hat\mu_g&amp;=\sum_{i=1}^n\frac{p_{ig}}{\left(\sum_{j=1}^np_{jg}\right)}x_i\\
 \hat\sigma_g&amp;=\sqrt{\sum_{i=1}^n\frac{p_{ig}}{\left(\sum_{j=1}^np_{jg}\right)}\left(x_i-\hat\mu_g\right)^2}
-\end{align*}
-\]</span>
+\end{align*}\]</span>
 für <span class="math inline">\(g=1,\dots,G\)</span>.</p>
 <blockquote>
 <p>Die Herleitung der Ausdrücke für <span class="math inline">\(\mu_g\)</span>, <span class="math inline">\(\sigma_g\)</span> und <span class="math inline">\(\pi_g\)</span>, <span class="math inline">\(g=1,\dots,G\)</span>, ist wirklich etwas lästig (mehrfache Anwendungen der Kettenregel, Produktregel, etc., sowie Anwendung des Lagrange-Multiplikator Verfahrens zur Optimierung unter Nebenbedingungen) aber machbar. In einer der Übungsaufgaben dürfen Sie den Ausdruck für <span class="math inline">\(\hat\mu_g\)</span> herleiten.</p>
@@ -351,9 +349,9 @@ für <span class="math inline">\(i=1,\dots,n\)</span> und <span class="math inli
 <span id="cb4-59"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-59"></a><span class="co">##</span></span>
 <span id="cb4-60"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-60"></a>results <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(., <span class="dv">2</span>)</span>
 <span id="cb4-61"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-61"></a><span class="co">#&gt;                      Gruppe 1 Gruppe 2</span></span>
-<span id="cb4-62"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-62"></a><span class="co">#&gt; Gewichte                 0.69     0.31</span></span>
-<span id="cb4-63"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-63"></a><span class="co">#&gt; Mittelwerte            216.20   194.26</span></span>
-<span id="cb4-64"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-64"></a><span class="co">#&gt; Standardabweichungen     7.32     6.26</span></span></code></pre></div>
+<span id="cb4-62"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-62"></a><span class="co">#&gt; Gewichte                 0.31     0.69</span></span>
+<span id="cb4-63"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-63"></a><span class="co">#&gt; Mittelwerte            194.27   216.20</span></span>
+<span id="cb4-64"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-64"></a><span class="co">#&gt; Standardabweichungen     6.27     7.32</span></span></code></pre></div>
 <p>Das Schätzergebnis erlaubt es uns, Abbildung <a href="1-1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#fig:GMM-plot1">1.1</a> zu replizieren:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb5-1"></a><span class="co">## Auswerten der Gaußsche Mischungs-Dichtefunktion</span></span>
 <span id="cb5-2"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb5-2"></a>np      &lt;-<span class="st"> </span><span class="dv">100</span> <span class="co"># Anzahl der Auswertungspunkte</span></span>
@@ -376,7 +374,7 @@ für <span class="math inline">\(i=1,\dots,n\)</span> und <span class="math inli
 <span id="cb5-19"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb5-19"></a>           <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">col=</span><span class="kw">alpha</span>(col_v[<span class="dv">1</span>],.<span class="dv">5</span>), <span class="dt">bg=</span><span class="kw">alpha</span>(col_v[<span class="dv">1</span>],.<span class="dv">5</span>), <span class="dt">cex=</span><span class="fl">1.3</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)</span>
 <span id="cb5-20"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb5-20"></a><span class="kw">stripchart</span>(Penguine_Flosse[class<span class="op">==</span><span class="dv">2</span>], <span class="dt">method =</span> <span class="st">&quot;jitter&quot;</span>, <span class="dt">jitter =</span> <span class="fl">.0005</span>, <span class="dt">at =</span> <span class="fl">.001</span>,</span>
 <span id="cb5-21"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb5-21"></a>           <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">col=</span><span class="kw">alpha</span>(col_v[<span class="dv">2</span>],.<span class="dv">5</span>), <span class="dt">bg=</span><span class="kw">alpha</span>(col_v[<span class="dv">2</span>],.<span class="dv">5</span>), <span class="dt">cex=</span><span class="fl">1.3</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
-<p><img src="SFDS_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="Computational_Statistics_Script_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" /></p>
 </div>
 </div>
             </section>
@@ -427,7 +425,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": null,
+"download": ["Computational_Statistics_Script.pdf"],
 "toc": {
 "collapse": "subsection",
 "scroll_highlight": true

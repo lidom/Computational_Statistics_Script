@@ -207,29 +207,23 @@ ist die Zuordnung <span class="math inline">\(z_{ig}\)</span> nämlich eine Real
 Z_{ig}\sim\mathcal{B}(\pi_g)
 \]</span>
 Also
-<span class="math display">\[
-\begin{align*}
+<span class="math display">\[\begin{align*}
 P(Z_{ig}=1)&amp;=\;\;\;\pi_g\;\;=P(\text{Pinguin $i$ gehört zu Gruppe }g)\\
 P(Z_{ig}=0)&amp;=1-\pi_g=P(\text{Pinguin $i$ gehört nicht zu Gruppe }g)
-\end{align*}
-\]</span>
+\end{align*}\]</span>
 Man bezeichnet <span class="math inline">\(\pi_1,\dots,\pi_G\)</span> als die <strong>„a-priori-Wahrscheinlichkeiten“</strong>. Wenn wir nichts über die Flossenlänge von Pinguin <span class="math inline">\(i\)</span> wissen, dann bleiben uns nur die a-priori-Wahrscheinlichkeiten: Mit Wahrscheinlichkeit <span class="math inline">\(\pi_g\)</span> gehört Pinguin <span class="math inline">\(i\)</span> zu Gruppe <span class="math inline">\(g\)</span>.</p>
 <p>Falls wir die Flossenlänge von Pinguin <span class="math inline">\(i\)</span> erfahren, können wir die a-priori-Wahrscheinlichkeiten mit Hilfe des Satzes von Bayes aktualisieren. Dies führt dann zur a-posteriori-Wahrscheinlichkeit:</p>
 <p><strong>A-posteriori-Wahrscheinlichkeit <span class="math inline">\(\;p_{ig}\)</span>:</strong></p>
 <p>(Satz von Bayes)
-<span class="math display">\[
-\begin{align*}
+<span class="math display">\[\begin{align*}
 p_{ig}
 &amp;=\frac{\pi_g\phi_{\mu_g\sigma_g}(x_i)}{f_G(x_i|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})}\\[2ex]
 &amp;=\frac{\overbrace{P(Z_{ig}=1)}^{\text{„A-priori-Wahrs.“}}\phi_{\mu_g\sigma_g}(x_i)}{f_G(x_i|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})}=\overbrace{P(Z_{ig}=1|X_i=x_i)}^{\text{„A-posteriori-Wahrs.“}}=p_{ig}\\
-\end{align*}
-\]</span>
+\end{align*}\]</span>
 Beachte: <span class="math inline">\(p_{ig}\)</span> ist ein (bedingter) Mittelwert <span style="color:#FF5733"><strong>(Expectation)</strong></span>
-<span class="math display">\[
-\begin{align*}
+<span class="math display">\[\begin{align*}
 p_{ig}&amp;=\underbrace{1\cdot P(Z_{ig}=1|X_i=x_i)+0\cdot P(Z_{ig}=0|X_i=x_i)}_{=E(Z_{ig}=1|X_i=x_i)}\\
-\end{align*}
-\]</span></p>
+\end{align*}\]</span></p>
 <div id="der-em-algorithmus" class="section level3 unnumbered">
 <h3>Der <span style="color:#FF5733">E</span><span style="color:#2471A3">M</span> Algorithmus</h3>
 <ol style="list-style-type: decimal">
@@ -241,7 +235,10 @@ p_{ig}&amp;=\underbrace{1\cdot P(Z_{ig}=1|X_i=x_i)+0\cdot P(Z_{ig}=0|X_i=x_i)}_{
 <center>
 <p><span class="math inline">\(p_{ig}^{(r)}=E\left(Z_{ig}^{(r-1)}\left|X_i^{(r-1)}=x_i\right.\right)\)</span></p>
 </center>
-<p><span class="math inline">\(\begin{align*}  \text{wobei }\;Z_{ig}^{(r-1)}&amp;\sim\mathcal{B}\left(\pi_g^{(r-1)}\right)\\  \text{und }\;X_i^{(r-1)}&amp;\sim \mathcal{N}_{\mathcal{mix}}(G,\boldsymbol{\pi}^{(r-1)},\boldsymbol{\mu}^{(r-1)},\boldsymbol{\sigma}^{(r-1)})  \end{align*}\)</span></p></li>
+<p><span class="math display">\[\begin{align*}
+ \text{wobei }\;Z_{ig}^{(r-1)}&amp;\sim\mathcal{B}\left(\pi_g^{(r-1)}\right)\\
+ \text{und }\;X_i^{(r-1)}&amp;\sim \mathcal{N}_{\mathcal{mix}}(G,\boldsymbol{\pi}^{(r-1)},\boldsymbol{\mu}^{(r-1)},\boldsymbol{\sigma}^{(r-1)})
+ \end{align*}\]</span></p></li>
 <li><p><span style="color:#2471A3"><strong>(Maximization)</strong></span> Berechne: <span class="math inline">\(\hat\pi_g^{(r)}\)</span>, <span class="math inline">\(\hat\mu_g^{(r)}\)</span>, <span class="math inline">\(\hat\sigma_g^{(r)}\)</span></p></li>
 </ul></li>
 <li><p>Prüfe Konvergenz</p></li>
@@ -362,7 +359,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": null,
+"download": ["Computational_Statistics_Script.pdf"],
 "toc": {
 "collapse": "subsection",
 "scroll_highlight": true

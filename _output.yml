@@ -11,7 +11,12 @@ bookdown::gitbook:
     download: null
     sharing:
       github: true
-      facebook: false
-      linkedin: false
+      facebook: no
+      linkedin: no
       twitter: true
+bookdown::pdf_book:
+  includes:
+    in_header: preamble.tex
+  latex_engine: xelatex
+  citation_package: natbib    
 bookdown::epub_book: default

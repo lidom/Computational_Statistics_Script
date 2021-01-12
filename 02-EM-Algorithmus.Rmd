@@ -353,13 +353,11 @@ $$
 <!-- ### Die ML-Schätzer $\hat{\boldsymbol{\pi}}$, $\hat{\boldsymbol{\mu}}$ und $\hat{\boldsymbol{\sigma}}$  -->
 
 `r emo::ji("unamused_face")` **Analytische Lösung:** Es ist zwar etwas mühsam, aber man kann versuchen die Log-Likelihood analytisch zu maximieren. Tut man dies sich das an, kommt man zu folgenden Ausdrücken:
-$$
 \begin{align*}
 \hat\pi_g&=\frac{1}{n}\sum_{i=1}^np_{ig}\\
 \hat\mu_g&=\sum_{i=1}^n\frac{p_{ig}}{\left(\sum_{j=1}^np_{jg}\right)}x_i\\
 \hat\sigma_g&=\sqrt{\sum_{i=1}^n\frac{p_{ig}}{\left(\sum_{j=1}^np_{jg}\right)}\left(x_i-\hat\mu_g\right)^2}
 \end{align*}
-$$
 für $g=1,\dots,G$.
 
 > Die Herleitung der Ausdrücke für $\mu_g$, $\sigma_g$ und $\pi_g$, $g=1,\dots,G$, ist wirklich etwas lästig (mehrfache Anwendungen der Kettenregel, Produktregel, etc., sowie Anwendung des Lagrange-Multiplikator Verfahrens zur Optimierung unter Nebenbedingungen) aber machbar.  In einer der Übungsaufgaben dürfen Sie den Ausdruck für $\hat\mu_g$ herleiten.
@@ -531,12 +529,10 @@ $$
 Z_{ig}\sim\mathcal{B}(\pi_g)
 $$
 Also
-$$
 \begin{align*}
 P(Z_{ig}=1)&=\;\;\;\pi_g\;\;=P(\text{Pinguin $i$ gehört zu Gruppe }g)\\
 P(Z_{ig}=0)&=1-\pi_g=P(\text{Pinguin $i$ gehört nicht zu Gruppe }g)
 \end{align*}
-$$
 Man bezeichnet $\pi_1,\dots,\pi_G$ als die **„a-priori-Wahrscheinlichkeiten“**.  Wenn wir nichts über die Flossenlänge von Pinguin $i$ wissen, dann bleiben uns nur die a-priori-Wahrscheinlichkeiten: Mit Wahrscheinlichkeit $\pi_g$ gehört Pinguin $i$ zu Gruppe $g$. 
 
 
@@ -546,19 +542,15 @@ Falls wir die Flossenlänge von Pinguin $i$ erfahren, können wir die a-priori-W
 **A-posteriori-Wahrscheinlichkeit $\;p_{ig}$:**
 
 (Satz von Bayes)
-$$
 \begin{align*}
 p_{ig}
 &=\frac{\pi_g\phi_{\mu_g\sigma_g}(x_i)}{f_G(x_i|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})}\\[2ex]
 &=\frac{\overbrace{P(Z_{ig}=1)}^{\text{„A-priori-Wahrs.“}}\phi_{\mu_g\sigma_g}(x_i)}{f_G(x_i|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})}=\overbrace{P(Z_{ig}=1|X_i=x_i)}^{\text{„A-posteriori-Wahrs.“}}=p_{ig}\\
 \end{align*}
-$$
 Beachte: $p_{ig}$ ist ein (bedingter) Mittelwert <span style="color:#FF5733">**(Expectation)**</span>
-$$
 \begin{align*}
 p_{ig}&=\underbrace{1\cdot P(Z_{ig}=1|X_i=x_i)+0\cdot P(Z_{ig}=0|X_i=x_i)}_{=E(Z_{ig}=1|X_i=x_i)}\\
 \end{align*}
-$$
 
 
 ### Der <span style="color:#FF5733">E</span><span style="color:#2471A3">M</span> Algorithmus {-}
@@ -569,10 +561,10 @@ $$
 
     - <span style="color:#FF5733">**(Expectation)** </span> Berechne:        
     <center>$p_{ig}^{(r)}=E\left(Z_{ig}^{(r-1)}\left|X_i^{(r-1)}=x_i\right.\right)$</center>
-    $\begin{align*}
+    \begin{align*}
     \text{wobei }\;Z_{ig}^{(r-1)}&\sim\mathcal{B}\left(\pi_g^{(r-1)}\right)\\
     \text{und }\;X_i^{(r-1)}&\sim \mathcal{N}_{\mathcal{mix}}(G,\boldsymbol{\pi}^{(r-1)},\boldsymbol{\mu}^{(r-1)},\boldsymbol{\sigma}^{(r-1)})
-    \end{align*}$
+    \end{align*}
     
     - <span style="color:#2471A3">**(Maximization)**</span>  Berechne:  $\hat\pi_g^{(r)}$, $\hat\mu_g^{(r)}$, $\hat\sigma_g^{(r)}$
 
