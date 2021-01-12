@@ -349,9 +349,9 @@ für <span class="math inline">\(i=1,\dots,n\)</span> und <span class="math inli
 <span id="cb4-59"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-59"></a><span class="co">##</span></span>
 <span id="cb4-60"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-60"></a>results <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(., <span class="dv">2</span>)</span>
 <span id="cb4-61"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-61"></a><span class="co">#&gt;                      Gruppe 1 Gruppe 2</span></span>
-<span id="cb4-62"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-62"></a><span class="co">#&gt; Gewichte                 0.31     0.69</span></span>
-<span id="cb4-63"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-63"></a><span class="co">#&gt; Mittelwerte            194.27   216.20</span></span>
-<span id="cb4-64"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-64"></a><span class="co">#&gt; Standardabweichungen     6.27     7.32</span></span></code></pre></div>
+<span id="cb4-62"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-62"></a><span class="co">#&gt; Gewichte                 0.69     0.31</span></span>
+<span id="cb4-63"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-63"></a><span class="co">#&gt; Mittelwerte            216.19   194.25</span></span>
+<span id="cb4-64"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-64"></a><span class="co">#&gt; Standardabweichungen     7.32     6.26</span></span></code></pre></div>
 <p>Das Schätzergebnis erlaubt es uns, Abbildung <a href="1-1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#fig:GMM-plot1">1.1</a> zu replizieren:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb5-1"></a><span class="co">## Auswerten der Gaußsche Mischungs-Dichtefunktion</span></span>
 <span id="cb5-2"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb5-2"></a>np      &lt;-<span class="st"> </span><span class="dv">100</span> <span class="co"># Anzahl der Auswertungspunkte</span></span>
@@ -399,7 +399,7 @@ für <span class="math inline">\(i=1,\dots,n\)</span> und <span class="math inli
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
-"github": true,
+"github": false,
 "facebook": false,
 "twitter": true,
 "linkedin": false,

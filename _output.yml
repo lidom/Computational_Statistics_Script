@@ -10,7 +10,7 @@ bookdown::gitbook:
     edit: https://github.com/lidom/Computational_Statistics_Script/edit/master/%s
     download: null
     sharing:
-      github: true
+      github: no
       facebook: no
       linkedin: no
       twitter: true
