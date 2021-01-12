@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="de" xml:lang="de">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>1 Der Expectation Maximization (EM) Algorithmus | Computational Statistics (B.Sc. Data Science)</title>
+  <meta name="description" content="1 Der Expectation Maximization (EM) Algorithmus | Computational Statistics (B.Sc. Data Science)" />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="1 Der Expectation Maximization (EM) Algorithmus | Computational Statistics (B.Sc. Data Science)" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="images/Florence_Nightingale.jpg" />
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="1 Der Expectation Maximization (EM) Algorithmus | Computational Statistics (B.Sc. Data Science)" />
+  
+  
+  <meta name="twitter:image" content="images/Florence_Nightingale.jpg" />
+
+<meta name="author" content="Prof. Dr. Dominik Liebl" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="1-1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="toc.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><center><a href="http://www.dliebl.com/AdvRA/"><img src="images/Florence_Nightingale.jpg" alt="logo" width="60%" height="60%"style="margin: 15px 0 0 0"></a></center></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Informationen</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#vorlesungszeiten"><i class="fa fa-check"></i>Vorlesungszeiten</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#leseecke"><i class="fa fa-check"></i>Leseecke</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#florence-nightingale"><i class="fa fa-check"></i>Florence Nightingale</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="1-der-expectation-maximization-em-algorithmus.html"><a href="1-der-expectation-maximization-em-algorithmus.html"><i class="fa fa-check"></i><b>1</b> Der Expectation Maximization (EM) Algorithmus</a><ul>
+<li class="chapter" data-level="" data-path="1-der-expectation-maximization-em-algorithmus.html"><a href="1-der-expectation-maximization-em-algorithmus.html#lernziele-für-dieses-kapitel"><i class="fa fa-check"></i>Lernziele für dieses Kapitel</a></li>
+<li class="chapter" data-level="" data-path="1-der-expectation-maximization-em-algorithmus.html"><a href="1-der-expectation-maximization-em-algorithmus.html#begleitlektüren"><i class="fa fa-check"></i>Begleitlektüre(n)</a></li>
+<li class="chapter" data-level="" data-path="1-der-expectation-maximization-em-algorithmus.html"><a href="1-der-expectation-maximization-em-algorithmus.html#r-pakete-für-diese-kapitel"><i class="fa fa-check"></i>R-Pakete für diese Kapitel</a></li>
+<li class="chapter" data-level="1.1" data-path="1-1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html"><a href="1-1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html"><i class="fa fa-check"></i><b>1.1</b> Motivation: Clusteranalyse mit Hilfe Gaußscher Mischverteilungen</a></li>
+<li class="chapter" data-level="1.2" data-path="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><i class="fa fa-check"></i><b>1.2</b> Der EM Algorithmus zur ML-Schätzung Gaußscher Mischverteilungen</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#gaußsche-mischmodelle-gmm"><i class="fa fa-check"></i><b>1.2.1</b> Gaußsche Mischmodelle (GMM)</a></li>
+<li class="chapter" data-level="1.2.2" data-path="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#maximum-likelihood-ml-schätzung"><i class="fa fa-check"></i><b>1.2.2</b> Maximum Likelihood (ML) Schätzung</a></li>
+<li class="chapter" data-level="1.2.3" data-path="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#der-em-algorithmus-für-gmms"><i class="fa fa-check"></i><b>1.2.3</b> Der EM Algorithmus für GMMs</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="1-3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><a href="1-3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><i class="fa fa-check"></i><b>1.3</b> Der alternative (wahre) Blick auf den EM-Algorithmus</a><ul>
+<li><a href="1-3-der-alternative-wahre-blick-auf-den-em-algorithmus.html#der-em-algorithmus">Der <span style="color:#FF5733">E</span><span style="color:#2471A3">M</span> Algorithmus</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="literatur.html"><a href="literatur.html"><i class="fa fa-check"></i>Literatur</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Computational Statistics (B.Sc. Data Science)</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="der-expectation-maximization-em-algorithmus" class="section level1">
+<h1><span class="header-section-number">1</span> Der Expectation Maximization (EM) Algorithmus</h1>
+<style type="text/css">
+span {
+  display: inline-block;
+}
+</style>
+<p>Der EM Algorithmus wird häufig verwendet, um komplizierte Maximum Likelihood Schätz-Probleme zu vereinfachen. Wir stellen den Algorithmus zur Schätzung von Gaußschen Mischverteilungen (GMV) vor, da der EM-Algorithmus hier wohl seine häufigste Anwendung hat. Bereits die originale Arbeit zum EM-Algorithmus <span class="citation">(Dempster, Laird, und Rubin <a href="#ref-Dempster_1977" role="doc-biblioref">1977</a>)</span> beschäftigt sich mit solchen Mischverteilungen.</p>
+<p>Mögliche Anwendungen von Gaußschen Mischverteilungen:</p>
+<ul>
+<li>Automatisierte Videobearbeitungen: Z.B. Bildeinteilungen in Vorder- und Hintergrund. (Hier würde man jede Pixel-Farbkodierung mit Hilfe einer Gaußschen Mischverteilungen modellieren.)</li>
+<li>Automatisierte Erkennung von Laufstilen</li>
+<li>Generell: Auffinden von Gruppierungen (zwei oder mehr) in den Daten (<strong>Clusteranalyse</strong>).</li>
+</ul>
+<!-- [@Liebl2014] -->
+<!-- **Zur Info:** Gaußsche Mischverteilungen werden häufig in der Clusteranalyse verwendet. Da einem GMM ein Wahrscheinlichkeitsmodell zu Grunde liegt, gehören GMM-basierte Clustermethoden zu den *modellbasierten Clusterverfahren*. Das wohl beste und bekannteste R-Paket zur Schätzung und Verwendung von Gaußschen Mischungsmodellen ist das <tt>mclust</tt> package [@mclust]. -->
+<div id="lernziele-für-dieses-kapitel" class="section level3 unnumbered">
+<h3>Lernziele für dieses Kapitel</h3>
+<p>Sie können …</p>
+<ul>
+<li>ein Anwendungsfeld des EM-Algorithmuses benennen.
+<br></li>
+<li>die Probleme der klassischen Maximum Likelihood Methode zur Schätzung von Gaußschen Mischverteilungen benennen und erkläutern.
+<br></li>
+<li>die Grundidee des EM-Algorithmuses erläutern.
+<br></li>
+<li>den EM-Algorithmus zur Schätzung von Gaußschen Mischverteilungen anwenden.
+<br></li>
+<li>das Grundidee der Vervollständigung der Daten durch latente Variablen erläutern.
+<br></li>
+</ul>
+</div>
+<div id="begleitlektüren" class="section level3 unnumbered">
+<h3>Begleitlektüre(n)</h3>
+<p>Zur Vorbereitung der Klausur ist es grundsätzlich aussreichend das Kursskript durchzuarbeiten - aber Lesen hat ja noch nie geschadet. Dieses Kapitel basiert hauptsächlich auf:</p>
+<ul>
+<li>Kapitel 9 in <a href="https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf"><strong>Pattern Recognition and Machine Learning</strong></a> <span class="citation">(Bishop <a href="#ref-book_Bishop2006" role="doc-biblioref">2006</a>)</span>.<br>
+(Der <a href="https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf"><strong>Link</strong></a> führt zur frei erhältlichen pdf-Version des Buches.)</li>
+</ul>
+<p>Weiterer guter Lesestoff zum EM Algoithmus gibt es z.B. hier:</p>
+<ul>
+<li>Kapitel 8.5 in <a href="https://web.stanford.edu/~hastie/ElemStatLearn/"><strong>Elements of Statistical Learning: Data Mining, Inference and Prediction</strong></a> <span class="citation">(Hastie, Tibshirani, und Friedman <a href="#ref-Elements" role="doc-biblioref">2009</a>)</span>.<br>
+(Der <a href="https://web.stanford.edu/~hastie/ElemStatLearn/"><strong>Link</strong></a> führt zur frei erhältlichen pdf-Version des Buches.)</li>
+</ul>
+</div>
+<div id="r-pakete-für-diese-kapitel" class="section level3 unnumbered">
+<h3>R-Pakete für diese Kapitel</h3>
+<p>Installiere die notwendige R-Pakete für dieses Kapitel:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="1-der-expectation-maximization-em-algorithmus.html#cb1-1"></a>pkgs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;tidyverse&quot;</span>,      <span class="co"># Die tidyverse-Pakete</span></span>
+<span id="cb1-2"><a href="1-der-expectation-maximization-em-algorithmus.html#cb1-2"></a>          <span class="st">&quot;palmerpenguins&quot;</span>, <span class="co"># Pinguin-Daten</span></span>
+<span id="cb1-3"><a href="1-der-expectation-maximization-em-algorithmus.html#cb1-3"></a>          <span class="st">&quot;scales&quot;</span>,         <span class="co"># Für transparente Farben: alpha()</span></span>
+<span id="cb1-4"><a href="1-der-expectation-maximization-em-algorithmus.html#cb1-4"></a>          <span class="st">&quot;RColorBrewer&quot;</span>,   <span class="co"># Hübsche Farben</span></span>
+<span id="cb1-5"><a href="1-der-expectation-maximization-em-algorithmus.html#cb1-5"></a>          <span class="st">&quot;mclust&quot;</span>)         <span class="co"># Schätzung und Verwendung von GMVs</span></span>
+<span id="cb1-6"><a href="1-der-expectation-maximization-em-algorithmus.html#cb1-6"></a></span>
+<span id="cb1-7"><a href="1-der-expectation-maximization-em-algorithmus.html#cb1-7"></a><span class="kw">install.packages</span>(pkgs)</span></code></pre></div>
+<!-- ## Aufbau -->
+<!-- 1. Motivation: Clusteranalyse <span style="color:#34495E">Ein Anwendungsfeld des EM-Algorithmuses</span> -->
+<!-- <br><br><br> -->
+<!-- 2. Gaußsche Mischmodelle <span style="color:#34495E">EM-Algorithmus zur Maximum-Likelihood Schätzung</span> -->
+<!-- <br><br><br> -->
+<!-- 3. Vervollständigung der Daten durch Latente Variablen <span style="color:#34495E">Der wahre Blick auf den EM-Algorithmus</span> -->
+<!-- <br><br><br> -->
+<!-- 4. Zum Schluss Abstrakt<span style="color:#34495E">Die Essenz des EM-Algorithmuses</span> -->
+</div>
+</div>
+<h3>Literatur</h3>
+<div id="refs" class="references">
+<div id="ref-book_Bishop2006">
+<p>Bishop, Christopher M. 2006. <em>Pattern Recognition and Machine Learning</em>. Springer Science &amp; Business Media.</p>
+</div>
+<div id="ref-Dempster_1977">
+<p>Dempster, Arthur P, Nan M Laird, und Donald B Rubin. 1977. „Maximum likelihood from incomplete data via the EM algorithm“. <em>Journal of the Royal Statistical Society: Series B</em> 39 (1): 1–22.</p>
+</div>
+<div id="ref-Elements">
+<p>Hastie, Trevor, Robert Tibshirani, und Jerome Friedman. 2009. <em>The Elements of Statistical Learning: Data mining, Inference, and Prediction</em>. Springer Science &amp; Business Media.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="1-1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "serif",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/lidom/AdvRA/edit/master/02-EM-Algorithmus.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

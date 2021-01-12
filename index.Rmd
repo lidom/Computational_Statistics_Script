@@ -1,0 +1,173 @@
+---
+title: "Computational Statistics (B.Sc. Data Science)"
+cover-image: "images/Florence_Nightingale.jpg"
+author: "Prof. Dr. Dominik Liebl"
+date: ""
+site: bookdown::bookdown_site
+output: 
+  bookdown::pdf_book:
+    pandoc_args: [ "--csl", "apa-old-doi-prefix.csl"]
+    includes:
+      in_header: preamble.tex
+    citation_package: natbib
+    keep_tex: yes
+  bookdown::gitbook:
+    config:
+      toc:
+        collapse: subsection
+        scroll_highlight: yes
+      fontsettings:
+        theme: white
+        family: serif
+        size: 2
+    split_by: section+number
+    highlight: tango
+    # includes:
+    #   in_header: [header_include.html]
+    #   before_body: open_review_block.html
+lang: de    
+always_allow_html: yes
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+biblatexoptions:
+  - sortcites
+link-citations: yes
+github-repo: ""
+description: ""
+url: ''
+tags: [Statistik, Data Science]
+---
+
+# Informationen {-}
+
+
+```{r, child="_setup.Rmd"}
+```
+
+```{r, eval=TRUE, echo=FALSE}
+# install.packages("kableExtra")
+library("kableExtra")
+library("tidyverse")
+```
+
+
+Dies ist das Skript zur Vorlesung *Computational Statistik* (B.Sc. Data Science)
+
+
+
+```{r, eval=knitr::opts_knit$get("rmarkdown.pandoc.to") == "html", results='asis', echo=FALSE}
+cat('<hr style="background-color:#3C6690;height:2px">')
+```
+
+### Vorlesungszeiten {-}
+
+
+```{r, echo=FALSE}
+timetable <- tibble("Wochentag"=c("Dienstag (Vorlesung)", "Freitag (Vorlesung)"),
+                    "Uhrzeit"=c("9:15-10:45", "8:30-10:00"),
+                    "Hörsaal" =c("Online-Vorlesung (Zoom-Link)", "Online-Vorlesung (Zoom-Link)"))
+           
+timetable %>% kbl() %>%  kable_styling()
+```
+
+
+**Zoom-Link:** [https://uni-regensburg.zoom.us/j/82236631432?pwd=eWxIZlVqeDdUR2g5YlQ4ZlRPdjZ0dz09](https://uni-regensburg.zoom.us/j/82236631432?pwd=eWxIZlVqeDdUR2g5YlQ4ZlRPdjZ0dz09)
+
+
+```{r, eval=my_output == "html", results='asis', echo=FALSE}
+cat('<hr style="background-color:#3C6690;height:2px">')
+```
+
+
+
+
+
+### Leseecke {-}
+
+Folgende *frei zugängliche* Lehrbücher enthalten Teile dieses Kurses. In den jeweiligen Kapiteln, werde ich auf die einzelnen Bücher verweisen. 
+
++ [Pattern Recognition and Machine Learning](https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf) (by Christopher Bishop)
+
++ [An Introduction to Statistical Learning, with Applications in R](https://trevorhastie.github.io/ISLR/) (by Gareth James, Daniela Witten, Trevor Hastie and Robert Tibshirani).
+
++ [Statistical Learning with Sparsity: the Lasso and Generalizations](https://web.stanford.edu/~hastie/StatLearnSparsity/) (by Trevor Hastie, Robert Tibshirani and Martin Wainwright).
+
++ [Elements of Statistical Learning: Data mining, Inference and Prediction](https://web.stanford.edu/~hastie/ElemStatLearn/) (by Trevor Hastie, Robert Tibshirani and Jerome Friedman).
+
++ [Computer Age Statistical Inference: Algorithms, Evidence and Data Science](https://web.stanford.edu/~hastie/CASI/) (by Bradley Efron and Trevor Hastie)
+
+
+
+### Florence Nightingale {-}
+
+Das Logo zu diesem Skript stammt von einer [Briefmarke](https://de.wikipedia.org/wiki/Datei:DBP_1955_225_Florence_Nightingale.jpg) zur Erinnerung an [Florence Nightingale](https://de.wikipedia.org/wiki/Florence_Nightingale) eine britische Krankenschwester und [inspirierende Statistikerin](https://infowetrust.com/project/designhero). 
+
+<!-- + *Italic* text indicates new terms, names, buttons and alike. -->
+
+<!-- + `r ttcode("Constant width text")` is generally used in paragraphs to refer to `r ttcode("R")` code. This includes commands, variables, functions, data types, databases and file names.  -->
+
+<!-- + <code>Constant width text on gray background</code> indicates `r ttcode("R")` code that can be typed literally by you. It may appear in paragraphs for better distinguishability among executable and non-executable code statements but it will mostly be encountered in shape of large blocks of `r ttcode("R")` code. These blocks are referred to as code chunks.  -->
+
+
+
+<!-- ```{r, eval=knitr::opts_knit$get("rmarkdown.pandoc.to") == "html", results='asis', echo=FALSE} -->
+<!-- cat('<br> -->
+<!-- ![Creative Commons License](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc-sa.eu.svg) -->
+
+<!-- Dieses Skript ist lizenziert unter  book is licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).') -->
+<!-- ``` -->
+
+
+<!-- # Einführung in `r ttcode("R")` und *RStudio* -->
+
+<!-- # Explorative Datenanalyse  -->
+
+<!-- # Statistische Modelle  -->
+
+<!-- ## Parametrische Modelle  -->
+
+<!-- ## Nichtparametrische Modelle  -->
+
+<!-- # Parameter Schätzen  -->
+
+<!-- ## Kleineste Quadrate  -->
+
+<!-- ## Maximum Likelihood  -->
+
+<!-- ## EM Algorithmus  -->
+
+<!-- Der EM Algorithmus wird häufig verwendet, um komplizierte maximum likelihood Probleme zu vereinfachen. Wir stellen den Algorithmus anhand von Gaußschen Mischungsmodellen (**GMMs**) vor, da der EM-Algorithmus hier wohl seine häufigste Anwendung hat. Bereits die originale Arbeit zum EM-Algorithmus [@Dempster_1977] beschäftigt sich mit solchen Mischungsmodellen.  -->
+
+<!-- Mögliche Anwendungen von GMMS: -->
+
+<!-- + Automatisierte Videobearbeitungen: Z.B. Bildeinteilungen in Vorder- und Hintergrund. (Hier würde man jedes Pixel als eigenes GMM modellieren.) -->
+<!-- + Automatisierte Erkennung von Laufstilen (Fersenlauf versus Vorderfußlauf) -->
+<!-- + Generell: Auffinden von Gruppierungen (zwei oder mehr) in den Daten.  -->
+
+
+<!-- **Zur Info:** Gaußsche Mischungsmodelle gehören zu den modellbasierten Clusterverfahren. Das wohl beste und bekannteste R-Paket zur Schätzung und verwendung von Gaußschen Mischungsmodellen ist das `r ttcode("mclust")` package [@mclust].  -->
+
+
+
+<!-- ### Lernziele {-} -->
+
+<!-- + Du kannst den EM Algorithums in einem konkreten Kontext (Mischungsmodelle) anwenden -->
+<!-- + Du kannst einfache Formes des EM Algorithmuses selbst implementieren -->
+<!-- + Du kannst .... -->
+
+
+<!-- ### Das Gaußsche Mischungsmodell  -->
+
+
+
+
+<!-- # Hypothesen Testen  -->
+
+<!-- # Prädiktion und Classification -->
+
+
+<!-- ```{r, fig.align='center', echo=FALSE, fig.cap="RStudio: the four panes"} -->
+<!-- knitr::include_graphics('images/rstudio.jpg') -->
+<!-- ``` -->
+

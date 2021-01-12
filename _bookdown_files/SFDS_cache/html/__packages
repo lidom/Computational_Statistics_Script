@@ -1,0 +1,6 @@
+base
+knitr
+usethis
+devtools
+dplyr
+kableExtra
