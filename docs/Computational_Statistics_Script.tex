@@ -37,7 +37,7 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
-  pdftitle={Computational Statistics (B.Sc. Data Science)},
+  pdftitle={Computational Statistics},
   pdfauthor={Prof.~Dr.~Dominik Liebl},
   pdflang={de},
   hidelinks,
@@ -175,7 +175,7 @@ colback=kcblue,colframe=kcdarkblue,fonttitle=\bfseries, title=Key Concept~#2, af
 \usepackage[]{natbib}
 \bibliographystyle{apalike}
 
-\title{Computational Statistics (B.Sc. Data Science)}
+\title{Computational Statistics}
 \author{Prof.~Dr.~Dominik Liebl}
 \date{}
 
@@ -190,7 +190,7 @@ colback=kcblue,colframe=kcdarkblue,fonttitle=\bfseries, title=Key Concept~#2, af
 \chapter*{Informationen}\label{informationen}}
 \addcontentsline{toc}{chapter}{Informationen}
 
-Dies ist das Skript zur Vorlesung \emph{Computational Statistik} (B.Sc. Data Science)
+Dies ist das Skript zur Vorlesung \emph{Computational Statistik} (B.Sc. Informatik \& Data Science)
 
 \hypertarget{vorlesungszeiten}{%
 \subsection*{Vorlesungszeiten}\label{vorlesungszeiten}}
@@ -213,7 +213,7 @@ Freitag & 8:30-10:00 & Online-Vorlesung\\
 \subsection*{RCodes}\label{rcodes}}
 \addcontentsline{toc}{subsection}{RCodes}
 
-Die RCodes zu den einzelnen Kapiteln können hier heruntergeladen werden: \href{https://github.com/lidom/Computational_Statistics_Script/tree/main/RCodes}{LINK}
+Die RCodes zu den einzelnen Kapiteln können hier heruntergeladen werden: \href{https://github.com/lidom/Computational_Statistics_Script/tree/main/RCodes}{RCodes}
 
 \hypertarget{leseecke}{%
 \subsection*{Leseecke}\label{leseecke}}
@@ -238,19 +238,19 @@ Folgende \emph{frei zugängliche} Lehrbücher enthalten Teile dieses Kurses. In 
 \subsection*{Florence Nightingale}\label{florence-nightingale}}
 \addcontentsline{toc}{subsection}{Florence Nightingale}
 
-Das Logo zu diesem Skript stammt von einer \href{https://de.wikipedia.org/wiki/Datei:DBP_1955_225_Florence_Nightingale.jpg}{Briefmarke} zur Erinnerung an \href{https://de.wikipedia.org/wiki/Florence_Nightingale}{Florence Nightingale} eine britische Krankenschwester und \href{https://infowetrust.com/project/designhero}{inspirierende Statistikerin}.
+Das Logo zu diesem Skript stammt von einer \href{https://de.wikipedia.org/wiki/Datei:DBP_1955_225_Florence_Nightingale.jpg}{Briefmarke} zur Erinnerung an die Krankenschwester und \href{https://infowetrust.com/project/designhero}{inspirierende Statistikerin}, \href{https://de.wikipedia.org/wiki/Florence_Nightingale}{Florence Nightingale}. Nightingale war die Begründerin der modernen westlichen Krankenpflege und Pionierin der visuellen Veranschaulichung von Zusammenhängen in der Statistik. Sie ist die erste Frau, die in die britische \href{https://rss.org.uk/}{Royal Statistical Society} aufgenommen wurde; später erhielt sie auch die Ehrenmitgliedschaft der \href{https://www.amstat.org/}{American Statistical Association}.
 
 \hypertarget{der-expectation-maximization-em-algorithmus}{%
 \chapter{Der Expectation Maximization (EM) Algorithmus}\label{der-expectation-maximization-em-algorithmus}}
 
-Der EM Algorithmus wird häufig verwendet, um komplizierte Maximum Likelihood Schätz-Probleme zu vereinfachen. Wir stellen den Algorithmus zur Schätzung von Gaußschen Mischverteilungen (GMV) vor, da der EM-Algorithmus hier wohl seine häufigste Anwendung hat. Bereits die originale Arbeit zum EM-Algorithmus \citep{Dempster_1977} beschäftigt sich mit solchen Mischverteilungen.
+Der EM Algorithmus wird häufig verwendet, um komplizierte Maximum Likelihood Schätzprobleme zu vereinfachen bzw. überhaupt erst möglich zu machen. In diesem Kapitel stellen wir den EM Algorithmus zur Schätzung von Gaußschen Mischverteilungen vor, da der EM Algorithmus hier wohl seine bekannteste Anwendung hat. Bereits die originale Arbeit zum EM Algorithmus \citep{Dempster_1977} beschäftigt sich mit der Schätzung von Gaußschen Mischverteilungen.
 
-Mögliche Anwendungen von Gaußschen Mischverteilungen:
+\textbf{Mögliche Anwendungen von Gaußschen Mischverteilungen:}
 
 \begin{itemize}
 \tightlist
 \item
-  Automatisierte Videobearbeitungen: Z.B. Bildeinteilungen in Vorder- und Hintergrund. (Hier würde man jede Pixel-Farbkodierung mit Hilfe einer Gaußschen Mischverteilungen modellieren.)
+  Automatisierte Videobearbeitungen: Z.B. Bildeinteilungen in Vorder- und Hintergrund.
 \item
   Automatisierte Erkennung von Laufstilen
 \item
@@ -266,15 +266,15 @@ Sie können \ldots{}
 \begin{itemize}
 \tightlist
 \item
-  ein Anwendungsfeld des EM-Algorithmuses benennen.
+  ein \textbf{Anwendungsfeld} des EM Algorithmuses \textbf{benennen}.
 \item
-  die Probleme der klassischen Maximum Likelihood Methode zur Schätzung von Gaußschen Mischverteilungen benennen und erkläutern.
+  die \textbf{Probleme} der klassischen Maximum Likelihood Methode zur Schätzung von Gaußschen Mischverteilungen \textbf{benennen und erkläutern}.
 \item
-  die Grundidee des EM-Algorithmuses erläutern.
+  die \textbf{Grundidee} des EM Algorithmuses \textbf{erläutern}.
 \item
-  den EM-Algorithmus zur Schätzung von Gaußschen Mischverteilungen anwenden.
+  den \textbf{EM Algorithmus} zur Schätzung von Gaußschen Mischverteilungen \textbf{anwenden}.
 \item
-  das Grundidee der Vervollständigung der Daten durch latente Variablen erläutern.
+  das \textbf{Grundidee} der Vervollständigung der Daten durch latente Variablen \textbf{erläutern}.
 \end{itemize}
 
 \hypertarget{begleitlektuxfcren}{%
@@ -287,38 +287,44 @@ Zur Vorbereitung der Klausur ist es grundsätzlich aussreichend das Kursskript d
 \tightlist
 \item
   Kapitel 9 in \href{https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf}{\textbf{Pattern Recognition and Machine Learning}} \citep{book_Bishop2006}.
-  (Der \href{https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf}{\textbf{Link}} führt zur frei erhältlichen pdf-Version des Buches.)
+  Die pdf-Version des Buches ist frei erhältlichen: \href{https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf}{\textbf{pdf-Version}}
 \end{itemize}
 
-Weiterer guter Lesestoff zum EM Algoithmus gibt es z.B. hier:
+Weiteren guten Lesestoff zum EM Algoithmus gibt es z.B. hier:
 
 \begin{itemize}
 \tightlist
 \item
   Kapitel 8.5 in \href{https://web.stanford.edu/~hastie/ElemStatLearn/}{\textbf{Elements of Statistical Learning: Data Mining, Inference and Prediction}} \citep{Elements}.
-  (Der \href{https://web.stanford.edu/~hastie/ElemStatLearn/}{\textbf{Link}} führt zur frei erhältlichen pdf-Version des Buches.)
+  Die pdf-Version des Buches ist frei erhältlichen: \href{https://web.stanford.edu/~hastie/ElemStatLearn/}{\textbf{pdf-Version}}
 \end{itemize}
 
 \hypertarget{r-pakete-fuxfcr-diese-kapitel}{%
 \subsection*{R-Pakete für diese Kapitel}\label{r-pakete-fuxfcr-diese-kapitel}}
 \addcontentsline{toc}{subsection}{R-Pakete für diese Kapitel}
 
-Installiere die notwendige R-Pakete für dieses Kapitel:
+Folgende R-Pakete werden für dieses Kapitel benötigt:
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{pkgs <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"tidyverse"}\NormalTok{,      }\CommentTok{# Die tidyverse-Pakete}
           \StringTok{"palmerpenguins"}\NormalTok{, }\CommentTok{# Pinguin-Daten}
-          \StringTok{"scales"}\NormalTok{,         }\CommentTok{# Für transparente Farben: alpha()}
+          \StringTok{"scales"}\NormalTok{,         }\CommentTok{# Transparente Farben: alpha()}
           \StringTok{"RColorBrewer"}\NormalTok{,   }\CommentTok{# Hübsche Farben}
-          \StringTok{"mclust"}\NormalTok{)         }\CommentTok{# Schätzung und Verwendung von GMVs}
-
+          \StringTok{"mclust"}\NormalTok{,         }\CommentTok{# Schätzung/Verwendung }
+                            \CommentTok{# Gaußschen Mischverteilungen}
+          \StringTok{"MASS"}\NormalTok{)           }\CommentTok{# Erzeugung von Zufallszahlen aus }
+                            \CommentTok{# einer multiv. Normalverteilung}
 \KeywordTok{install.packages}\NormalTok{(pkgs)}
 \end{Highlighting}
 \end{Shaded}
 
 \hypertarget{motivation-clusteranalyse-mit-hilfe-gauuxdfscher-mischverteilungen}{%
 \section{Motivation: Clusteranalyse mit Hilfe Gaußscher Mischverteilungen}\label{motivation-clusteranalyse-mit-hilfe-gauuxdfscher-mischverteilungen}}
+
+Als Datenbeispiel verwendent wir die \href{https://allisonhorst.github.io/palmerpenguins/articles/intro.html}{\texttt{palmerpenguins}} Daten \citep{palmerpenguins}.
+
+Diese Daten stammen aus Vermessungen von Pinguinpopulationen auf dem Palmer-Archipel (Antarktische Halbinsel). Pinguine sind oft schwer von einander zu unterscheiden. Wir werden versuchen, mit Hilfe einer Gaußschen Mischverteilung Gruppierungen in den Pinguindaten (Flossenlänge) zu finden. Um solche Mischverteilungen schätzen zu können, führen wir den EM Algorithmus ein.
 
 Der folgende Code-Chunck bereitet die Daten auf.
 
@@ -329,50 +335,52 @@ Der folgende Code-Chunck bereitet die Daten auf.
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(}\StringTok{"palmerpenguins"}\NormalTok{) }\CommentTok{# Pinguin-Daten}
-\KeywordTok{library}\NormalTok{(}\StringTok{"scales"}\NormalTok{)         }\CommentTok{# Für transparente Farben: scales::alpha()}
 \KeywordTok{library}\NormalTok{(}\StringTok{"RColorBrewer"}\NormalTok{)   }\CommentTok{# Hübsche Farben}
+\KeywordTok{library}\NormalTok{(}\StringTok{"scales"}\NormalTok{)         }\CommentTok{# Für transparente Farben: alpha()}
 
 \NormalTok{col_v <-}\StringTok{ }\NormalTok{RColorBrewer}\OperatorTok{::}\KeywordTok{brewer.pal}\NormalTok{(}\DataTypeTok{n =} \DecValTok{3}\NormalTok{, }\DataTypeTok{name =} \StringTok{"Set2"}\NormalTok{)}
 
 \CommentTok{## Vorbereitung der Daten:}
-\NormalTok{Pinguine <-}\StringTok{ }\NormalTok{palmerpenguins}\OperatorTok{::}\NormalTok{penguins }\OperatorTok{%>%}\StringTok{        }\CommentTok{# Pinguin-Daten}
-\StringTok{  }\NormalTok{tidyr}\OperatorTok{::}\KeywordTok{as_tibble}\NormalTok{() }\OperatorTok{%>%}\StringTok{                        }\CommentTok{# Datenformat: 'tibble'-dataframe}
-\StringTok{  }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{filter}\NormalTok{(species}\OperatorTok{!=}\StringTok{"Adelie"}\NormalTok{) }\OperatorTok{%>%}\StringTok{          }\CommentTok{# Pinguin-Art 'Adelie' löschen (verbleiben: 'Chinstrap' und 'Gentoo')}
-\StringTok{  }\KeywordTok{droplevels}\NormalTok{() }\OperatorTok{%>%}\StringTok{                              }\CommentTok{# Lösche das nicht mehr benötigte Adelie-Level}
-\StringTok{  }\NormalTok{tidyr}\OperatorTok{::}\KeywordTok{drop_na}\NormalTok{() }\OperatorTok{%>%}\StringTok{                          }\CommentTok{# NAs löschen}
-\StringTok{  }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{Art    =}\NormalTok{ species,               }\CommentTok{# Variablen umbenennen}
+\NormalTok{Pinguine <-}\StringTok{ }\NormalTok{palmerpenguins}\OperatorTok{::}\NormalTok{penguins }\OperatorTok{%>%}\StringTok{ }\CommentTok{# Pinguin-Daten}
+\StringTok{  }\NormalTok{tidyr}\OperatorTok{::}\KeywordTok{as_tibble}\NormalTok{() }\OperatorTok{%>%}\StringTok{                 }\CommentTok{# Datenformat: 'tibble'-dataframe}
+\StringTok{  }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{filter}\NormalTok{(species}\OperatorTok{!=}\StringTok{"Adelie"}\NormalTok{) }\OperatorTok{%>%}\StringTok{   }\CommentTok{# Pinguin-Art 'Adelie' löschen }
+\StringTok{  }\KeywordTok{droplevels}\NormalTok{() }\OperatorTok{%>%}\StringTok{                       }\CommentTok{# Lösche das nicht mehr benötigte Adelie-Level}
+\StringTok{  }\NormalTok{tidyr}\OperatorTok{::}\KeywordTok{drop_na}\NormalTok{() }\OperatorTok{%>%}\StringTok{                   }\CommentTok{# NAs löschen}
+\StringTok{  }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{Art    =}\NormalTok{ species,        }\CommentTok{# Variablen umbenennen}
                 \DataTypeTok{Flosse =}\NormalTok{ flipper_length_mm) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{    }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{select}\NormalTok{(Art, Flosse)                  }\CommentTok{# Variablen auswählen}
+\StringTok{  }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{select}\NormalTok{(Art, Flosse)             }\CommentTok{# Variablen auswählen}
 
 \CommentTok{##  }
-\NormalTok{n      <-}\StringTok{ }\KeywordTok{nrow}\NormalTok{(Pinguine)                        }\CommentTok{# Stichprobenumfang}
+\NormalTok{n      <-}\StringTok{ }\KeywordTok{nrow}\NormalTok{(Pinguine)                 }\CommentTok{# Stichprobenumfang}
 
-\CommentTok{## Variable 'Penguine_Art' aus Pinguine-Daten herausziehen}
+\CommentTok{## Variable 'Penguine_Art' aus Pinguine-Daten "herausziehen"}
 \NormalTok{Penguine_Art    <-}\StringTok{ }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{pull}\NormalTok{(Pinguine, Art)}
 
-\CommentTok{## Variable 'Penguine_Flosse' aus Pinguine-Daten herausziehen}
+\CommentTok{## Variable 'Penguine_Flosse' aus Pinguine-Daten "herausziehen"}
 \NormalTok{Penguine_Flosse <-}\StringTok{ }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{pull}\NormalTok{(Pinguine, Flosse)}
 
 \CommentTok{## Plot}
 \CommentTok{## Histogramm:}
 \KeywordTok{hist}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Penguine_Flosse, }\DataTypeTok{freq =} \OtherTok{FALSE}\NormalTok{, }
-     \DataTypeTok{xlab=}\StringTok{"Flosse (mm)"}\NormalTok{, }\DataTypeTok{main=}\StringTok{"Pinguine}\CharTok{\textbackslash{}n}\StringTok{(Zwei Gruppen)"}\NormalTok{,}
+     \DataTypeTok{xlab=}\StringTok{"Flossenlänge (mm)"}\NormalTok{, }\DataTypeTok{main=}\StringTok{"Pinguine}\CharTok{\textbackslash{}n}\StringTok{(Zwei Gruppen)"}\NormalTok{,}
      \DataTypeTok{col=}\KeywordTok{gray}\NormalTok{(.}\DecValTok{65}\NormalTok{,.}\DecValTok{5}\NormalTok{), }\DataTypeTok{border=}\KeywordTok{gray}\NormalTok{(.}\DecValTok{35}\NormalTok{,.}\DecValTok{5}\NormalTok{), }\DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\FloatTok{0.0003}\NormalTok{, }\FloatTok{0.039}\NormalTok{))}
 \CommentTok{## Stipchart hinzufügen:}
-\KeywordTok{stripchart}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Penguine_Flosse, }\DataTypeTok{method =} \StringTok{"jitter"}\NormalTok{, }\DataTypeTok{jitter =} \FloatTok{.0005}\NormalTok{, }\DataTypeTok{at =} \FloatTok{.001}\NormalTok{,}
-           \DataTypeTok{pch =} \DecValTok{21}\NormalTok{, }\DataTypeTok{col=}\KeywordTok{alpha}\NormalTok{(col_v[}\DecValTok{3}\NormalTok{],.}\DecValTok{5}\NormalTok{), }\DataTypeTok{bg=}\KeywordTok{alpha}\NormalTok{(col_v[}\DecValTok{3}\NormalTok{],.}\DecValTok{5}\NormalTok{), }\DataTypeTok{cex=}\FloatTok{1.3}\NormalTok{, }\DataTypeTok{add =} \OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{stripchart}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Penguine_Flosse, }\DataTypeTok{method =} \StringTok{"jitter"}\NormalTok{, }
+           \DataTypeTok{jitter =} \FloatTok{.0005}\NormalTok{, }\DataTypeTok{at =} \FloatTok{.001}\NormalTok{,}
+           \DataTypeTok{pch =} \DecValTok{21}\NormalTok{, }\DataTypeTok{col=}\KeywordTok{alpha}\NormalTok{(col_v[}\DecValTok{3}\NormalTok{],.}\DecValTok{5}\NormalTok{), }
+           \DataTypeTok{bg=}\KeywordTok{alpha}\NormalTok{(col_v[}\DecValTok{3}\NormalTok{],.}\DecValTok{5}\NormalTok{), }\DataTypeTok{cex=}\FloatTok{1.3}\NormalTok{, }\DataTypeTok{add =} \OtherTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{center}\includegraphics[width=1\linewidth]{Computational_Statistics_Script_files/figure-latex/unnamed-chunk-9-1} \end{center}
 
-Das Clusterverfahren basierend auf Gaußschen Mischverteilungen:
+\textbf{Das Clusterverfahren basierend auf Gaußschen Mischverteilungen:}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Gaußsche Mischverteilung (\textbf{per EM-Algorithmus}) schätzen
+  Gaußsche Mischverteilung (\textbf{per EM Algorithmus}) schätzen
 \item
   Die Datenpunkte wie bei der Linearen (oder Quadratischen) Diskriminanz-Analyse den Gruppen zuordnen (siehe Abbildung \ref{fig:GMM-plot1})
 \end{enumerate}
@@ -392,14 +400,15 @@ Mit Hilfe der folgenden R-Codes kann die obige Clusteranalyse und die Ergebnisgr
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{## Clusteranalyse mit Hilfe von Gaußschen Mischmodellen: mclust R-Paket:}
+\CommentTok{## mclust R-Paket:}
+\CommentTok{## Clusteranalyse mit Hilfe von Gaußschen Mischmodellen}
 \KeywordTok{suppressMessages}\NormalTok{(}\KeywordTok{library}\NormalTok{(}\StringTok{"mclust"}\NormalTok{))}
 
 \CommentTok{## Anzahl der Gruppen}
 \NormalTok{G <-}\StringTok{ }\DecValTok{2} 
 
-\CommentTok{## Schätzung der Gaußschen Mischverteilung mit Hilfe des EM Algorithmuses}
-\CommentTok{## (inkl. Clusteranalyse)}
+\CommentTok{## Schätzung des Gaußschen Mischmodells (per EM Algorithmus)}
+\CommentTok{## und Clusteranalyse}
 \NormalTok{mclust_obj <-}\StringTok{ }\NormalTok{mclust}\OperatorTok{::}\KeywordTok{Mclust}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ Penguine_Flosse, }\DataTypeTok{G=}\NormalTok{G, }
                               \DataTypeTok{modelNames =} \StringTok{"V"}\NormalTok{, }
                               \DataTypeTok{verbose =} \OtherTok{FALSE}\NormalTok{)}
@@ -407,7 +416,7 @@ Mit Hilfe der folgenden R-Codes kann die obige Clusteranalyse und die Ergebnisgr
 \CommentTok{# summary(mclust_obj)}
 \CommentTok{# str(mclust_obj)}
 
-\CommentTok{## Geschätzte Gruppen-Zuordnungen}
+\CommentTok{## Geschätzte Gruppen-Zuordnungen (Cluster-Resultat)}
 \NormalTok{class <-}\StringTok{ }\NormalTok{mclust_obj}\OperatorTok{$}\NormalTok{classification}
 
 \CommentTok{## Anteil der korrekten Zuordnungen:}
@@ -424,9 +433,9 @@ Mit Hilfe der folgenden R-Codes kann die obige Clusteranalyse und die Ergebnisgr
 \CommentTok{## Geschätzte Gewichte (a-priori-Wahrscheinlichkeiten) }
 \NormalTok{prop_v <-}\StringTok{ }\NormalTok{mclust_obj}\OperatorTok{$}\NormalTok{parameters}\OperatorTok{$}\NormalTok{pro}
 
-\CommentTok{## Auswerten der Gaußsche Mischungs-Dichtefunktion}
+\CommentTok{## Auswerten der Gaußsche Mischung-Dichtefunktion}
 \NormalTok{np      <-}\StringTok{ }\DecValTok{100} \CommentTok{# Anzahl der Auswertungspunkte}
-\NormalTok{xxd   <-}\StringTok{ }\KeywordTok{seq}\NormalTok{(}\KeywordTok{min}\NormalTok{(Penguine_Flosse)}\OperatorTok{-}\DecValTok{3}\NormalTok{, }\KeywordTok{max}\NormalTok{(Penguine_Flosse)}\OperatorTok{+}\DecValTok{5}\NormalTok{, }\DataTypeTok{length.out =}\NormalTok{ np)}
+\NormalTok{xxd     <-}\StringTok{ }\KeywordTok{seq}\NormalTok{(}\KeywordTok{min}\NormalTok{(Penguine_Flosse)}\OperatorTok{-}\DecValTok{3}\NormalTok{, }\KeywordTok{max}\NormalTok{(Penguine_Flosse)}\OperatorTok{+}\DecValTok{5}\NormalTok{, }\DataTypeTok{length.out =}\NormalTok{ np)}
 \CommentTok{## Mischungs-Dichte}
 \NormalTok{yyd     <-}\StringTok{ }\KeywordTok{dnorm}\NormalTok{(xxd, mean_m[}\DecValTok{1}\NormalTok{], }\KeywordTok{sqrt}\NormalTok{(cov_l[[}\DecValTok{1}\NormalTok{]]))}\OperatorTok{*}\NormalTok{prop_v[}\DecValTok{1}\NormalTok{] }\OperatorTok{+}
 \StringTok{           }\KeywordTok{dnorm}\NormalTok{(xxd, mean_m[}\DecValTok{2}\NormalTok{], }\KeywordTok{sqrt}\NormalTok{(cov_l[[}\DecValTok{2}\NormalTok{]]))}\OperatorTok{*}\NormalTok{prop_v[}\DecValTok{2}\NormalTok{]}
@@ -435,7 +444,7 @@ Mit Hilfe der folgenden R-Codes kann die obige Clusteranalyse und die Ergebnisgr
 \NormalTok{yyd2    <-}\StringTok{ }\KeywordTok{dnorm}\NormalTok{(xxd, mean_m[}\DecValTok{2}\NormalTok{], }\KeywordTok{sqrt}\NormalTok{(cov_l[[}\DecValTok{2}\NormalTok{]]))}\OperatorTok{*}\NormalTok{prop_v[}\DecValTok{2}\NormalTok{]}
 
 \CommentTok{## Plot}
-\KeywordTok{hist}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Penguine_Flosse, }\DataTypeTok{xlab=}\StringTok{"Flosse (mm)"}\NormalTok{, }\DataTypeTok{main=}\StringTok{"Pinguine}\CharTok{\textbackslash{}n}\StringTok{(Zwei Gruppen)"}\NormalTok{,}
+\KeywordTok{hist}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Penguine_Flosse, }\DataTypeTok{xlab=}\StringTok{"Flossenlänge (mm)"}\NormalTok{, }\DataTypeTok{main=}\StringTok{"Pinguine}\CharTok{\textbackslash{}n}\StringTok{(Zwei Gruppen)"}\NormalTok{,}
      \DataTypeTok{col=}\KeywordTok{gray}\NormalTok{(.}\DecValTok{65}\NormalTok{,.}\DecValTok{5}\NormalTok{), }\DataTypeTok{border=}\KeywordTok{gray}\NormalTok{(.}\DecValTok{35}\NormalTok{,.}\DecValTok{5}\NormalTok{), }\DataTypeTok{freq =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.04}\NormalTok{))}
 \KeywordTok{lines}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ xxd, }\DataTypeTok{y=}\NormalTok{yyd, }\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\KeywordTok{gray}\NormalTok{(.}\DecValTok{35}\NormalTok{,.}\DecValTok{75}\NormalTok{))}
 \KeywordTok{lines}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ xxd, }\DataTypeTok{y=}\NormalTok{yyd1, }\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\KeywordTok{gray}\NormalTok{(.}\DecValTok{35}\NormalTok{,.}\DecValTok{75}\NormalTok{), }\DataTypeTok{lty=}\DecValTok{2}\NormalTok{)}
@@ -516,21 +525,27 @@ Die Daten \(\mathbf{x}=(x_1,\dots,x_n)\) „kennen`` also die unbekannten Parame
   \ln\left(\mathcal{L}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x})\right)=
   \ell(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x})
   =&\sum_{i=1}^n\ln\left(f_G(x_i|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})\right)\\
-  =&\sum_{i=1}^n\ln\left(\sum_{g=1}^G\pi_g\phi_{\mu_g\sigma_g}(x_i)\right)
+  =&\sum_{i=1}^n\ln\left(\sum_{g=1}^G\pi_gf(x_i|\mu_g,\sigma_g)\right)
   \end{align*}
   \textbf{Beachte:} Die Maximierung muss die Parameterrestriktionen in \eqref{eq:GMMdens} berücksichtigen (\(\sigma_g>0\) und \(\pi_g>0\) für alle \(g=1,\dots,G\) und \(\sum_{g=1}^G\pi_g=1\)).
 \item
   Die maximierenden Parameterwerte {\(\hat{\boldsymbol{\pi}}\)}, {\(\hat{\boldsymbol{\mu}}\)} und {\(\hat{\boldsymbol{\sigma}}\)} sind die {\textbf{ML-Schätzer}}. Das kann man so ausdrücken:
   \[
-  (\hat{\boldsymbol{\pi}},\hat{\boldsymbol{\mu}},\hat{\boldsymbol{\sigma}})=\arg\min_{\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}}\ell(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x})
+  (\hat{\boldsymbol{\pi}},\hat{\boldsymbol{\mu}},\hat{\boldsymbol{\sigma}})=\arg\max_{\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}}\ell(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x})
   \]
 \end{itemize}
 
-😒 \textbf{Numerische Lösungen:} Versucht man obiges Maximierungsproblem \href{https://cran.r-project.org/web/packages/EstimationTools/vignettes/maxlogL.pdf}{numerisch mit Hilfe des Computers zu lösen}, wird man schnell merken, dass die Ergebnisse höchst instabil, unplausibel und wenig vertrauenswürdig sind.
+😒 \textbf{Probleme mit Singularitäten bei Numerische Lösungen:} Versucht man obiges Maximierungsproblem \href{https://cran.r-project.org/web/packages/EstimationTools/vignettes/maxlogL.pdf}{numerisch mit Hilfe des Computers zu lösen}, wird man schnell merken, dass die Ergebnisse höchst instabil, unplausibel und wenig vertrauenswürdig sind. Der Grund für diese instabilen Schätzungen sind Probleme mit Singularitäten:
+Für echte GMMs (\(G>1\)) treten während einer numerischen Maximierung sehr leicht Probleme mit Singularitäten auf. Dies geschieht immer dann, wenn eine der Normalverteilungskomponenten versucht den ganzen Datensatz \(\mathbf{x}\) zu beschreiben und die andere(n) Normalverteilungskomponente(n) versuchen lediglich einzelne Datenpunkte zu beschreiben. Eine Gaußsche Dichtefunktion, die sich um einen einzigen Datenpunkt \(x_i\) konzentriert (d.h. \(\mu_g=x_i\) und \(\sigma_g\to 0\)) wird dabei sehr große Werte annehmen (d.h. \(f(x_i|\mu_g=x_i,\sigma_g)\to\infty\) für \(\sigma_g\to 0\)) und so die Log-Likelihood auf unerwünschte Weise maximieren (siehe Abbildung \ref{fig:dirac2}). Solch \textbf{unerwünschte, triviale Maximierungslösungen} führen i.d.R. zu unplausiblen Schätzergebnissen.
 
-\begin{quote}
-Für echte GMMs (\(G>1\)) treten während einer numerischen Maximierung sehr leicht Probleme mit Singularitäten auf. Dies geschieht immer dann, wenn eine der Normalverteilungskomponenten versucht den ganzen Datensatz \(\mathbf{x}\) zu beschreiben und die andere(n) Normalverteilungskomponente(n) versuchen lediglich einzelne Datenpunkte zu beschreiben. Eine Gaußsche Dichtefunktion \(f_g\), die sich um einen einzigen Datenpunkt \(x_i\) konzentriert (d.h. \(\mu_g=x_i\) und \(\sigma_g\to 0\)) wird dabei sehr große Werte annehmen (d.h. \(f_g(x_i)\to\infty\)) und so die Log-Likelihood auf unerwünschte maximieren. Solche trivialen Maximierungslösungen resultieren i.d.R. in unplausiblen Schätzergebnissen.
-\end{quote}
+\begin{figure}[h]
+
+{\centering \includegraphics[width=0.9\linewidth]{Computational_Statistics_Script_files/figure-latex/dirac2-1} 
+
+}
+
+\caption{Normalverteilung mit $\mu_g=x_i$ für $\sigma_g\to 0$.}\label{fig:dirac2}
+\end{figure}
 
 😒 \textbf{Analytische Lösung:} Es ist zwar etwas mühsam, aber man kann versuchen die Log-Likelihood analytisch zu maximieren. Tut man dies sich das an, kommt man zu folgenden Ausdrücken:
 \begin{align*}
@@ -546,16 +561,16 @@ Die Herleitung der Ausdrücke für \(\mu_g\), \(\sigma_g\) und \(\pi_g\), \(g=1,
 
 🙈 {\textbf{Aber:}} Diese Ausdrücke für \(\hat\pi_g\), \(\hat\mu_g\) und \(\hat\sigma_g\) hängen von den {\textbf{unbekannten}} Parametern \(\boldsymbol{\pi}=(\pi_1,\dots,\pi_G)\), \(\boldsymbol{\mu}=(\mu_1,\dots,\mu_G)\) und \(\boldsymbol{\sigma}=(\sigma_1,\dots,\sigma_G)\), denn:
 \[
-p_{ig}=\frac{\pi_g\phi_{\mu_g\sigma_g}(x_i)}{f_G(x_i|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})}
+p_{ig}=\frac{\pi_gf(x_i|\mu_g,\sigma_g)}{f_G(x_i|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})}
 \]
-für \(i=1,\dots,n\) und \(g=1,\dots,G\). Erlauben also keine direkte Schätzung der unbekannten Parameter \(\boldsymbol{\pi}\), \(\boldsymbol{\mu}\) und \(\boldsymbol{\sigma}\)
+für \(i=1,\dots,n\) und \(g=1,\dots,G\). Die Ausdrücke für \(\hat\pi_g\), \(\hat\mu_g\), und \(\hat\sigma_g\) erlauben also keine keine direkte Schätzung der unbekannten Parameter \(\pi_g\), \(\mu_g\) und \(\sigma_g\).
 
 🥳 {\textbf{Lösung: Der EM Algorithmus}}
 
-\hypertarget{der-em-algorithmus-fuxfcr-gmms}{%
-\subsection{Der EM Algorithmus für GMMs}\label{der-em-algorithmus-fuxfcr-gmms}}
+\hypertarget{ch:EM1}{%
+\subsection{Der EM Algorithmus für GMMs}\label{ch:EM1}}
 
-Die Ausdrücke für \(\hat\pi_g\), \(\hat\mu_g\) und \(\hat\sigma_g\) legen jedoch ein einfaches iteratives ML-Schätzverfahren nahe: Nämlich einer alternierenden Schätzung von \(p_{ig}\) und \(\hat\pi_g\), \(\hat\mu_g\) und \(\hat\sigma_g\).
+Die Ausdrücke für \(\hat\pi_g\), \(\hat\mu_g\) und \(\hat\sigma_g\) legen jedoch ein einfaches, iteratives ML-Schätzverfahren nahe: Nämlich einer alternierenden Schätzung von \(p_{ig}\) und \((\hat\pi_g, \hat\mu_g,\hat\sigma_g)\).
 
 \textbf{Der Der EM Algorithmus:}
 
@@ -569,7 +584,7 @@ Die Ausdrücke für \(\hat\pi_g\), \(\hat\mu_g\) und \(\hat\sigma_g\) legen jedo
   \begin{itemize}
   \item
     {\textbf{(Expectation)}} Berechne:
-    \[p_{ig}^{(r)}=\frac{\pi_g^{(r-1)}\phi_{\mu^{(r-1)}_g\sigma_g^{(r-1)}}(x_i)}{f_G(x_i|\boldsymbol{\pi}^{(r-1)},\boldsymbol{\mu}^{(r-1)},\boldsymbol{\sigma}^{(r-1)})}\]
+    \[p_{ig}^{(r)}=\frac{\pi_g^{(r-1)}f(x_i|\mu^{(r-1)}_g,\sigma_g^{(r-1)})}{f_G(x_i|\boldsymbol{\pi}^{(r-1)},\boldsymbol{\mu}^{(r-1)},\boldsymbol{\sigma}^{(r-1)})}\]
   \item
     {\textbf{(Maximization)}} Berechne:
 
@@ -578,7 +593,13 @@ Die Ausdrücke für \(\hat\pi_g\), \(\hat\mu_g\) und \(\hat\sigma_g\) legen jedo
     \(\hat\sigma_g^{(r)}=\sqrt{\sum_{i=1}^n\frac{p_{ig}^{(r)}}{\left(\sum_{j=1}^np_{jg}^{(r)}\right)}\left(x_i-\hat\mu_g^{(r)}\right)^2}\)
   \end{itemize}
 \item
-  Prüfe Konvergenz
+  Prüfe Konvergenz:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Stoppe, falls sich der Wert der maximierten Log-Likelihood Funktion, \(\ell(\boldsymbol{\pi}^{(r)},\boldsymbol{\mu}^{(r)},\boldsymbol{\sigma}^{(r)}|\mathbf{z})\), nicht mehr ändert.
+  \end{itemize}
 \end{enumerate}
 
 Der obige pseudo-Code wird im Folgenden Code-Chunck umgesetzt:
@@ -628,12 +649,12 @@ Der obige pseudo-Code wird im Folgenden Code-Chunck umgesetzt:
   \ControlFlowTok{for}\NormalTok{(g }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{G) \{}
 \NormalTok{    llk[,g] <-}\StringTok{ }\NormalTok{pi[g] }\OperatorTok{*}\StringTok{ }\NormalTok{mclust}\OperatorTok{:::}\KeywordTok{dmvnorm}\NormalTok{(x, mu[,g], sigma[,,g])}
 \NormalTok{  \}}
-\NormalTok{  loglik <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(}\KeywordTok{log}\NormalTok{(}\KeywordTok{rowSums}\NormalTok{(llk))) }\CommentTok{# aktueller Log-Likelihood Wert}
+\NormalTok{  loglik <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(}\KeywordTok{log}\NormalTok{(}\KeywordTok{rowSums}\NormalTok{(llk))) }\CommentTok{# aktueller max. Log-Likelihood Wert}
   \CommentTok{##}
-\NormalTok{  diff      <-}\StringTok{ }\KeywordTok{abs}\NormalTok{(loglik }\OperatorTok{-}\StringTok{ }\NormalTok{loglikOld)}\OperatorTok{/}\KeywordTok{abs}\NormalTok{(loglik)}
+\NormalTok{  diff      <-}\StringTok{ }\KeywordTok{abs}\NormalTok{(loglik }\OperatorTok{-}\StringTok{ }\NormalTok{loglikOld)}\OperatorTok{/}\KeywordTok{abs}\NormalTok{(loglik) }\CommentTok{# Änderungsrate}
 \NormalTok{  loglikOld <-}\StringTok{ }\NormalTok{loglik}
 \NormalTok{  it        <-}\StringTok{ }\NormalTok{it }\OperatorTok{+}\StringTok{ }\DecValTok{1}
-  \CommentTok{## Anderung der Log-Likelihood noch groß genug?}
+  \CommentTok{## Änderungsrate noch groß genug (> tol)?}
 \NormalTok{  check     <-}\StringTok{ }\NormalTok{diff }\OperatorTok{>}\StringTok{ }\NormalTok{tol}
 \NormalTok{\}}
 
@@ -646,13 +667,13 @@ Der obige pseudo-Code wird im Folgenden Code-Chunck umgesetzt:
 \CommentTok{##}
 \NormalTok{results }\OperatorTok{%>%}\StringTok{ }\KeywordTok{round}\NormalTok{(., }\DecValTok{2}\NormalTok{)}
 \CommentTok{#>                      Gruppe 1 Gruppe 2}
-\CommentTok{#> Gewichte                 0.69     0.31}
-\CommentTok{#> Mittelwerte            216.20   194.26}
-\CommentTok{#> Standardabweichungen     7.32     6.26}
+\CommentTok{#> Gewichte                 0.31     0.69}
+\CommentTok{#> Mittelwerte            194.27   216.20}
+\CommentTok{#> Standardabweichungen     6.27     7.32}
 \end{Highlighting}
 \end{Shaded}
 
-Das Schätzergebnis erlaubt es uns, Abbildung \ref{fig:GMM-plot1} zu replizieren:
+Das finale Schätzergebnis erlaubt es uns, Abbildung \ref{fig:GMM-plot1} zu replizieren.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -667,7 +688,7 @@ Das Schätzergebnis erlaubt es uns, Abbildung \ref{fig:GMM-plot1} zu replizieren
 \NormalTok{yyd2    <-}\StringTok{ }\KeywordTok{dnorm}\NormalTok{(xxd, mu[}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{], }\KeywordTok{sqrt}\NormalTok{(sigma)[,,}\DecValTok{2}\NormalTok{])}\OperatorTok{*}\NormalTok{pi[}\DecValTok{2}\NormalTok{]}
 
 \CommentTok{## Plot}
-\KeywordTok{hist}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Penguine_Flosse, }\DataTypeTok{xlab=}\StringTok{"Flosse (mm)"}\NormalTok{, }\DataTypeTok{main=}\StringTok{"Pinguine}\CharTok{\textbackslash{}n}\StringTok{(Zwei Gruppen)"}\NormalTok{,}
+\KeywordTok{hist}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Penguine_Flosse, }\DataTypeTok{xlab=}\StringTok{"Flossenlänge (mm)"}\NormalTok{, }\DataTypeTok{main=}\StringTok{"Pinguine}\CharTok{\textbackslash{}n}\StringTok{(Zwei Gruppen)"}\NormalTok{,}
      \DataTypeTok{col=}\KeywordTok{gray}\NormalTok{(.}\DecValTok{65}\NormalTok{,.}\DecValTok{5}\NormalTok{), }\DataTypeTok{border=}\KeywordTok{gray}\NormalTok{(.}\DecValTok{35}\NormalTok{,.}\DecValTok{5}\NormalTok{), }\DataTypeTok{freq =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.04}\NormalTok{))}
 \KeywordTok{lines}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ xxd, }\DataTypeTok{y=}\NormalTok{yyd, }\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\KeywordTok{gray}\NormalTok{(.}\DecValTok{35}\NormalTok{,.}\DecValTok{75}\NormalTok{))}
 \KeywordTok{lines}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ xxd, }\DataTypeTok{y=}\NormalTok{yyd1, }\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\KeywordTok{gray}\NormalTok{(.}\DecValTok{35}\NormalTok{,.}\DecValTok{75}\NormalTok{), }\DataTypeTok{lty=}\DecValTok{2}\NormalTok{)}
@@ -683,92 +704,156 @@ Das Schätzergebnis erlaubt es uns, Abbildung \ref{fig:GMM-plot1} zu replizieren
 \begin{center}\includegraphics[width=0.9\linewidth]{Computational_Statistics_Script_files/figure-latex/unnamed-chunk-13-1} \end{center}
 
 \hypertarget{der-alternative-wahre-blick-auf-den-em-algorithmus}{%
-\section{Der alternative (wahre) Blick auf den EM-Algorithmus}\label{der-alternative-wahre-blick-auf-den-em-algorithmus}}
+\section{Der alternative (wahre) Blick auf den EM Algorithmus}\label{der-alternative-wahre-blick-auf-den-em-algorithmus}}
 
-Der EM Algorithmus ermöglicht es Maximum Likelihood Probleme zu vereinfachen, indem man die Daten durch nicht beobachtete („latente``) Variablen vervollständigt.
+Der EM Algorithmus ermöglicht es Maximum Likelihood Probleme zu vereinfachen, indem man die Daten durch nicht beobachtete („latente``) Variablen vervollständigt. Dieses Prinzip ist der eigentliche wahre Beitrag des EM Algorithmus. Es ermöglicht die Lösung verschiedener Maximum Likelihood Probleme - wie bleiben aber hier bei der Schätzung von GMMs.
 
 \begin{quote}
-Zur Erinnerung: Wie haben es ja nicht geschafft, die Log-Likelihood Funktion
+\textbf{Zur Erinnerung:} Wir haben es ja nicht geschafft, die Log-Likelihood Funktion
 \[
 \ell(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x})
-=\sum_{i=1}^n\ln\left(\sum_{g=1}^G\pi_g\phi_{\mu_g\sigma_g}(x_i)\right)
+=\sum_{i=1}^n\ln\left(\sum_{g=1}^G\pi_gf(x_i|\mu_g,\sigma_g)\right)
 \]
-direkt zu maximieren. Die \(\log(\sum_{g=1}^G[\dots])\)-Konstruktion macht einem das Leben schwer.
+direkt zu maximieren. Die \(\ln(\sum_{g=1}^G[\dots])\)-Konstruktion macht einem hier das Leben schwer.
 \end{quote}
 
-In unseren Pinguin-Daten gibt zwei Gruppen (\(g\in\{1,2\}\)). Ist gäbe im Prinzip also latente (unbeobachtete) Zuordnungsdaten \(z_{ig}\) mit
+\hypertarget{vervollstuxe4ndigung-der-daten}{%
+\subsection{Vervollständigung der Daten}\label{vervollstuxe4ndigung-der-daten}}
+
+In unseren Pinguin-Daten gibt zwei Gruppen (\(g\in\{1,2\}\)). Es gäbe also im Prinzip \(G=2\)-dimensionale Zuordnungsvektoren \((z_{i1},z_{i2})\) mit
 \[
-z_{ig}=
+(z_{i1},z_{i2})=
 \left\{\begin{array}{ll}
-1&\text{falls Pinguin }i\text{ zu Gruppe }g\text{ gehört.}\\
-0&\text{sonst.}\\
-\end{array}\right.,
+(1,0)&\text{falls Pinguin }i\text{ zu Gruppe }g=1\text{ gehört.}\\
+(0,1)&\text{falls Pinguin }i\text{ zu Gruppe }g=2\text{ gehört.}\\
+\end{array}\right.
 \]
-wobei \(\sum_{g=1}^Gz_{ig}=1\) für alle \(i=1,\dots,n\).
+Im Fall von \(G>2\) Gruppen:\\
+\[
+(z_{i1},\dots,z_{ig},\dots,z_{iG})=
+\left\{\begin{array}{ll}
+(1,0,\dots,0)&\text{falls Datenpunkt }i\text{ zu Gruppe }g=1\text{ gehört.}\\
+(0,1,\dots,0)&\text{falls Datenpunkt }i\text{ zu Gruppe }g=2\text{ gehört.}\\
+\quad\quad\vdots&\\
+(0,0,\dots,1)&\text{falls Datenpunkt }i\text{ zu Gruppe }g=G\text{ gehört.}\\
+\end{array}\right.
+\]
+
+Die Zuordnungen \(z_{ig}\) können also die Werte \(z_{ig}\in\{0,1\}\) annehmen, wobei aber gelten muss, dass \(\sum_{g=1}^Gz_{ig}=1\).
 
 \begin{quote}
-\textbf{Beachte:} Für jeden Datenpunkt \(i\) (jeder Pinguin \(i\)) gibt es nur \textbf{eine} Gruppe (daher \(\sum_{g=1}^Gz_{ig}=1\)). Dies ist eine wichtige Restriktion von GMMs, welche bei den Pinguin-Daten unproblematisch ist, in anderen Anwendungen aber evtl. problematisch sein kann.
+\textbf{Beachte:} Für jeden Datenpunkt \(i\) (jeder Pinguin \(i\)) gibt es nur \textbf{eine} Gruppe (daher \(\sum_{g=1}^Gz_{ig}=1\)). Dies ist eine wichtige Restriktion von GMMs, welche bei den Pinguindaten unproblematisch ist. Bei Anwendungen mit hirarchischen Gruppierungen ist dies aber evtl. problematisch.
 \end{quote}
 
-Die Zuordnungsdaten \(\mathbf{z}=(z_{11},\dots,z_{nG})\) sind leider unbekannt (latent). Wir wissen aber trotzdem etwas über diese Zuordnungen. Laut unserem Modell
+Die Zuordnungen \(z_{ig}\) sind leider unbekannt (latent). Wir wissen aber trotzdem etwas über diese Zuordnungen. Die Gewichte \(\pi_1,\dots,\pi_G\) der Gaußschen Mischverteilung
 \[
 f_G(x|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})=\sum_{g=1}^G\pi_gf(x|\mu_g\sigma_g),
 \]
-ist die Zuordnung \(z_{ig}\) nämlich eine Realisation einer Bernoulli Zufallsvariable
+geben die Anteile der Einzelverteilungen \(f(\cdot|\mu_g\sigma_g)\) an der Gesamtverteilung \(f_G\) an. Im Schnitt kommen also \(\pi_g\cdot 100\%\) der Datenpunkte von Gruppe \(g\), \(g=1,\dots,G\). Somit können wir die (latente) Zuordnung \(z_{ig}\) als eine Realisation der Zufallsvariablen \(Z_{ig}\) mit Wahrscheinlichkeitsfunktion
 \[
-Z_{ig}\sim\mathcal{B}(\pi_g)
+P(Z_{ig}=1)=\pi_g
 \]
-Also
-\begin{align*}
-P(Z_{ig}=1)&=\;\;\;\pi_g\;\;=P(\text{Pinguin $i$ gehört zu Gruppe }g)\\
-P(Z_{ig}=0)&=1-\pi_g=P(\text{Pinguin $i$ gehört nicht zu Gruppe }g)
-\end{align*}
-Man bezeichnet \(\pi_1,\dots,\pi_G\) als die \textbf{„a-priori-Wahrscheinlichkeiten``}. Wenn wir nichts über die Flossenlänge von Pinguin \(i\) wissen, dann bleiben uns nur die a-priori-Wahrscheinlichkeiten: Mit Wahrscheinlichkeit \(\pi_g\) gehört Pinguin \(i\) zu Gruppe \(g\).
+auffassen.
 
-Falls wir die Flossenlänge von Pinguin \(i\) erfahren, können wir die a-priori-Wahrscheinlichkeiten mit Hilfe des Satzes von Bayes aktualisieren. Dies führt dann zur a-posteriori-Wahrscheinlichkeit:
+Wegen der Bedingung \(\sum_{g=1}^Gz_{ig}=1\), gilt dass
+\[
+Z_{ig}=1\quad \Rightarrow\quad Z_{i1}=0,\dots,Z_{ig-1}=0,Z_{ig+1}=0,\dots,Z_{iG}=0.
+\]
 
-\textbf{A-posteriori-Wahrscheinlichkeit \(\;p_{ig}\):}
+\hypertarget{a-priori-und-a-posteriori-wahrscheinlichkeiten-pi_g-und-p_ig}{%
+\subsection{\texorpdfstring{A-priori und A-posteriori Wahrscheinlichkeiten: \(\pi_g\) und \(p_{ig}\)}{A-priori und A-posteriori Wahrscheinlichkeiten: \textbackslash pi\_g und p\_\{ig\}}}\label{a-priori-und-a-posteriori-wahrscheinlichkeiten-pi_g-und-p_ig}}
 
-(Satz von Bayes)
+\textbf{A-priori-Wahrscheinlichkeit \(\pi_g\):} Man bezeichnet die Wahrscheinlichkeiten \(\pi_g\) als die \emph{a-priori-Wahrscheinlichkeiten}. Wenn wir nichts über die Flossenlänge von Pinguin \(i\) wissen, dann bleiben uns nur die a-priori-Wahrscheinlichkeiten:
+
+„Mit Wahrscheinlichkeit \(\pi_g=P(Z_{ig}=1)\) gehört Pinguin \(i\) zu Gruppe \(g\).``
+
+\textbf{A-posteriori-Wahrscheinlichkeit \(\;p_{ig}\):} Falls wir die Flossenlänge \(x_i\) von Pinguin \(i\) erfahren, können wir die a-priori-Wahrscheinlichkeiten mit Hilfe des \textbf{Satzes von Bayes} aktualisieren. Dies führt dann zur \emph{a-posteriori-Wahrscheinlichkeit}:
+
+„Mit Wahrscheinlichkeit \(p_{ig}=P(Z_{ig=1}|X_i=x_i)\) gehört ein Pinguin \(i\) mit Flossenlänge \(x_i\) zu Gruppe \(g\).
+
+\textbf{Satz von Bayes:}
 \begin{align*}
 p_{ig}
-&=\frac{\pi_g\phi_{\mu_g\sigma_g}(x_i)}{f_G(x_i|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})}\\[2ex]
-&=\frac{\overbrace{P(Z_{ig}=1)}^{\text{„A-priori-Wahrs.“}}\phi_{\mu_g\sigma_g}(x_i)}{f_G(x_i|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})}=\overbrace{P(Z_{ig}=1|X_i=x_i)}^{\text{„A-posteriori-Wahrs.“}}=p_{ig}\\
-\end{align*}
-Beachte: \(p_{ig}\) ist ein (bedingter) Mittelwert {\textbf{(Expectation)}}
-\begin{align*}
-p_{ig}&=\underbrace{1\cdot P(Z_{ig}=1|X_i=x_i)+0\cdot P(Z_{ig}=0|X_i=x_i)}_{=E(Z_{ig}=1|X_i=x_i)}\\
+&=\frac{\pi_gf(x_i|\mu_g,\sigma_g)}{f_G(x_i|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})}\\[2ex]
+&=\frac{\overbrace{P(Z_{ig}=1)}^{\text{„A-priori-Wahrs.“}}f(x_i|\mu_g,\sigma_g)}{f_G(x_i|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})}=\overbrace{P(Z_{ig}=1|X_i=x_i)}^{\text{„A-posteriori-Wahrs.“}}=p_{ig}\\
 \end{align*}
 
-\hypertarget{der-em-algorithmus}{%
-\subsection*{\texorpdfstring{Der {E}{M} Algorithmus}{Der EM Algorithmus}}\label{der-em-algorithmus}}
-\addcontentsline{toc}{subsection}{Der {E}{M} Algorithmus}
+\hypertarget{der-bedingte-mittelwert-p_ig}{%
+\subsection{\texorpdfstring{Der (bedingte) Mittelwert: \(p_{ig}\)}{Der (bedingte) Mittelwert: p\_\{ig\}}}\label{der-bedingte-mittelwert-p_ig}}
+
+\textbf{Beachte:} Die a-posteriori-Wahrscheinlichkeiten \(p_{ig}\) sind tatsächlich (bedingte) Erwartungswerte:
+\begin{align*}
+p_{ig}&= 1\cdot P(Z_{ig}=1|X_i=x_i)+0\cdot P(Z_{ig}=0|X_i=x_i) = E(Z_{ig}|X_i=x_i)\\
+\end{align*}
+Damit ist die Berechnung von \(p_{ig}\) im \textbf{(Expectation)}-Schritt des EM Algorithmuses (siehe Kapitel \ref{ch:EM1}) also tatsächlich eine Erwartungswertberechnung.
+
+\hypertarget{das-grouxdfe-ganze}{%
+\section{Das Große Ganze}\label{das-grouxdfe-ganze}}
+
+Hätten wir neben den Datenpunkten \(\mathbf{x}=(x_1,\dots,x_n)\) auch die Gruppenzuordnungen \(\mathbf{z}=(z_{11},\dots,z_{nG})\) beobachtet, dann könnten wir folgende \textbf{Likelihood (\(\tilde{\mathcal{L}}\)) bzw. Log-Likelihood (\(\tilde{\ell}\)) Funktion} aufstellen:
+\begin{align*}
+\tilde{\mathcal{L}}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x},\mathbf{z})
+&=\prod_{i=1}^n\prod_{g=1}^G\left(\pi_gf(x_i|\mu_g,\sigma_g)\right)^{z_{ig}}\\[2ex]
+\tilde{\ell}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x},\mathbf{z})
+&=\sum_{i=1}^n\sum_{g=1}^Gz_{ig}\left\{\ln\left(\pi_g\right)+\ln\left(f(x_i|\mu_g,\sigma_g)\right)\right\}
+\end{align*}
+
+\begin{itemize}
+\item
+  Im Gegensatz zur ursprünglichen Log-Likelihood Funktion (\(\ell\)), wäre die neue Log-Likelihood Funktion \(\tilde\ell\) \textbf{einfach zu maximieren}, da hier keine Summe innerhalb der Logarithmusfunktion steckt, sodass wir direkt den Logarithmus der Normalverteilung berechnen können. Dies vereinfacht das Maximierungsproblem deutlich, da die Normalverteilung zur Exponentialfamilie gehört.
+\item
+  Aber: Wir beobachten die Realisationen \(\mathbf{z}=(z_{11},\dots,z_{nG})\) nicht, sondern kennen lediglich die Verteilung der Zufallsvariablen \(\mathbf{Z}=(Z_{11},\dots,Z_{nG})\). Dies führt zu einer stochastischen Version der Log-Likelihood Funktion:
+  \[
+  \tilde{\ell}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x},\mathbf{Z})=\sum_{i=1}^n\sum_{g=1}^GZ_{ig}\left\{\ln\left(\pi_g\right)+\ln\left(f(x_i|\mu_g,\sigma_g)\right)\right\}
+  \]
+\item
+  Von dieser können jedoch den bedingten Erwartungswert berechnen:
+  \[
+  E(\tilde{\ell}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x},\mathbf{z})|X_i=x_i)=\sum_{i=1}^n\sum_{g=1}^Gp_{ig}\left\{\ln\left(\pi_g\right)+\ln\left(f(x_i|\mu_g,\sigma_g)\right)\right\}
+  \]
+\end{itemize}
+
+\hypertarget{ch:EM2}{%
+\subsection{\texorpdfstring{Der EM Algorithmus: \emph{Die abstrakte Version}}{Der EM Algorithmus: Die abstrakte Version}}\label{ch:EM2}}
+
+Der folgende EM Algorithmus unterscheidet sich wieder lediglich in der Notation von den oben bereits besprochenen Versionen (siehe Kapitel \ref{ch:EM1}). Die hier gewählte Notation verdeutlicht, dass der \textbf{Expectation}-Schritt die zu maximierende Log-Likelihood Funktion aktualisiert und diese dann im \textbf{(Maximization)}-Schritt maximiert wird. Darüber hinaus ist die gewählte Notation abstrakt genug, um die Grundidee des EM Algorithmuses auf andere Maximum Likelihood Probleme zu übertragen. Im Folgenden wird der Parametervektor \((\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})\) der Einfachheit halber auch mit \(\boldsymbol{\theta}\) bezeichnet.
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  Setze Startwerte \(\boldsymbol{\pi}^{(0)}\), \(\boldsymbol{\mu}^{(0)}\) und \(\boldsymbol{\sigma}^{(0)}\)
+  Setze Startwerte \(\boldsymbol{\theta}^{(0)}=(\pi^{(0)}, \mu^{(0)}, \sigma^{(0)})\)
 \item
   Für \(r=1,2,\dots\)
 
   \begin{itemize}
   \item
-    {\textbf{(Expectation)} } Berechne:\\
-
-    \(p_{ig}^{(r)}=E\left(Z_{ig}^{(r-1)}\left|X_i^{(r-1)}=x_i\right.\right)\)
-
+    {\textbf{(Expectation)} } Berechne:
     \begin{align*}
-     \text{wobei }\;Z_{ig}^{(r-1)}&\sim\mathcal{B}\left(\pi_g^{(r-1)}\right)\\
-     \text{und }\;X_i^{(r-1)}&\sim \mathcal{N}_{\mathcal{mix}}(G,\boldsymbol{\pi}^{(r-1)},\boldsymbol{\mu}^{(r-1)},\boldsymbol{\sigma}^{(r-1)})
+     \mathcal{Q}(\boldsymbol{\theta},\boldsymbol{\theta}^{(r-1)})
+     &=E_{\boldsymbol{\theta}^{(r-1)}}(\tilde{\ell}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x},\mathbf{z})|X_i=x_i)\\
+     &=\sum_{i=1}^n\sum_{k=1}^Kp_{ig}^{(r-1)}\left\{\ln\left(\pi_g\right)+\ln\left(f(x_i|\mu_g,\sigma_g)\right)\right\}
      \end{align*}
   \item
-    {\textbf{(Maximization)}} Berechne: \(\hat\pi_g^{(r)}\), \(\hat\mu_g^{(r)}\), \(\hat\sigma_g^{(r)}\)
+    {\textbf{(Maximization)}} Berechne:
+    \begin{align*}
+     \boldsymbol{\theta}^{(r)}=\arg\max_{\boldsymbol{\theta}}\mathcal{Q}(\boldsymbol{\theta},\boldsymbol{\theta}^{(r-1)})
+     \end{align*}
   \end{itemize}
 \item
-  Prüfe Konvergenz
+  Prüfe Konvergenz:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Stoppe, falls sich der Wert der maximierten Log-Likelihood Funktion, \(\mathcal{Q}(\boldsymbol{\theta}^{(r)},\boldsymbol{\theta}^{(r-1)})\), nicht mehr ändert.
+  \end{itemize}
 \end{enumerate}
 
---\textgreater{}
+\hypertarget{ende}{%
+\subsection*{Ende}\label{ende}}
+\addcontentsline{toc}{subsection}{Ende}
+
+Dem gemeinen Pinguin ist der EM Algorithmus egal.
 
   \bibliography{book.bib,packages.bib}
 

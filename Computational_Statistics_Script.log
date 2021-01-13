@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2020.10.1)  12 JAN 2021 20:46
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2020.10.1)  13 JAN 2021 22:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1129,9 +1129,9 @@ Kapitel 1.
 ]
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10> not available
 (Font)              Font shape `TU/lmtt/b/n' tried instead on input line 310.
-LaTeX Info: Redefining \rmfamily on input line 365.
-LaTeX Info: Redefining \sffamily on input line 365.
-LaTeX Info: Redefining \ttfamily on input line 365.
+LaTeX Info: Redefining \rmfamily on input line 333.
+LaTeX Info: Redefining \sffamily on input line 333.
+LaTeX Info: Redefining \ttfamily on input line 333.
 
 Overfull \hbox (5.94223pt too wide) has occurred while \output is active
 \TU/lmr/m/n/10 8 \TU/lmr/m/sl/10 KAPITEL 1.  DER EXPECTATION MAXIMIZATION (EM) 
@@ -1145,9 +1145,9 @@ Graphic file (type pdf)
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-LaTeX Info: Redefining \rmfamily on input line 367.
-LaTeX Info: Redefining \sffamily on input line 367.
-LaTeX Info: Redefining \ttfamily on input line 367.
+LaTeX Info: Redefining \rmfamily on input line 375.
+LaTeX Info: Redefining \sffamily on input line 375.
+LaTeX Info: Redefining \ttfamily on input line 375.
 
 Overfull \hbox (84.21225pt too wide) has occurred while \output is active
 \TU/lmr/m/sl/10 1.1.  MOTIVATION: CLUSTERANALYSE MIT HILFE GAUßSCHER MISCHVERTE
@@ -1161,9 +1161,9 @@ c file (type pdf)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-LaTeX Info: Redefining \rmfamily on input line 448.
-LaTeX Info: Redefining \sffamily on input line 448.
-LaTeX Info: Redefining \ttfamily on input line 448.
+LaTeX Info: Redefining \rmfamily on input line 457.
+LaTeX Info: Redefining \sffamily on input line 457.
+LaTeX Info: Redefining \ttfamily on input line 457.
 
 Overfull \hbox (10.94223pt too wide) has occurred while \output is active
 \TU/lmr/m/n/10 10 \TU/lmr/m/sl/10 KAPITEL 1.  DER EXPECTATION MAXIMIZATION (EM)
@@ -1171,16 +1171,16 @@ Overfull \hbox (10.94223pt too wide) has occurred while \output is active
  []
 
 [10]
-Underfull \vbox (badness 10000) detected at line 448
+Underfull \vbox (badness 10000) detected at line 457
  []
 
 
-Underfull \vbox (badness 10000) detected at line 448
+Overfull \vbox (1.59567pt too high) detected at line 457
  []
 
-LaTeX Info: Redefining \rmfamily on input line 448.
-LaTeX Info: Redefining \sffamily on input line 448.
-LaTeX Info: Redefining \ttfamily on input line 448.
+LaTeX Info: Redefining \rmfamily on input line 457.
+LaTeX Info: Redefining \sffamily on input line 457.
+LaTeX Info: Redefining \ttfamily on input line 457.
 
 Overfull \hbox (89.21225pt too wide) has occurred while \output is active
 \TU/lmr/m/sl/10 1.1.  MOTIVATION: CLUSTERANALYSE MIT HILFE GAUßSCHER MISCHVERTE
@@ -1189,38 +1189,38 @@ ILUNGEN \TU/lmr/m/n/10 11
 
 [11]
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/b/n' will be
-(Font)              scaled to size 10.0pt on input line 458.
+(Font)              scaled to size 10.0pt on input line 467.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/b/n' will be
-(Font)              scaled to size 7.0pt on input line 458.
+(Font)              scaled to size 7.0pt on input line 467.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/b/n' will be
-(Font)              scaled to size 5.0pt on input line 458.
+(Font)              scaled to size 5.0pt on input line 467.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/b/n' will be
-(Font)              scaled to size 10.00092pt on input line 458.
+(Font)              scaled to size 10.00092pt on input line 467.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/b/n' will be
-(Font)              scaled to size 7.00064pt on input line 458.
+(Font)              scaled to size 7.00064pt on input line 467.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/b/n' will be
-(Font)              scaled to size 5.00046pt on input line 458.
+(Font)              scaled to size 5.00046pt on input line 467.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/b/n' will be
-(Font)              scaled to size 9.99893pt on input line 458.
+(Font)              scaled to size 9.99893pt on input line 467.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/b/n' will be
-(Font)              scaled to size 6.99925pt on input line 458.
+(Font)              scaled to size 6.99925pt on input line 467.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/b/n' will be
-(Font)              scaled to size 4.99947pt on input line 458.
+(Font)              scaled to size 4.99947pt on input line 467.
 
-Underfull \hbox (badness 4899) in paragraph at lines 486--487
+Underfull \hbox (badness 4899) in paragraph at lines 495--496
 \TU/lmr/m/n/10 Man kann versuchen die unbekannten Parameter $[] [] [][][][] [] 
 [] [][][]$,
  []
 
 
-Underfull \hbox (badness 1389) in paragraph at lines 486--487
+Underfull \hbox (badness 1389) in paragraph at lines 495--496
 [] [] [][][][] [] [] [][][]$ \TU/lmr/m/n/10 und $[] [] [][][][] [] [] [][][]$ e
 ines Gaußschen Mischmodells
  []
 
-LaTeX Info: Redefining \rmfamily on input line 488.
-LaTeX Info: Redefining \sffamily on input line 488.
-LaTeX Info: Redefining \ttfamily on input line 488.
+LaTeX Info: Redefining \rmfamily on input line 496.
+LaTeX Info: Redefining \sffamily on input line 496.
+LaTeX Info: Redefining \ttfamily on input line 496.
 
 Overfull \hbox (10.94223pt too wide) has occurred while \output is active
 \TU/lmr/m/n/10 12 \TU/lmr/m/sl/10 KAPITEL 1.  DER EXPECTATION MAXIMIZATION (EM)
@@ -1229,9 +1229,9 @@ Overfull \hbox (10.94223pt too wide) has occurred while \output is active
 
 [12]
 Missing character: There is no 😒 in font [lmroman10-regular]:mapping=tex-text;!
-LaTeX Info: Redefining \rmfamily on input line 533.
-LaTeX Info: Redefining \sffamily on input line 533.
-LaTeX Info: Redefining \ttfamily on input line 533.
+LaTeX Info: Redefining \rmfamily on input line 540.
+LaTeX Info: Redefining \sffamily on input line 540.
+LaTeX Info: Redefining \ttfamily on input line 540.
 
 Overfull \hbox (93.23004pt too wide) has occurred while \output is active
 \TU/lmr/m/sl/10 1.2.  DER EM ALGORITHMUS ZUR ML-SCHÄTZUNG GAUßSCHER MISCHVERTEI
@@ -1239,12 +1239,14 @@ LUNGEN \TU/lmr/m/n/10 13
  []
 
 [13]
+File: Computational_Statistics_Script_files/figure-latex/dirac2-1.pdf Graphic f
+ile (type pdf)
+<use Computational_Statistics_Script_files/figure-latex/dirac2-1.pdf>
 Missing character: There is no 😒 in font [lmroman10-regular]:mapping=tex-text;!
 Missing character: There is no 🙈 in font [lmroman10-regular]:mapping=tex-text;!
-Missing character: There is no 🥳 in font [lmroman10-regular]:mapping=tex-text;!
-LaTeX Info: Redefining \rmfamily on input line 572.
-LaTeX Info: Redefining \sffamily on input line 572.
-LaTeX Info: Redefining \ttfamily on input line 572.
+LaTeX Info: Redefining \rmfamily on input line 565.
+LaTeX Info: Redefining \sffamily on input line 565.
+LaTeX Info: Redefining \ttfamily on input line 565.
 
 Overfull \hbox (10.94223pt too wide) has occurred while \output is active
 \TU/lmr/m/n/10 14 \TU/lmr/m/sl/10 KAPITEL 1.  DER EXPECTATION MAXIMIZATION (EM)
@@ -1252,9 +1254,10 @@ Overfull \hbox (10.94223pt too wide) has occurred while \output is active
  []
 
 [14]
-LaTeX Info: Redefining \rmfamily on input line 653.
-LaTeX Info: Redefining \sffamily on input line 653.
-LaTeX Info: Redefining \ttfamily on input line 653.
+Missing character: There is no 🥳 in font [lmroman10-regular]:mapping=tex-text;!
+LaTeX Info: Redefining \rmfamily on input line 674.
+LaTeX Info: Redefining \sffamily on input line 674.
+LaTeX Info: Redefining \ttfamily on input line 674.
 
 Overfull \hbox (93.23004pt too wide) has occurred while \output is active
 \TU/lmr/m/sl/10 1.2.  DER EM ALGORITHMUS ZUR ML-SCHÄTZUNG GAUßSCHER MISCHVERTEI
@@ -1262,9 +1265,16 @@ LUNGEN \TU/lmr/m/n/10 15
  []
 
 [15]
-LaTeX Info: Redefining \rmfamily on input line 681.
-LaTeX Info: Redefining \sffamily on input line 681.
-LaTeX Info: Redefining \ttfamily on input line 681.
+Underfull \vbox (badness 10000) detected at line 674
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 674
+ []
+
+LaTeX Info: Redefining \rmfamily on input line 674.
+LaTeX Info: Redefining \sffamily on input line 674.
+LaTeX Info: Redefining \ttfamily on input line 674.
 
 Overfull \hbox (10.94223pt too wide) has occurred while \output is active
 \TU/lmr/m/n/10 16 \TU/lmr/m/sl/10 KAPITEL 1.  DER EXPECTATION MAXIMIZATION (EM)
@@ -1276,19 +1286,37 @@ File: Computational_Statistics_Script_files/figure-latex/unnamed-chunk-13-1.pdf
  Graphic file (type pdf)
 <use Computational_Statistics_Script_files/figure-latex/unnamed-chunk-13-1.pdf>
 
-LaTeX Info: Redefining \rmfamily on input line 700.
-LaTeX Info: Redefining \sffamily on input line 700.
-LaTeX Info: Redefining \ttfamily on input line 700.
 
-Overfull \hbox (11.62004pt too wide) has occurred while \output is active
-\TU/lmr/m/sl/10 1.3.  DER ALTERNATIVE (WAHRE) BLICK AUF DEN EM-ALGORITHMUS \TU/
-lmr/m/n/10 17
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Info: Redefining \rmfamily on input line 704.
+LaTeX Info: Redefining \sffamily on input line 704.
+LaTeX Info: Redefining \ttfamily on input line 704.
+
+Overfull \hbox (93.23004pt too wide) has occurred while \output is active
+\TU/lmr/m/sl/10 1.2.  DER EM ALGORITHMUS ZUR ML-SCHÄTZUNG GAUßSCHER MISCHVERTEI
+LUNGEN \TU/lmr/m/n/10 17
  []
 
 [17]
-LaTeX Info: Redefining \rmfamily on input line 741.
-LaTeX Info: Redefining \sffamily on input line 741.
-LaTeX Info: Redefining \ttfamily on input line 741.
+Underfull \hbox (badness 1067) in paragraph at lines 712--713
+[]\TU/lmr/bx/n/10 Zur Erinnerung: \TU/lmr/m/n/10 Wir haben es ja nicht geschaff
+t, die Log-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 730--732
+
+ []
+
+
+Overfull \hbox (21.78816pt too wide) detected at line 740
+[][][][] [] [] [][][] [] [] [][][] [] []
+ []
+
+LaTeX Info: Redefining \rmfamily on input line 740.
+LaTeX Info: Redefining \sffamily on input line 740.
+LaTeX Info: Redefining \ttfamily on input line 740.
 
 Overfull \hbox (10.94223pt too wide) has occurred while \output is active
 \TU/lmr/m/n/10 18 \TU/lmr/m/sl/10 KAPITEL 1.  DER EXPECTATION MAXIMIZATION (EM)
@@ -1296,31 +1324,45 @@ Overfull \hbox (10.94223pt too wide) has occurred while \output is active
  []
 
 [18]
-Underfull \hbox (badness 10000) in paragraph at lines 756--757
-
+Underfull \hbox (badness 1117) in paragraph at lines 770--771
+\TU/lmr/m/n/10 des \TU/lmr/bx/n/10 Satzes von Bayes \TU/lmr/m/n/10 aktualisiere
+n. Dies führt dann zur \TU/lmr/m/it/10 a-posteriori-
  []
 
-(./Computational_Statistics_Script.bbl
-LaTeX Info: Redefining \rmfamily on input line 1.
-LaTeX Info: Redefining \sffamily on input line 1.
-LaTeX Info: Redefining \ttfamily on input line 1.
+LaTeX Info: Redefining \rmfamily on input line 774.
+LaTeX Info: Redefining \sffamily on input line 774.
+LaTeX Info: Redefining \ttfamily on input line 774.
 
-Overfull \hbox (11.62004pt too wide) has occurred while \output is active
-\TU/lmr/m/sl/10 1.3.  DER ALTERNATIVE (WAHRE) BLICK AUF DEN EM-ALGORITHMUS \TU/
+Overfull \hbox (10.50894pt too wide) has occurred while \output is active
+\TU/lmr/m/sl/10 1.3.  DER ALTERNATIVE (WAHRE) BLICK AUF DEN EM ALGORITHMUS \TU/
 lmr/m/n/10 19
  []
 
 [19]
-LaTeX Info: Redefining \rmfamily on input line 1.
-LaTeX Info: Redefining \sffamily on input line 1.
-LaTeX Info: Redefining \ttfamily on input line 1.
+LaTeX Info: Redefining \rmfamily on input line 808.
+LaTeX Info: Redefining \sffamily on input line 808.
+LaTeX Info: Redefining \ttfamily on input line 808.
 
 Overfull \hbox (10.94223pt too wide) has occurred while \output is active
 \TU/lmr/m/n/10 20 \TU/lmr/m/sl/10 KAPITEL 1.  DER EXPECTATION MAXIMIZATION (EM)
  ALGORITHMUS
  []
 
-[20
+[20] (./Computational_Statistics_Script.bbl
+LaTeX Info: Redefining \rmfamily on input line 1.
+LaTeX Info: Redefining \sffamily on input line 1.
+LaTeX Info: Redefining \ttfamily on input line 1.
+[21]
+LaTeX Info: Redefining \rmfamily on input line 1.
+LaTeX Info: Redefining \sffamily on input line 1.
+LaTeX Info: Redefining \ttfamily on input line 1.
+
+Overfull \hbox (10.94223pt too wide) has occurred while \output is active
+\TU/lmr/m/n/10 22 \TU/lmr/m/sl/10 KAPITEL 1.  DER EXPECTATION MAXIMIZATION (EM)
+ ALGORITHMUS
+ []
+
+[22
 
 ])
 The property list \polyglossia@langsetup contains the pairs (without outer
@@ -1357,24 +1399,24 @@ braces):
 >  {german/babelname}  =>  {ngerman}
 >  {german/localnumeral}  =>  {polyglossia@C@localnumeral}
 >  {german/Localnumeral}  =>  {polyglossia@C@localnumeral}.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 775.
-[21]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 775.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 860.
+[23]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 860.
 (./Computational_Statistics_Script.aux
 LaTeX Info: Redefining \rmfamily on input line 21.
 LaTeX Info: Redefining \sffamily on input line 21.
 LaTeX Info: Redefining \ttfamily on input line 21.
 )
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 775.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 775.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 860.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 860.
  ) 
 Here is how much of TeX's memory you used:
- 27741 strings out of 479819
- 513780 string characters out of 5895846
- 954078 words of memory out of 5000000
- 44324 multiletter control sequences out of 15000+600000
- 540298 words of font info for 93 fonts, out of 8000000 for 9000
+ 27778 strings out of 479819
+ 514922 string characters out of 5895846
+ 958485 words of memory out of 5000000
+ 44350 multiletter control sequences out of 15000+600000
+ 540338 words of font info for 98 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 60i,13n,115p,830b,461s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,13n,115p,855b,464s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on Computational_Statistics_Script.pdf (21 pages).
+Output written on Computational_Statistics_Script.pdf (23 pages).

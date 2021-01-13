@@ -1,5 +1,5 @@
 ---
-title: "Computational Statistics (B.Sc. Data Science)"
+title: "Computational Statistics"
 cover-image: "images/Florence_Nightingale.jpg"
 author: "Prof. Dr. Dominik Liebl"
 date: ""
@@ -41,19 +41,18 @@ tags: [Statistik, Data Science]
 
 # Informationen {-}
 
-
 ```{r, child="_setup.Rmd"}
 ```
 
 ```{r, eval=TRUE, echo=FALSE}
 # install.packages("kableExtra")
+options(knitr.duplicate.label = "allow")
 library("kableExtra")
 library("tidyverse")
 ```
 
 
-Dies ist das Skript zur Vorlesung *Computational Statistik* (B.Sc. Data Science)
-
+Dies ist das Skript zur Vorlesung *Computational Statistik* (B.Sc. Informatik & Data Science)
 
 
 ```{r, eval=knitr::opts_knit$get("rmarkdown.pandoc.to") == "html", results='asis', echo=FALSE}
@@ -101,9 +100,14 @@ Folgende *frei zugängliche* Lehrbücher enthalten Teile dieses Kurses. In den j
 
 ### Florence Nightingale {-}
 
-Das Logo zu diesem Skript stammt von einer [Briefmarke](https://de.wikipedia.org/wiki/Datei:DBP_1955_225_Florence_Nightingale.jpg) zur Erinnerung an [Florence Nightingale](https://de.wikipedia.org/wiki/Florence_Nightingale) eine britische Krankenschwester und [inspirierende Statistikerin](https://infowetrust.com/project/designhero). 
+Das Logo zu diesem Skript stammt von einer [Briefmarke](https://de.wikipedia.org/wiki/Datei:DBP_1955_225_Florence_Nightingale.jpg) zur Erinnerung an die  Krankenschwester und [inspirierende Statistikerin](https://infowetrust.com/project/designhero), [Florence Nightingale](https://de.wikipedia.org/wiki/Florence_Nightingale). Nightingale war die Begründerin der modernen westlichen Krankenpflege und Pionierin der visuellen Veranschaulichung von Zusammenhängen in der Statistik. Sie ist die erste Frau, die in die britische [Royal Statistical Society](https://rss.org.uk/) aufgenommen wurde; später erhielt sie auch die Ehrenmitgliedschaft der [American Statistical Association](https://www.amstat.org/).
 
 
+<!-- ^[Dieser Text stammt aus dem deutschsprachigen Wikipedia-Artikel zu Florence Nightingale: [LINK](https://de.wikipedia.org/wiki/Florence_Nightingale)] -->
+
+<!-- ```{r, echo=FALSE} -->
+<!-- knitr::include_graphics("images/Nightingale-mortality.jpg") -->
+<!-- ``` -->
 
 ```{r, eval=knitr::opts_knit$get("rmarkdown.pandoc.to") == "html", results='asis', echo=FALSE}
 cat('<br>
@@ -111,6 +115,11 @@ cat('<br>
 
 Dieses Skript ist lizenziert unter der Creative Commons Lizenz [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).')
 ```
+
+
+
+<!-- after: | -->
+<!--       <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li> -->
 
 
 <!-- # Einführung in `r ttcode("R")` und *RStudio* -->
