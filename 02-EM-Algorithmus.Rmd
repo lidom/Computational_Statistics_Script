@@ -13,12 +13,12 @@ span {
 ```
 
 
-Der EM Algorithmus wird häufig verwendet, um komplizierte Maximum Likelihood Schätz-Probleme zu vereinfachen. Wir stellen den Algorithmus zur Schätzung von Gaußschen Mischverteilungen (GMV) vor, da der EM-Algorithmus hier wohl seine häufigste Anwendung hat. Bereits die originale Arbeit zum EM-Algorithmus [@Dempster_1977] beschäftigt sich mit solchen Mischverteilungen.
+Der EM Algorithmus wird häufig verwendet, um komplizierte Maximum Likelihood Schätzprobleme zu vereinfachen. Wir stellen den Algorithmus zur Schätzung von Gaußschen Mischverteilungen vor, da der EM-Algorithmus hier wohl seine häufigste Anwendung hat. Bereits die originale Arbeit zum EM-Algorithmus [@Dempster_1977] beschäftigt sich mit solchen Mischverteilungen.
 
 
 Mögliche Anwendungen von Gaußschen Mischverteilungen:
 
-+ Automatisierte Videobearbeitungen: Z.B. Bildeinteilungen in Vorder- und Hintergrund. (Hier würde man jede Pixel-Farbkodierung mit Hilfe einer Gaußschen Mischverteilungen modellieren.)
++ Automatisierte Videobearbeitungen: Z.B. Bildeinteilungen in Vorder- und Hintergrund. 
 + Automatisierte Erkennung von Laufstilen 
 + Generell: Auffinden von Gruppierungen (zwei oder mehr) in den Daten (**Clusteranalyse**).
 
@@ -98,7 +98,7 @@ Der folgende Code-Chunck bereitet die Daten auf.
 
 ```{r, fig.align='center', out.width="100%", echo=TRUE, eval=TRUE}
 library("palmerpenguins") # Pinguin-Daten
-library("scales")         # Für transparente Farben: scales::alpha()
+library("scales")         # Für transparente Farben: alpha()
 library("RColorBrewer")   # Hübsche Farben
 
 col_v <- RColorBrewer::brewer.pal(n = 3, name = "Set2")
@@ -106,7 +106,7 @@ col_v <- RColorBrewer::brewer.pal(n = 3, name = "Set2")
 ## Vorbereitung der Daten:
 Pinguine <- palmerpenguins::penguins %>%        # Pinguin-Daten
   tidyr::as_tibble() %>%                        # Datenformat: 'tibble'-dataframe
-  dplyr::filter(species!="Adelie") %>%          # Pinguin-Art 'Adelie' löschen (verbleiben: 'Chinstrap' und 'Gentoo')
+  dplyr::filter(species!="Adelie") %>%          # Pinguin-Art 'Adelie' löschen 
   droplevels() %>%                              # Lösche das nicht mehr benötigte Adelie-Level
   tidyr::drop_na() %>%                          # NAs löschen
   dplyr::mutate(Art    = species,               # Variablen umbenennen
@@ -174,7 +174,7 @@ prop_v <- mclust_obj$parameters$pro
 
 ## Auswerten der Gaußsche Mischungs-Dichtefunktion
 np      <- 100 # Anzahl der Auswertungspunkte
-xxd   <- seq(min(Penguine_Flosse)-3, max(Penguine_Flosse)+5, length.out = np)
+xxd     <- seq(min(Penguine_Flosse)-3, max(Penguine_Flosse)+5, length.out = np)
 ## Mischungs-Dichte
 yyd     <- dnorm(xxd, mean_m[1], sqrt(cov_l[[1]]))*prop_v[1] +
            dnorm(xxd, mean_m[2], sqrt(cov_l[[2]]))*prop_v[2]
@@ -193,16 +193,6 @@ stripchart(Penguine_Flosse[class==1], method = "jitter", jitter = .0005, at = .0
            pch = 21, col=alpha(col_v[1],.5), bg=alpha(col_v[1],.5), cex=1.3, add = TRUE)
 stripchart(Penguine_Flosse[class==2], method = "jitter", jitter = .0005, at = .001,
            pch = 21, col=alpha(col_v[2],.5), bg=alpha(col_v[2],.5), cex=1.3, add = TRUE)
-##
-# stripchart(Penguine_Flosse[Penguine_Art=="Chinstrap"], method = "jitter", jitter = .0005, at = .005,
-#            pch = 23, col=alpha(col_v[1],.5), bg=alpha(col_v[1],.5), cex=1.3, add = TRUE)
-# stripchart(Penguine_Flosse[Penguine_Art=="Gentoo"], method = "jitter", jitter = .0005, at = .005,
-#            pch = 23, col=alpha(col_v[2],.5), bg=alpha(col_v[2],.5), cex=1.3, add = TRUE)
-# legend("topleft", legend = c("Tatsächliche Pinguin-Gruppe", 
-#                              "Cluster-Resultat",
-#                              "Chinstrap-Pinguine",
-#                              "Gentoo-Pinguine"),
-#        pch=c(23,21,22,22), col = c(gray(.5,.5), gray(.5,.5), alpha(col_v[1],.5), alpha(col_v[2],.5)))
 ```
 
 Abbildung \@ref(fig:GMM-plot1) zeigt das Resultat einer Clusteranalyse basierend auf einer Mischverteilung zweier gewichteter Normalverteilungen. Cluster-Ergebnis: `r round(sum(class == as.numeric(Penguine_Art))/n, 2)*100`% der Pinguine konnten richtig zugeordnet werden - lediglich auf Basis ihrer Flossenlängen.  
@@ -212,7 +202,7 @@ Abbildung \@ref(fig:GMM-plot1) zeigt das Resultat einer Clusteranalyse basierend
 
 
 
-```{r, eval=my_output == "html", results='asis', echo=FALSE}
+```{r , eval=my_output == "html", results='asis', echo=FALSE}
 cat('<hr style="background-color:#3C6690;height:2px">')
 ```
 
@@ -256,7 +246,7 @@ prop_v <- mclust_obj$parameters$pro
 
 ## Auswerten der Gaußsche Mischungs-Dichtefunktion
 np      <- 100 # Anzahl der Auswertungspunkte
-xxd   <- seq(min(Penguine_Flosse)-3, max(Penguine_Flosse)+5, length.out = np)
+xxd     <- seq(min(Penguine_Flosse)-3, max(Penguine_Flosse)+5, length.out = np)
 ## Mischungs-Dichte
 yyd     <- dnorm(xxd, mean_m[1], sqrt(cov_l[[1]]))*prop_v[1] +
            dnorm(xxd, mean_m[2], sqrt(cov_l[[2]]))*prop_v[2]
@@ -342,7 +332,31 @@ $$
 
 `r emo::ji("unamused_face")` **Numerische Lösungen:** Versucht man obiges Maximierungsproblem [numerisch mit Hilfe des Computers zu lösen](https://cran.r-project.org/web/packages/EstimationTools/vignettes/maxlogL.pdf), wird man schnell merken, dass die Ergebnisse höchst instabil, unplausibel und wenig vertrauenswürdig sind. 
 
-> Für echte GMMs ($G>1$) treten während einer numerischen Maximierung sehr leicht Probleme mit Singularitäten auf. Dies geschieht immer dann, wenn eine der Normalverteilungskomponenten versucht den ganzen Datensatz $\mathbf{x}$ zu beschreiben und die andere(n) Normalverteilungskomponente(n) versuchen lediglich einzelne Datenpunkte zu beschreiben. Eine Gaußsche Dichtefunktion $f_g$, die sich um einen einzigen Datenpunkt $x_i$ konzentriert (d.h. $\mu_g=x_i$ und $\sigma_g\to 0$) wird dabei sehr große Werte annehmen (d.h. $f_g(x_i)\to\infty$) und so die Log-Likelihood auf unerwünschte maximieren. Solche trivialen Maximierungslösungen resultieren i.d.R. in unplausiblen Schätzergebnissen. 
+> **Probleme mit Singularitäten:** Für echte GMMs ($G>1$) treten während einer numerischen Maximierung sehr leicht Probleme mit Singularitäten auf. Dies geschieht immer dann, wenn eine der Normalverteilungskomponenten versucht den ganzen Datensatz $\mathbf{x}$ zu beschreiben und die andere(n) Normalverteilungskomponente(n) versuchen lediglich einzelne Datenpunkte zu beschreiben. Eine Gaußsche Dichtefunktion $f_g$, die sich um einen einzigen Datenpunkt $x_i$ konzentriert (d.h. $\mu_g=x_i$ und $\sigma_g\to 0$) wird dabei sehr große Werte annehmen (d.h. $f_g(x_i)\to\infty$) und so die Log-Likelihood auf unerwünschte maximieren (siehe Abbildung \@ref(fig:dirac)). Solche trivialen Maximierungslösungen resultieren i.d.R. in unplausiblen Schätzergebnissen. 
+
+
+
+```{r dirac, animation.hook="gifski", interval=0.1, include=knitr::is_html_output(), fig.align="center", echo=FALSE, fig.cap="Normalverteilung $f_g$ mit $\\mu_g=x_i$ für $\\sigma_g\\to 0$."}
+np  <- 1000
+rep <- 30
+xxd <- seq(-3, 3, length.out = np)
+sd_v <- seq(.5,0.05, len=rep)
+for(i in 1:length(sd_v)){
+  plot(x=xxd, y=dnorm(xxd, 0, sd_v[i]), type="l", ylim=c(0,max(dnorm(xxd, 0, sd_v[rep]))), xlim = c(-1.5,1.5),
+       ylab="",xlab="", lwd=2, col="darkblue", axes = FALSE)
+  axis(2); axis(1, at=0, labels = expression(x[i])); box()
+}
+```
+
+
+<!-- include=knitr::is_html_output(), fig.align="center", animation.hook="gifski", echo=FALSE, fig.cap="Normalverteilung für $\\sigma_g\\to 0$." -->
+
+<!-- ```{r , fig.show="animate", animation.hook="gifski"} -->
+
+<!-- # knitr::include_graphics("images/Dirac_function_approximation.gif", ) -->
+
+
+<!-- ``` -->
 
 <!-- <center> -->
 <!-- <div class="centered"> -->
@@ -399,9 +413,9 @@ Die Ausdrücke für $\hat\pi_g$, $\hat\mu_g$ und $\hat\sigma_g$ legen jedoch ein
     <center>$\hat\pi_g^{(r)}=\frac{1}{n}\sum_{i=1}^np_{ig}^{(r)},\quad\quad\hat\mu_g^{(r)}=\sum_{i=1}^n\frac{p_{ig}^{(r)}}{\left(\sum_{j=1}^np_{jg}^{(r)}\right)}x_i$</center> 
     <center>$\hat\sigma_g^{(r)}=\sqrt{\sum_{i=1}^n\frac{p_{ig}^{(r)}}{\left(\sum_{j=1}^np_{jg}^{(r)}\right)}\left(x_i-\hat\mu_g^{(r)}\right)^2}$</center> 
 
-3. Prüfe Konvergenz 
-  + **Entweder:** Stoppe falls sich die Parameterschätzer nicht mehr ändern.
-  + **Oder:** Stoppe, falls sich der Wert der maximierten Log-Likelihood Funktion nicht mehr ändert.
+3. Prüfe Konvergenz: 
+    
+    - Stoppe, falls sich der Wert der maximierten Log-Likelihood Funktion, $\ell(\boldsymbol{\pi}^{(r)},\boldsymbol{\mu}^{(r)},\boldsymbol{\sigma}^{(r)}|\mathbf{z})$, nicht mehr ändert.
 
 
 <br>
@@ -503,12 +517,12 @@ stripchart(Penguine_Flosse[class==2], method = "jitter", jitter = .0005, at = .0
 
 Der EM Algorithmus ermöglicht es Maximum Likelihood Probleme zu vereinfachen, indem man die Daten durch nicht beobachtete („latente“) Variablen vervollständigt. Dieses Prinzip ist der eigentliche wahre Beitrag des EM-Algorithmus. Es ermöglicht die Lösung verschiedener Maximum Likelihood Probleme - wie bleiben aber zunächst bei der Schätzung von GMMs. 
 
-> Zur Erinnerung: Wie haben es ja nicht geschafft, die Log-Likelihood Funktion 
+> **Zur Erinnerung:** Wir haben es ja nicht geschafft, die Log-Likelihood Funktion 
 $$
 \ell(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x})
 =\sum_{i=1}^n\ln\left(\sum_{g=1}^G\pi_g\phi_{\mu_g\sigma_g}(x_i)\right)
 $$
-direkt zu maximieren. Die $\log(\sum_{g=1}^G[\dots])$-Konstruktion macht einem das Leben schwer.
+direkt zu maximieren. Die $\log(\sum_{g=1}^G[\dots])$-Konstruktion macht einem hier das Leben schwer.
 
 In unseren Pinguin-Daten gibt zwei Gruppen ($g\in\{1,2\}$). Es gäbe also im Prinzip $G$-dimensionale Zuordnungsvektoren $(z_{i1},z_{i2})$ mit 
 $$
@@ -520,7 +534,7 @@ $$
 $$
 Im Fall von $G>2$ Gruppen:  
 $$
-(z_{i1},\dots,z_{iG})=
+(z_{i1},\dots,z_{ig},\dots,z_{iG})=
 \left\{\begin{array}{ll}
 (1,0,\dots,0)&\text{falls Datenpunkt }i\text{ zu Gruppe }g=1\text{ gehört.}\\
 (0,1,\dots,0)&\text{falls Datenpunkt }i\text{ zu Gruppe }g=2\text{ gehört.}\\
@@ -529,24 +543,30 @@ $$
 \end{array}\right.
 $$
 
-Die Zuordnungen $z_{ig}$ können also die Werte $z_{ig}\in\{0,1\}$ annehmen, wobei $\sum_{g=1}^Gz_{ig}=1$ für alle $i=1,\dots,n$.
+Die Zuordnungen $z_{ig}$ können also die Werte $z_{ig}\in\{0,1\}$ annehmen, wobei aber gelten muss, dass $\sum_{g=1}^Gz_{ig}=1$.
 
-> **Beachte:**  Für jeden Datenpunkt $i$ (jeder Pinguin $i$) gibt es nur **eine** Gruppe (daher $\sum_{g=1}^Gz_{ig}=1$). Dies ist eine wichtige Restriktion von GMMs, welche bei den Pinguin-Daten unproblematisch ist, in anderen Anwendungen mit hirarchischen Gruppierungen aber evtl. problematisch ist. 
+> **Beachte:**  Für jeden Datenpunkt $i$ (jeder Pinguin $i$) gibt es nur **eine** Gruppe (daher $\sum_{g=1}^Gz_{ig}=1$). Dies ist eine wichtige Restriktion von GMMs, welche bei den Pinguindaten unproblematisch ist, in Anwendungen mit hirarchischen Gruppierungen ist dies aber evtl. problematisch. 
 
-Die Zuordnungen $z_{ig}$ sind leider unbekannt (latent). Wir wissen aber trotzdem einiges etwas über diese Zuordnungen. Die Gewichte $\pi_1,\dots,\pi_G$ der Gaußschen Mischverteilung 
+Die Zuordnungen $z_{ig}$ sind leider unbekannt (latent). Wir wissen aber trotzdem etwas über diese Zuordnungen. Die Gewichte $\pi_1,\dots,\pi_G$ der Gaußschen Mischverteilung 
 $$
 f_G(x|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})=\sum_{g=1}^G\pi_gf(x|\mu_g\sigma_g),
 $$
-geben die Anteile der Einzelverteilungen $f_g$ an der Gesamtverteilung $f$ an. Im Schnitt kommen $\pi_g\cdot 100\%$ der Datenpunkte von Verteilung $f_g$, $g=1,\dots,G$. Somit können wir die Zuordnungsdaten $\mathbf{z}=\big((z_{11},\dots,z_{1G}),\dots,(z_{n1},\dots,z_{nG})\big)$ als eine Realisation einer einfachen (i.i.d.) Zufallsstichprobe $(Z_1,\dots,Z_n)$ auffassen, wobei $Z_i\in\{(z_1,\dots,z_G)\in\{0,1\}^G\text{ so, dass }\sum_{g=1}^Gz_g=1\}$ eine diskrete Zufallsvariable ist. Die Wahrscheinlichkeitsfunktion $p_Z$ von $Z_i=(Z_{i1},\dots,Z_{iG})$ lautet:
+geben die Anteile der Einzelverteilungen $f_g$ an der Gesamtverteilung $f$ an. Im Schnitt kommen $\pi_g\cdot 100\%$ der Datenpunkte von Verteilung $f_g$, $g=1,\dots,G$. Somit ist die (latente) Zuordnung $z_{ig}$ eine Realisation der Zufallsvariablen $Z_{ig}$ mit Wahrscheinlichkeitsfunktion
 $$
-\begin{array}{ll}
-p_Z\big((1,0,\dots,0)\big)&=\pi_1\\
-p_Z\big((0,1,\dots,0)\big)&=\pi_2\\
-\quad\quad\quad\quad\vdots&\\
-p_Z\big((0,0,\dots,1)\big)&=\pi_G\\
-\end{array}
+P(Z_{ig}=1)=\pi_g
 $$
-Achtung: Wegen der restrition sind dann immer all anderen null.
+Wegen der Bedingung $\sum_{g=1}^Gz_{ig}=1$, sind alle anderen Zuordnungen gleich null. 
+
+<!-- Somit können wir die Zuordnungsdaten  $\mathbf{z}=\big((z_{11},\dots,z_{1G}),\dots,(z_{n1},\dots,z_{nG})\big)$ als eine Realisation einer einfachen (i.i.d.) Zufallsstichprobe $(Z_1,\dots,Z_n)$ auffassen, wobei $Z_i\in\{(z_1,\dots,z_G)\in\{0,1\}^G\text{ so, dass }\sum_{g=1}^Gz_g=1\}$ eine diskrete Zufallsvariable ist. Die Wahrscheinlichkeitsfunktion $p_Z$ von $Z_i=(Z_{i1},\dots,Z_{iG})$ lautet: -->
+<!-- $$ -->
+<!-- \begin{array}{ll} -->
+<!-- p_Z\big((1,0,\dots,0)\big)&=\pi_1\\ -->
+<!-- p_Z\big((0,1,\dots,0)\big)&=\pi_2\\ -->
+<!-- \quad\quad\quad\quad\vdots&\\ -->
+<!-- p_Z\big((0,0,\dots,1)\big)&=\pi_G\\ -->
+<!-- \end{array} -->
+<!-- $$ -->
+<!-- Achtung: Wegen der restrition sind dann immer all anderen null. -->
 
 <!-- (Im Falle von $G=2$, wie bei den Pinguinen, kann man das alles vereinfachen zu einer Bernoulli Zufallsvariable) -->
 <!-- \begin{align*} -->
@@ -554,10 +574,11 @@ Achtung: Wegen der restrition sind dann immer all anderen null.
 <!-- P(Z_{ig}=0)&=1-\pi_g=P(\text{Pinguin $i$ gehört nicht zu Gruppe }g) -->
 <!-- \end{align*} -->
 
-Man bezeichnet die Wahrscheinlichkeiten $\pi_1,\dots,\pi_G$ als die **„a-priori-Wahrscheinlichkeiten“**. Wenn wir nichts über die Flossenlänge von Pinguin $i$ wissen, dann bleiben uns nur die a-priori-Wahrscheinlichkeiten: Mit Wahrscheinlichkeit $\pi_g$ gehört Pinguin $i$ zu Gruppe $g$. 
+
+**A-priori-Wahrscheinlichkeit $\pi_g$:** Man bezeichnet die Wahrscheinlichkeiten $\pi_1,\dots,\pi_G$ als die *a-priori-Wahrscheinlichkeiten*. Wenn wir nichts über die Flossenlänge von Pinguin $i$ wissen, dann bleiben uns nur die a-priori-Wahrscheinlichkeiten: Mit Wahrscheinlichkeit $P(Z_{ig}=1)=\pi_g$ gehört Pinguin $i$ zu Gruppe $g$. 
 
 
-Falls wir die Flossenlänge von Pinguin $i$ erfahren, können wir die a-priori-Wahrscheinlichkeiten mit Hilfe des Satzes von Bayes aktualisieren. Dies führt dann zur **a-posteriori-Wahrscheinlichkeit $\;p_{ig}$:**
+**A-posteriori-Wahrscheinlichkeit $\;p_{ig}$:** Falls wir die Flossenlänge $x_i$ von Pinguin $i$ erfahren, können wir die a-priori-Wahrscheinlichkeiten mit Hilfe des Satzes von Bayes aktualisieren. Dies führt dann zur *a-posteriori-Wahrscheinlichkeit*: Mit Wahrscheinlichkeit $p_{ig}=P(Z_{ig=1}|X_i=x_i)$  gehört ein Pinguin $i$ mit Flossenlänge $x_i$ zu Gruppe $g$.
 
 (Satz von Bayes)
 \begin{align*}
@@ -567,39 +588,33 @@ p_{ig}
 \end{align*}
 Beachte: $p_{ig}$ ist ein (bedingter) Mittelwert <span style="color:#FF5733">**(Expectation)**</span>
 \begin{align*}
-p_{ig}&=\underbrace{1\cdot P(Z_{ig}=1|X_i=x_i)+0\cdot P(Z_{ig}=0|X_i=x_i)}_{=E(Z_{ig}=1|X_i=x_i)}\\
+p_{ig}&= 1\cdot P(Z_{ig}=1|X_i=x_i)+0\cdot P(Z_{ig}=0|X_i=x_i) = E(Z_{ig}|X_i=x_i)\\
 \end{align*}
 
 
-### Der <span style="color:#FF5733">E</span><span style="color:#2471A3">M</span> Algorithmus {-}
+### Der EM-Algorithmus: Tatsächlich eine *Expectation* {-}
 
-1. Setze Startwerte $\boldsymbol{\pi}^{(0)}$, $\boldsymbol{\mu}^{(0)}$ und $\boldsymbol{\sigma}^{(0)}$
+Der folgende EM-Algorithmus unterscheidet sich lediglich in der Notation von der oben eingeführten Version. Hier wird es klar, warum es ein **Expectation**-Maximization Algorithmus ist: 
+<br>
+
+1. Setze Startwerte $\theta^{(0)}=\boldsymbol{\pi}^{(0)}$, $\boldsymbol{\mu}^{(0)}$ und $\boldsymbol{\sigma}^{(0)}$
 
 2. Für $r=1,2,\dots$
 
     - <span style="color:#FF5733">**(Expectation)** </span> Berechne:        
-    <center>$p_{ig}^{(r)}=E\left(Z_{ig}^{(r-1)}\left|X_i^{(r-1)}=x_i\right.\right)$</center>
-    \begin{align*}
-    \text{wobei }\;Z_{ig}^{(r-1)}&\sim\mathcal{B}\left(\pi_g^{(r-1)}\right)\\
-    \text{und }\;X_i^{(r-1)}&\sim \mathcal{N}_{\mathcal{mix}}(G,\boldsymbol{\pi}^{(r-1)},\boldsymbol{\mu}^{(r-1)},\boldsymbol{\sigma}^{(r-1)})
-    \end{align*}
+    $$p_{ig}^{(r)}=E_{\theta^{(r-1)}}\left(Z_{ig}\left|X_i=x_i\right.\right)=\frac{\pi_g^{(r-1)}\phi_{\mu^{(r-1)}_g\sigma_g^{(r-1)}}(x_i)}{f_G(x_i|\boldsymbol{\pi}^{(r-1)},\boldsymbol{\mu}^{(r-1)},\boldsymbol{\sigma}^{(r-1)})}$$
     
-    - <span style="color:#2471A3">**(Maximization)**</span>  Berechne:  $\hat\pi_g^{(r)}$, $\hat\mu_g^{(r)}$, $\hat\sigma_g^{(r)}$
+    - <span style="color:#2471A3">**(Maximization)**</span>  Berechne: 
+    <center>$\hat\pi_g^{(r)}=\frac{1}{n}\sum_{i=1}^np_{ig}^{(r)},\quad\quad\hat\mu_g^{(r)}=\sum_{i=1}^n\frac{p_{ig}^{(r)}}{\left(\sum_{j=1}^np_{jg}^{(r)}\right)}x_i$</center> 
+    <center>$\hat\sigma_g^{(r)}=\sqrt{\sum_{i=1}^n\frac{p_{ig}^{(r)}}{\left(\sum_{j=1}^np_{jg}^{(r)}\right)}\left(x_i-\hat\mu_g^{(r)}\right)^2}$</center> 
 
-3. Prüfe Konvergenz
-
-
-
-<!-- ## -->
-
-
-<!-- Hier den Kreis schließen und zurück zum Clustern Oder zm Skript wechseln  -->
+3. Prüfe Konvergenz:
+    
+    - Stoppe, falls sich der Wert der maximierten Log-Likelihood Funktion, $\ell(\boldsymbol{\pi}^{(r)},\boldsymbol{\mu}^{(r)},\boldsymbol{\sigma}^{(r)}|\mathbf{z})$, nicht mehr ändert.
 
 
 
-<!-- ## Warum EM-Algorithmus? -->
 
-<!-- Hack: Jedem Datenpunkt $x_i$ mogeln wir eine latente (nicht beobachtete) Realisation $z_{ig}$ der Bernoulli Zuordnungsvariable $Z_{ig}\sim\mathcal{B}(\pi_g)$ zu. -->
 
 
 <!-- **Likelihood Funktion (klassisch/erfolglos):** -->
@@ -621,67 +636,57 @@ p_{ig}&=\underbrace{1\cdot P(Z_{ig}=1|X_i=x_i)+0\cdot P(Z_{ig}=0|X_i=x_i)}_{=E(Z
 <!-- </div> -->
 
 
-<!-- ## Das Große Ganze -->
+## Das Große Ganze
 
-<!-- Hack: Wir tun so als hätten wir zu jedem Datenpunkt $x_i$ die Gruppenzuordnungsvariablen $z_{i1},\dots,z_{iG}$ -->
+Hätten wir neben den Datenpunkten $\mathbf{x}=(x_1,\dots,x_n)$ die Gruppenzuordnungen $\mathbf{z}=(z_{11},\dots,z_{nG})$
 
-<!-- **Neue Likelihood ($\tilde{\mathcal{L}}$) und neue Log-Likelihood ($\tilde{\ell}$) Funktion:** -->
-<!-- $$ -->
-<!-- \begin{align*} -->
-<!-- \tilde{\mathcal{L}}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x},\mathbf{z}) -->
-<!-- &=\prod_{i=1}^n\prod_{k=1}^K\left(\pi_g\phi_{\mu_g\sigma_g}(x_i)\right)^{z_{ig}}\\[2ex] -->
-<!-- \tilde{\ell}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x},\mathbf{z}) -->
-<!-- &=\sum_{i=1}^n\sum_{k=1}^Kz_{ig}\left\{\ln\left(\pi_g\right)+\ln\left(\phi_{\mu_g\sigma_g}(x_i)\right)\right\} -->
-<!-- \end{align*} -->
-<!-- $$ -->
+**Neue Likelihood ($\tilde{\mathcal{L}}$) und neue Log-Likelihood ($\tilde{\ell}$) Funktion:**
+\begin{align*}
+\tilde{\mathcal{L}}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x},\mathbf{z})
+&=\prod_{i=1}^n\prod_{g=1}^G\left(\pi_gf_g(x_i|\mu_g,\sigma_g)\right)^{z_{ig}}\\[2ex]
+\tilde{\ell}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x},\mathbf{z})
+&=\sum_{i=1}^n\sum_{g=1}^Gz_{ig}\left\{\ln\left(\pi_g\right)+\ln\left(f_g(x_i|\mu_g,\sigma_g)\right)\right\}
+\end{align*}
 
+* Deutlich **einfacheres Maximierungsproblem**, da nun keine Summe innerhalb der Logarithmusfunktion. Den Logarithmus der Normalverteilung zu berechnen vereinfacht das Minimierungsproblem wunderbar, da die Normalverteilung zur Exponentialfamilie gehört. 
 
-
-<!-- ## Das Große Ganze -->
-<!-- **Neue Log-Likelihood Funktion:** -->
-<!-- $$ -->
-<!-- \begin{align*} -->
-<!-- \tilde{\ell}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x},\mathbf{z}) -->
-<!-- &=\sum_{i=1}^n\sum_{k=1}^Kz_{ig}\left\{\ln\left(\pi_g\right)+\ln\left(\phi_{\mu_g\sigma_g}(x_i)\right)\right\} -->
-<!-- \end{align*} -->
-<!-- $$ -->
-
-<!-- * Deutlich **einfacheres Maximierungsproblem** -->
-
-<!-- <!-- , da keine $\log\big(\sum_{g=1}^G\dots\big)$-Konstruktion wie in der ursp. Log-Likelihood Funktion $\ell$. --> -->
-
-<!-- * Aber: Wir kennen $z_{ig}$ nicht. Wissen „nur“, dass $z_{ig}$ eine Realisation von $Z_{ig}^{(r-1)}\sim\mathcal{B}\big(\pi_k^{(r-1)}\big)$ ist. -->
-
-<!-- * Ausweg: Wir können  -->
-<!-- $$ -->
-<!-- p_{ig}^{(r-1)}=E(Z_{ig}^{(r-1)}|X_i^{(r-1)}=x_i) -->
-<!-- $$  -->
-<!-- berechnen.  -->
+* Aber: Wir beobachten die Realisationen $\mathbf{z}$ nicht, sondern kennen lediglich die Verteilung der Zufallsvariablen $\mathbf{Z}=(Z_{11},\dots,Z_{nG})$. Dies führt zu einer stochastischen Version der Log-Likelihood Funktion:
+$$
+\tilde{\ell}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x},\mathbf{Z})=\sum_{i=1}^n\sum_{g=1}^GZ_{ig}\left\{\ln\left(\pi_g\right)+\ln\left(f_g(x_i|\mu_g,\sigma_g)\right)\right\}
+$$
+* Von dieser können jedoch den bedingten Erwartungswert berechnen:
+$$
+E(\tilde{\ell}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x},\mathbf{z})|X_i=x_i)=\sum_{i=1}^n\sum_{g=1}^Gp_{ig}\left\{\ln\left(\pi_g\right)+\ln\left(f_g(x_i|\mu_g,\sigma_g)\right)\right\}
+$$
 
 
-<!-- ## Das Große Ganze {.smaller} -->
+### Der EM-Algorithmus: Die abstrakte Version {-}
 
-<!-- 1. Setze Startwerte $\pi^{(0)}$, $\mu^{(0)}$ und $\sigma^{(0)}$ -->
+Der folgende EM-Algorithmus unterscheidet sich wieder lediglich in der Notation von den oben bereits besprochenen Versionen. Die folgende Notation verdeutlicht das Grundproblem der Maximierung der Log-Likelihood Funktion und ist abstrakt genug, um die Grundidee auf andere Maximum Likelihood Probleme zu übertragen: 
 
-<!-- 2. Für $r=1,2,\dots$ -->
 
-<!--     - <span style="color:#FF5733">**(Expectation)** </span> Berechne:   -->
-<!--     $$ -->
-<!--     \begin{align*} -->
-<!--     &\mathcal{Q}((\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}),(\pi^{(r-1)},\mu^{(r-1)},\sigma^{(r-1)}))=\\ -->
-<!--     %&E_{Z^{(r-1)}|X^{(r-1)}}\left[\ell(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x},\mathbf{z})\right]\\ -->
-<!--     &=\sum_{i=1}^n\sum_{k=1}^K\underbrace{E(Z_{ig}^{(r-1)}|X_i^{(r-1)}=x_i)}_{={\color{red}{p_{ig}^{(r-1)}}}}\left\{\ln\left(\pi_g\right)+\ln\left(\phi_{\mu_g\sigma_g}(x_i)\right)\right\} -->
-<!--     \end{align*} -->
-<!--     $$ -->
 
-<!--     - <span style="color:#2471A3">**(Maximization)**</span>  Berechne:   -->
-<!--     $$ -->
-<!--     \begin{align*} -->
-<!--     (\hat\pi^{(r)},\hat\mu^{(r)},\hat\sigma^{(r)})=\arg\min_{(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})}\mathcal{Q}((\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}),(\pi^{(r-1)},\mu^{(r-1)},\sigma^{(r-1)})) -->
-<!--     \end{align*} -->
-<!--     $$ -->
+1. Setze Startwerte $\boldsymbol{\theta}^{(0)}=(\pi^{(0)}, \mu^{(0)}, \sigma^{(0)})$
 
-<!-- 3. Prüfe Konvergenz -->
+2. Für $r=1,2,\dots$
+
+    - <span style="color:#FF5733">**(Expectation)** </span> Berechne:
+    \begin{align*}
+    \mathcal{Q}(\boldsymbol{\theta},\boldsymbol{\theta}^{(r-1)})
+    &=E_{\boldsymbol{\theta}^{(r-1)}}(\tilde{\ell}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x},\mathbf{z})|X_i=x_i)\\
+    &=\sum_{i=1}^n\sum_{k=1}^Kp_{ig}^{(r-1)}\left\{\ln\left(\pi_g\right)+\ln\left(\phi_{\mu_g\sigma_g}(x_i)\right)\right\}
+    \end{align*}
+    
+    - <span style="color:#2471A3">**(Maximization)**</span>  Berechne:
+    \begin{align*}
+    \boldsymbol{\theta}^{(r)}=\arg\min_{\boldsymbol{\theta}}\mathcal{Q}(\boldsymbol{\theta},\boldsymbol{\theta}^{(r-1)})
+    \end{align*}
+    
+3. Prüfe Konvergenz: 
+    
+    - Stoppe, falls sich der Wert der maximierten Log-Likelihood Funktion, $\mathcal{Q}(\boldsymbol{\theta}^{(r)},\boldsymbol{\theta}^{(r-1)})$, nicht mehr ändert.
+
+
 
 
 

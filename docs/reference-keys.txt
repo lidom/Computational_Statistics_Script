@@ -1,9 +1,11 @@
 fig:GMM-plot1
 eq:GMMdens
+fig:dirac
 der-expectation-maximization-em-algorithmus
 motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen
 der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen
 gaußsche-mischmodelle-gmm
 maximum-likelihood-ml-schätzung
 der-em-algorithmus-für-gmms
-vervollständigung-der-daten-durch-latente-variablen-der-alternative-wahre-blick-auf-den-em-algorithmus
+der-alternative-wahre-blick-auf-den-em-algorithmus
+das-große-ganze

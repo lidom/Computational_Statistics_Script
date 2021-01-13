@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Literatur | Computational Statistics (B.Sc. Data Science)</title>
-  <meta name="description" content="Literatur | Computational Statistics (B.Sc. Data Science)" />
+  <title>1.4 Das Große Ganze | Computational Statistics (B.Sc. Data Science)</title>
+  <meta name="description" content="1.4 Das Große Ganze | Computational Statistics (B.Sc. Data Science)" />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Literatur | Computational Statistics (B.Sc. Data Science)" />
+  <meta property="og:title" content="1.4 Das Große Ganze | Computational Statistics (B.Sc. Data Science)" />
   <meta property="og:type" content="book" />
   
   <meta property="og:image" content="images/Florence_Nightingale.jpg" />
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Literatur | Computational Statistics (B.Sc. Data Science)" />
+  <meta name="twitter:title" content="1.4 Das Große Ganze | Computational Statistics (B.Sc. Data Science)" />
   
   
   <meta name="twitter:image" content="images/Florence_Nightingale.jpg" />
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="1-4-das-große-ganze.html"/>
-
+<link rel="prev" href="1-3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"/>
+<link rel="next" href="literatur.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -179,28 +179,61 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="literatur" class="section level1 unnumbered">
-<h1>Literatur</h1>
+<div id="das-große-ganze" class="section level2">
+<h2><span class="header-section-number">1.4</span> Das Große Ganze</h2>
+<p>Hätten wir neben den Datenpunkten <span class="math inline">\(\mathbf{x}=(x_1,\dots,x_n)\)</span> die Gruppenzuordnungen <span class="math inline">\(\mathbf{z}=(z_{11},\dots,z_{nG})\)</span></p>
+<p><strong>Neue Likelihood (<span class="math inline">\(\tilde{\mathcal{L}}\)</span>) und neue Log-Likelihood (<span class="math inline">\(\tilde{\ell}\)</span>) Funktion:</strong>
+<span class="math display">\[\begin{align*}
+\tilde{\mathcal{L}}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x},\mathbf{z})
+&amp;=\prod_{i=1}^n\prod_{g=1}^G\left(\pi_gf_g(x_i|\mu_g,\sigma_g)\right)^{z_{ig}}\\[2ex]
+\tilde{\ell}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x},\mathbf{z})
+&amp;=\sum_{i=1}^n\sum_{g=1}^Gz_{ig}\left\{\ln\left(\pi_g\right)+\ln\left(f_g(x_i|\mu_g,\sigma_g)\right)\right\}
+\end{align*}\]</span></p>
+<ul>
+<li><p>Deutlich <strong>einfacheres Maximierungsproblem</strong>, da nun keine Summe innerhalb der Logarithmusfunktion. Den Logarithmus der Normalverteilung zu berechnen vereinfacht das Minimierungsproblem wunderbar, da die Normalverteilung zur Exponentialfamilie gehört.</p></li>
+<li><p>Aber: Wir beobachten die Realisationen <span class="math inline">\(\mathbf{z}\)</span> nicht, sondern kennen lediglich die Verteilung der Zufallsvariablen <span class="math inline">\(\mathbf{Z}=(Z_{11},\dots,Z_{nG})\)</span>. Dies führt zu einer stochastischen Version der Log-Likelihood Funktion:
+<span class="math display">\[
+\tilde{\ell}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x},\mathbf{Z})=\sum_{i=1}^n\sum_{g=1}^GZ_{ig}\left\{\ln\left(\pi_g\right)+\ln\left(f_g(x_i|\mu_g,\sigma_g)\right)\right\}
+\]</span></p></li>
+<li><p>Von dieser können jedoch den bedingten Erwartungswert berechnen:
+<span class="math display">\[
+E(\tilde{\ell}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x},\mathbf{z})|X_i=x_i)=\sum_{i=1}^n\sum_{g=1}^Gp_{ig}\left\{\ln\left(\pi_g\right)+\ln\left(f_g(x_i|\mu_g,\sigma_g)\right)\right\}
+\]</span></p></li>
+</ul>
+<div id="der-em-algorithmus-die-abstrakte-version" class="section level3 unnumbered">
+<h3>Der EM-Algorithmus: Die abstrakte Version</h3>
+<p>Der folgende EM-Algorithmus unterscheidet sich wieder lediglich in der Notation von den oben bereits besprochenen Versionen. Die folgende Notation verdeutlicht das Grundproblem der Maximierung der Log-Likelihood Funktion und ist abstrakt genug, um die Grundidee auf andere Maximum Likelihood Probleme zu übertragen:</p>
+<ol style="list-style-type: decimal">
+<li><p>Setze Startwerte <span class="math inline">\(\boldsymbol{\theta}^{(0)}=(\pi^{(0)}, \mu^{(0)}, \sigma^{(0)})\)</span></p></li>
+<li><p>Für <span class="math inline">\(r=1,2,\dots\)</span></p>
+<ul>
+<li><p><span style="color:#FF5733"><strong>(Expectation)</strong> </span> Berechne:
+<span class="math display">\[\begin{align*}
+ \mathcal{Q}(\boldsymbol{\theta},\boldsymbol{\theta}^{(r-1)})
+ &amp;=E_{\boldsymbol{\theta}^{(r-1)}}(\tilde{\ell}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x},\mathbf{z})|X_i=x_i)\\
+ &amp;=\sum_{i=1}^n\sum_{k=1}^Kp_{ig}^{(r-1)}\left\{\ln\left(\pi_g\right)+\ln\left(\phi_{\mu_g\sigma_g}(x_i)\right)\right\}
+ \end{align*}\]</span></p></li>
+<li><p><span style="color:#2471A3"><strong>(Maximization)</strong></span> Berechne:
+<span class="math display">\[\begin{align*}
+ \boldsymbol{\theta}^{(r)}=\arg\min_{\boldsymbol{\theta}}\mathcal{Q}(\boldsymbol{\theta},\boldsymbol{\theta}^{(r-1)})
+ \end{align*}\]</span></p></li>
+</ul></li>
+<li><p>Prüfe Konvergenz:</p>
+<ul>
+<li>Stoppe, falls sich der Wert der maximierten Log-Likelihood Funktion, <span class="math inline">\(\mathcal{Q}(\boldsymbol{\theta}^{(r)},\boldsymbol{\theta}^{(r-1)})\)</span>, nicht mehr ändert.</li>
+</ul></li>
+</ol>
 
-<div id="refs" class="references">
-<div>
-<p>Bishop, Christopher M. 2006. <em>Pattern Recognition and Machine Learning</em>. Springer Science &amp; Business Media.</p>
-</div>
-<div>
-<p>Dempster, Arthur P, Nan M Laird, und Donald B Rubin. 1977. „Maximum likelihood from incomplete data via the EM algorithm“. <em>Journal of the Royal Statistical Society: Series B</em> 39 (1): 1–22.</p>
-</div>
-<div>
-<p>Hastie, Trevor, Robert Tibshirani, und Jerome Friedman. 2009. <em>The Elements of Statistical Learning: Data mining, Inference, and Prediction</em>. Springer Science &amp; Business Media.</p>
 </div>
 </div>
-</div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="1-4-das-große-ganze.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="1-3-der-alternative-wahre-blick-auf-den-em-algorithmus.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="literatur.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -231,7 +264,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/lidom/Computational_Statistics_Script/edit/main/references.Rmd",
+"link": "https://github.com/lidom/Computational_Statistics_Script/edit/main/02-EM-Algorithmus.Rmd",
 "text": "Edit"
 },
 "history": {

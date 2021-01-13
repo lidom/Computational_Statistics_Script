@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>1.2 Der EM Algorithmus zur ML-Schätzung Gaußscher Mischverteilungen | Computational Statistics (B.Sc. Data Science)</title>
   <meta name="description" content="1.2 Der EM Algorithmus zur ML-Schätzung Gaußscher Mischverteilungen | Computational Statistics (B.Sc. Data Science)" />
-  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="1.2 Der EM Algorithmus zur ML-Schätzung Gaußscher Mischverteilungen | Computational Statistics (B.Sc. Data Science)" />
   <meta property="og:type" content="book" />
@@ -152,7 +152,10 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.2.3" data-path="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#der-em-algorithmus-für-gmms"><i class="fa fa-check"></i><b>1.2.3</b> Der EM Algorithmus für GMMs</a></li>
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="1-3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><a href="1-3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><i class="fa fa-check"></i><b>1.3</b> Der alternative (wahre) Blick auf den EM-Algorithmus</a><ul>
-<li><a href="1-3-der-alternative-wahre-blick-auf-den-em-algorithmus.html#der-em-algorithmus">Der <span style="color:#FF5733">E</span><span style="color:#2471A3">M</span> Algorithmus</a></li>
+<li><a href="1-3-der-alternative-wahre-blick-auf-den-em-algorithmus.html#der-em-algorithmus-tatsächlich-eine-expectation">Der EM-Algorithmus: Tatsächlich eine <em>Expectation</em></a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="1-4-das-große-ganze.html"><a href="1-4-das-große-ganze.html"><i class="fa fa-check"></i><b>1.4</b> Das Große Ganze</a><ul>
+<li class="chapter" data-level="" data-path="1-4-das-große-ganze.html"><a href="1-4-das-große-ganze.html#der-em-algorithmus-die-abstrakte-version"><i class="fa fa-check"></i>Der EM-Algorithmus: Die abstrakte Version</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="literatur.html"><a href="literatur.html"><i class="fa fa-check"></i>Literatur</a></li>
@@ -236,8 +239,18 @@ Bzw. maximiere die Log-Likelihood Funktion (einfachere Maximierung)
 </ul>
 <p>😒 <strong>Numerische Lösungen:</strong> Versucht man obiges Maximierungsproblem <a href="https://cran.r-project.org/web/packages/EstimationTools/vignettes/maxlogL.pdf">numerisch mit Hilfe des Computers zu lösen</a>, wird man schnell merken, dass die Ergebnisse höchst instabil, unplausibel und wenig vertrauenswürdig sind.</p>
 <blockquote>
-<p>Für echte GMMs (<span class="math inline">\(G&gt;1\)</span>) treten während einer numerischen Maximierung sehr leicht Probleme mit Singularitäten auf. Dies geschieht immer dann, wenn eine der Normalverteilungskomponenten versucht den ganzen Datensatz <span class="math inline">\(\mathbf{x}\)</span> zu beschreiben und die andere(n) Normalverteilungskomponente(n) versuchen lediglich einzelne Datenpunkte zu beschreiben. Eine Gaußsche Dichtefunktion <span class="math inline">\(f_g\)</span>, die sich um einen einzigen Datenpunkt <span class="math inline">\(x_i\)</span> konzentriert (d.h. <span class="math inline">\(\mu_g=x_i\)</span> und <span class="math inline">\(\sigma_g\to 0\)</span>) wird dabei sehr große Werte annehmen (d.h. <span class="math inline">\(f_g(x_i)\to\infty\)</span>) und so die Log-Likelihood auf unerwünschte maximieren. Solche trivialen Maximierungslösungen resultieren i.d.R. in unplausiblen Schätzergebnissen.</p>
+<p><strong>Probleme mit Singularitäten:</strong> Für echte GMMs (<span class="math inline">\(G&gt;1\)</span>) treten während einer numerischen Maximierung sehr leicht Probleme mit Singularitäten auf. Dies geschieht immer dann, wenn eine der Normalverteilungskomponenten versucht den ganzen Datensatz <span class="math inline">\(\mathbf{x}\)</span> zu beschreiben und die andere(n) Normalverteilungskomponente(n) versuchen lediglich einzelne Datenpunkte zu beschreiben. Eine Gaußsche Dichtefunktion <span class="math inline">\(f_g\)</span>, die sich um einen einzigen Datenpunkt <span class="math inline">\(x_i\)</span> konzentriert (d.h. <span class="math inline">\(\mu_g=x_i\)</span> und <span class="math inline">\(\sigma_g\to 0\)</span>) wird dabei sehr große Werte annehmen (d.h. <span class="math inline">\(f_g(x_i)\to\infty\)</span>) und so die Log-Likelihood auf unerwünschte maximieren (siehe Abbildung <a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#fig:dirac">1.2</a>). Solche trivialen Maximierungslösungen resultieren i.d.R. in unplausiblen Schätzergebnissen.</p>
 </blockquote>
+<div class="figure" style="text-align: center"><span id="fig:dirac"></span>
+<img src="Computational_Statistics_Script_files/figure-html/dirac-.gif" alt="Normalverteilung $f_g$ mit $\mu_g=x_i$ für $\sigma_g\to 0$." width="90%" />
+<p class="caption">
+Abbildung 1.2: Normalverteilung <span class="math inline">\(f_g\)</span> mit <span class="math inline">\(\mu_g=x_i\)</span> für <span class="math inline">\(\sigma_g\to 0\)</span>.
+</p>
+</div>
+<!-- include=knitr::is_html_output(), fig.align="center", animation.hook="gifski", echo=FALSE, fig.cap="Normalverteilung für $\\sigma_g\\to 0$." -->
+<!-- ```{r , fig.show="animate", animation.hook="gifski"} -->
+<!-- # knitr::include_graphics("images/Dirac_function_approximation.gif", ) -->
+<!-- ``` -->
 <!-- <center> -->
 <!-- <div class="centered"> -->
 <!-- <img src="images/Dirac_function_approximation.gif" width="550" height="450"/> -->
@@ -285,12 +298,11 @@ für <span class="math inline">\(i=1,\dots,n\)</span> und <span class="math inli
 <p><span class="math inline">\(\hat\sigma_g^{(r)}=\sqrt{\sum_{i=1}^n\frac{p_{ig}^{(r)}}{\left(\sum_{j=1}^np_{jg}^{(r)}\right)}\left(x_i-\hat\mu_g^{(r)}\right)^2}\)</span></p>
 </center></li>
 </ul></li>
-<li><p>Prüfe Konvergenz</p></li>
-</ol>
+<li><p>Prüfe Konvergenz:</p>
 <ul>
-<li><strong>Entweder:</strong> Stoppe falls sich die Parameterschätzer nicht mehr ändern.</li>
-<li><strong>Oder:</strong> Stoppe, falls sich der Wert der maximierten Log-Likelihood Funktion nicht mehr ändert.</li>
-</ul>
+<li>Stoppe, falls sich der Wert der maximierten Log-Likelihood Funktion, <span class="math inline">\(\ell(\boldsymbol{\pi}^{(r)},\boldsymbol{\mu}^{(r)},\boldsymbol{\sigma}^{(r)}|\mathbf{z})\)</span>, nicht mehr ändert.</li>
+</ul></li>
+</ol>
 <p><br></p>
 <p>Der obige pseudo-Code wird im Folgenden Code-Chunck umgesetzt:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-1"></a><span class="kw">library</span>(<span class="st">&quot;MASS&quot;</span>)</span>
@@ -356,7 +368,7 @@ für <span class="math inline">\(i=1,\dots,n\)</span> und <span class="math inli
 <span id="cb4-61"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-61"></a><span class="co">#&gt;                      Gruppe 1 Gruppe 2</span></span>
 <span id="cb4-62"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-62"></a><span class="co">#&gt; Gewichte                 0.31     0.69</span></span>
 <span id="cb4-63"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-63"></a><span class="co">#&gt; Mittelwerte            194.24   216.19</span></span>
-<span id="cb4-64"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-64"></a><span class="co">#&gt; Standardabweichungen     6.25     7.33</span></span></code></pre></div>
+<span id="cb4-64"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-64"></a><span class="co">#&gt; Standardabweichungen     6.25     7.32</span></span></code></pre></div>
 <p>Das Schätzergebnis erlaubt es uns, Abbildung <a href="1-1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#fig:GMM-plot1">1.1</a> zu replizieren:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb5-1"></a><span class="co">## Auswerten der Gaußsche Mischungs-Dichtefunktion</span></span>
 <span id="cb5-2"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb5-2"></a>np      &lt;-<span class="st"> </span><span class="dv">100</span> <span class="co"># Anzahl der Auswertungspunkte</span></span>

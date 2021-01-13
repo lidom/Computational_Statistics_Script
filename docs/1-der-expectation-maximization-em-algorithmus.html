@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>1 Der Expectation Maximization (EM) Algorithmus | Computational Statistics (B.Sc. Data Science)</title>
   <meta name="description" content="1 Der Expectation Maximization (EM) Algorithmus | Computational Statistics (B.Sc. Data Science)" />
-  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="1 Der Expectation Maximization (EM) Algorithmus | Computational Statistics (B.Sc. Data Science)" />
   <meta property="og:type" content="book" />
@@ -152,7 +152,10 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.2.3" data-path="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#der-em-algorithmus-für-gmms"><i class="fa fa-check"></i><b>1.2.3</b> Der EM Algorithmus für GMMs</a></li>
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="1-3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><a href="1-3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><i class="fa fa-check"></i><b>1.3</b> Der alternative (wahre) Blick auf den EM-Algorithmus</a><ul>
-<li><a href="1-3-der-alternative-wahre-blick-auf-den-em-algorithmus.html#der-em-algorithmus">Der <span style="color:#FF5733">E</span><span style="color:#2471A3">M</span> Algorithmus</a></li>
+<li><a href="1-3-der-alternative-wahre-blick-auf-den-em-algorithmus.html#der-em-algorithmus-tatsächlich-eine-expectation">Der EM-Algorithmus: Tatsächlich eine <em>Expectation</em></a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="1-4-das-große-ganze.html"><a href="1-4-das-große-ganze.html"><i class="fa fa-check"></i><b>1.4</b> Das Große Ganze</a><ul>
+<li class="chapter" data-level="" data-path="1-4-das-große-ganze.html"><a href="1-4-das-große-ganze.html#der-em-algorithmus-die-abstrakte-version"><i class="fa fa-check"></i>Der EM-Algorithmus: Die abstrakte Version</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="literatur.html"><a href="literatur.html"><i class="fa fa-check"></i>Literatur</a></li>
@@ -183,10 +186,10 @@ span {
   display: inline-block;
 }
 </style>
-<p>Der EM Algorithmus wird häufig verwendet, um komplizierte Maximum Likelihood Schätz-Probleme zu vereinfachen. Wir stellen den Algorithmus zur Schätzung von Gaußschen Mischverteilungen (GMV) vor, da der EM-Algorithmus hier wohl seine häufigste Anwendung hat. Bereits die originale Arbeit zum EM-Algorithmus <span class="citation">(Dempster, Laird, und Rubin <a href="#ref-Dempster_1977" role="doc-biblioref">1977</a>)</span> beschäftigt sich mit solchen Mischverteilungen.</p>
+<p>Der EM Algorithmus wird häufig verwendet, um komplizierte Maximum Likelihood Schätzprobleme zu vereinfachen. Wir stellen den Algorithmus zur Schätzung von Gaußschen Mischverteilungen vor, da der EM-Algorithmus hier wohl seine häufigste Anwendung hat. Bereits die originale Arbeit zum EM-Algorithmus <span class="citation">(Dempster, Laird, und Rubin <a href="#ref-Dempster_1977" role="doc-biblioref">1977</a>)</span> beschäftigt sich mit solchen Mischverteilungen.</p>
 <p>Mögliche Anwendungen von Gaußschen Mischverteilungen:</p>
 <ul>
-<li>Automatisierte Videobearbeitungen: Z.B. Bildeinteilungen in Vorder- und Hintergrund. (Hier würde man jede Pixel-Farbkodierung mit Hilfe einer Gaußschen Mischverteilungen modellieren.)</li>
+<li>Automatisierte Videobearbeitungen: Z.B. Bildeinteilungen in Vorder- und Hintergrund.</li>
 <li>Automatisierte Erkennung von Laufstilen</li>
 <li>Generell: Auffinden von Gruppierungen (zwei oder mehr) in den Daten (<strong>Clusteranalyse</strong>).</li>
 </ul>
