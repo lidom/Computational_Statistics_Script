@@ -18,9 +18,12 @@ Der EM Algorithmus wird häufig verwendet, um komplizierte Maximum Likelihood Sc
 
 **Mögliche Anwendungen von Gaußschen Mischverteilungen:**
 
-+ Automatisierte Videobearbeitungen: Z.B. Bildeinteilungen in Vorder- und Hintergrund. 
-+ Automatisierte Erkennung von Laufstilen 
-+ Generell: Auffinden von Gruppierungen (zwei oder mehr) in den Daten (**Clusteranalyse**).
++ Generell: Auffinden von Gruppierungen (zwei oder mehr) in den Daten (**Clusteranalyse**). Zum Beispiel:
+
+    + Automatisierte Videobearbeitungen (z.B. Bildeinteilungen in Vorder- und Hintergrund) 
+    + Automatisierte Erkennung von Laufstilen 
+    + etc.
+
 
 
 <!-- [@Liebl2014] -->
@@ -40,7 +43,7 @@ Sie können ...
 <br>
 + den **EM Algorithmus** zur Schätzung von Gaußschen Mischverteilungen **anwenden**.
 <br>
-+ das **Grundidee** der Vervollständigung der Daten durch latente Variablen **erläutern**.
++ die **Grundidee** der Vervollständigung der Daten durch latente Variablen **erläutern**.
 <br>
 
 
