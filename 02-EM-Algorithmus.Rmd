@@ -625,7 +625,7 @@ stripchart(Penguine_Flosse[class==2], method = "jitter", jitter = .0005, at = .0
 
 ## Der alternative (wahre) Blick auf den EM Algorithmus
 
-Der EM Algorithmus ermöglicht es Maximum Likelihood Probleme zu vereinfachen, indem man die Daten durch nicht beobachtete („latente“) Variablen vervollständigt. Dieses Prinzip ist der eigentliche wahre Beitrag des EM Algorithmus. Es ermöglicht die Lösung verschiedener Maximum Likelihood Probleme - wie bleiben aber hier bei der Schätzung von GMMs. 
+Der EM Algorithmus ermöglicht es Maximum Likelihood Probleme zu vereinfachen, indem man die Daten durch nicht beobachtete („latente“) Variablen vervollständigt. Dieses Prinzip ist der eigentliche wahre Beitrag des EM Algorithmus. Es ermöglicht die Lösung verschiedener Maximum Likelihood Probleme - wir bleiben aber hier bei der Schätzung von GMMs. 
 
 > **Zur Erinnerung:** Wir haben es ja nicht geschafft, die Log-Likelihood Funktion 
 $$
