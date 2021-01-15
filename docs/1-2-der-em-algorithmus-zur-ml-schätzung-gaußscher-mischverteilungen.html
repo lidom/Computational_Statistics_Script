@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>1.2 Der EM Algorithmus zur ML-Schätzung Gaußscher Mischverteilungen | Computational Statistics</title>
   <meta name="description" content="1.2 Der EM Algorithmus zur ML-Schätzung Gaußscher Mischverteilungen | Computational Statistics" />
-  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="1.2 Der EM Algorithmus zur ML-Schätzung Gaußscher Mischverteilungen | Computational Statistics" />
   <meta property="og:type" content="book" />
@@ -189,7 +189,7 @@ X\sim\mathcal{N}_{\mathcal{mix}}(G,\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol
 \]</span></p>
 <p>Die dazugehörige Dichtefunktion einer Gaußschen Mischverteilung ist folgendermaßen definiert:
 <span class="math display" id="eq:GMMdens">\[\begin{equation}
-f_G(x|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})=\sum_{g=1}^G\pi_gf(x|\mu_g\sigma_g) \tag{1.1}
+f_G(x|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})=\sum_{g=1}^G\pi_gf(x|\mu_g,\sigma_g) \tag{1.1}
 \end{equation}\]</span></p>
 <ul>
 <li><strong>Gewichte:</strong> <span class="math inline">\(\boldsymbol{\pi}=(\pi_1,\dots,\pi_G)\)</span> mit <span class="math inline">\(\pi_g&gt;0\)</span> und <span class="math inline">\(\sum_{g=1}^G\pi_g=1\)</span></li>
@@ -197,7 +197,7 @@ f_G(x|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})=\sum_{g=1}^G\pi_gf(
 <li><strong>Standardabweichungen:</strong> <span class="math inline">\(\boldsymbol{\sigma}=(\sigma_1,\dots,\sigma_G)\)</span> mit <span class="math inline">\(\sigma_g&gt;0\)</span></li>
 <li><strong>Normalverteilung der Gruppe <span class="math inline">\(g=1,\dots,G\)</span>:</strong>
 <span class="math display">\[
-f(x|\mu_g\sigma_g)=\frac{1}{\sqrt{2\pi}\sigma_g}\exp\left(-\frac{1}{2}\left(\frac{x-\mu_g}{\sigma_g}\right)^2\right)
+f(x|\mu_g,\sigma_g)=\frac{1}{\sqrt{2\pi}\sigma_g}\exp\left(-\frac{1}{2}\left(\frac{x-\mu_g}{\sigma_g}\right)^2\right)
 \]</span></li>
 <li><strong>Unbekannte Parameter:</strong> <span style="color:#FF5733"><span class="math inline">\(\boldsymbol{\pi}\)</span></span>, <span style="color:#FF5733"><span class="math inline">\(\boldsymbol{\mu}\)</span></span> und <span style="color:#FF5733"><span class="math inline">\(\boldsymbol{\sigma}\)</span></span></li>
 </ul>
@@ -216,7 +216,7 @@ X_i\sim\mathcal{N}_{\mathcal{mix}}(G,\boldsymbol{\pi},\boldsymbol{\mu},\boldsymb
 \]</span>
 für alle <span class="math inline">\(i=1,\dots,n\)</span>.</li>
 </ul>
-<!-- und dazugehöriger Dichtefunktion $f_G(x|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})=\sum_{g=1}^G\pi_gf(x|\mu_g\sigma_g).$  -->
+<!-- und dazugehöriger Dichtefunktion $f_G(x|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})=\sum_{g=1}^G\pi_gf(x|\mu_g,\sigma_g).$  -->
 <blockquote>
 <p>Die Daten <span class="math inline">\(\mathbf{x}=(x_1,\dots,x_n)\)</span> „kennen“ also die unbekannten Parameter <span class="math inline">\(\boldsymbol{\pi},\)</span> <span class="math inline">\(\boldsymbol{\mu}\)</span> und <span class="math inline">\(\boldsymbol{\sigma}\)</span> und wir müssen ihnen diese Informationen „nur noch“ entlocken.</p>
 </blockquote>
@@ -246,7 +246,7 @@ Abbildung 1.3: Normalverteilung mit <span class="math inline">\(\mu_g=x_i\)</spa
 </p>
 </div>
 <p><br><br></p>
-<p>😒 <strong>Analytische Lösung:</strong> Es ist zwar etwas mühsam, aber man kann versuchen die Log-Likelihood analytisch zu maximieren. Tut man dies sich das an, kommt man zu folgenden Ausdrücken:
+<p>😒 <strong>Analytische Lösung:</strong> Es ist zwar etwas mühsam, aber man kann versuchen die Log-Likelihood analytisch zu maximieren. Tut man sich das an, kommt man zu folgenden Ausdrücken:
 <span class="math display">\[\begin{align*}
 \hat\pi_g&amp;=\frac{1}{n}\sum_{i=1}^np_{ig}\\
 \hat\mu_g&amp;=\sum_{i=1}^n\frac{p_{ig}}{\left(\sum_{j=1}^np_{jg}\right)}x_i\\
@@ -254,7 +254,7 @@ Abbildung 1.3: Normalverteilung mit <span class="math inline">\(\mu_g=x_i\)</spa
 \end{align*}\]</span>
 für <span class="math inline">\(g=1,\dots,G\)</span>.</p>
 <blockquote>
-<p>Die Herleitung der Ausdrücke für <span class="math inline">\(\mu_g\)</span>, <span class="math inline">\(\sigma_g\)</span> und <span class="math inline">\(\pi_g\)</span>, <span class="math inline">\(g=1,\dots,G\)</span>, ist wirklich etwas lästig (mehrfache Anwendungen der Kettenregel, Produktregel, etc., sowie Anwendung des Lagrange-Multiplikator Verfahrens zur Optimierung unter Nebenbedingungen) aber machbar. In einer der Übungsaufgaben dürfen Sie den Ausdruck für <span class="math inline">\(\hat\mu_g\)</span> herleiten.</p>
+<p>Die Herleitung der Ausdrücke für <span class="math inline">\(\hat{\mu}_g\)</span>, <span class="math inline">\(\hat{\sigma}_g\)</span> und <span class="math inline">\(\hat{\pi}_g\)</span> ist wirklich etwas lästig (mehrfache Anwendungen der Kettenregel, Produktregel, etc., sowie Anwendung des Lagrange-Multiplikator Verfahrens zur Optimierung unter Nebenbedingungen) aber machbar. In einer der Übungsaufgaben dürfen Sie den Ausdruck für <span class="math inline">\(\hat\mu_g\)</span> herleiten.</p>
 </blockquote>
 <p>🙈 <span style="color:#FF5733"><strong>Aber:</strong></span> Diese Ausdrücke für <span class="math inline">\(\hat\pi_g\)</span>, <span class="math inline">\(\hat\mu_g\)</span> und <span class="math inline">\(\hat\sigma_g\)</span> hängen von den <span style="color:#FF5733"><strong>unbekannten</strong></span> Parametern <span class="math inline">\(\boldsymbol{\pi}=(\pi_1,\dots,\pi_G)\)</span>, <span class="math inline">\(\boldsymbol{\mu}=(\mu_1,\dots,\mu_G)\)</span> und <span class="math inline">\(\boldsymbol{\sigma}=(\sigma_1,\dots,\sigma_G)\)</span>, denn:
 <span class="math display">\[
@@ -354,10 +354,15 @@ für <span class="math inline">\(i=1,\dots,n\)</span> und <span class="math inli
 <span id="cb4-59"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-59"></a><span class="co">##</span></span>
 <span id="cb4-60"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-60"></a>results <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(., <span class="dv">2</span>)</span>
 <span id="cb4-61"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-61"></a><span class="co">#&gt;                      Gruppe 1 Gruppe 2</span></span>
-<span id="cb4-62"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-62"></a><span class="co">#&gt; Gewichte                 0.31     0.69</span></span>
-<span id="cb4-63"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-63"></a><span class="co">#&gt; Mittelwerte            194.27   216.20</span></span>
-<span id="cb4-64"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-64"></a><span class="co">#&gt; Standardabweichungen     6.27     7.32</span></span></code></pre></div>
+<span id="cb4-62"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-62"></a><span class="co">#&gt; Gewichte                 0.69     0.31</span></span>
+<span id="cb4-63"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-63"></a><span class="co">#&gt; Mittelwerte            216.20   194.27</span></span>
+<span id="cb4-64"><a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-64"></a><span class="co">#&gt; Standardabweichungen     7.31     6.27</span></span></code></pre></div>
 <p><br></p>
+<p><strong>Das Clusterverfahren basierend auf Gaußschen Mischverteilungen:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Gaußsche Mischverteilung (<strong>per EM Algorithmus</strong>) schätzen</li>
+<li>Die Datenpunkte <span class="math inline">\(x_i\)</span> derjenigen Gruppe <span class="math inline">\(g\)</span> zuordnen, welche die <strong>a-posteriori-Wahrscheinlichkeit</strong> <span class="math inline">\(p_{ig}\)</span> maximiert.</li>
+</ol>
 <p>Abbildung <a href="1-2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#fig:EMGif">1.4</a> visualisiert den Fortschritt der iterativen Schätzung mit Hilfe des EM Algorithmuses.</p>
 <div class="figure" style="text-align: center"><span id="fig:EMGif"></span>
 <img src="Computational_Statistics_Script_files/figure-html/EMGif-.gif" alt="Iterative Schätzung mit Hilfe des EM Algorithmuses." width="90%" />

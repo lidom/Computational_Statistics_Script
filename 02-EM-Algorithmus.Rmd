@@ -151,7 +151,7 @@ stripchart(x = Penguine_Flosse, method = "jitter",
 **Das Clusterverfahren basierend auf Gaußschen Mischverteilungen:**
 
 1. Gaußsche Mischverteilung (**per EM Algorithmus**) schätzen
-2. Die Datenpunkte wie bei der Linearen (oder Quadratischen) Diskriminanz-Analyse den Gruppen zuordnen (siehe Abbildung \@ref(fig:GMM-plot1))
+2. Die Datenpunkte $x_i$ derjenigen Gruppe zuordnen, welche die **„a-posteriori-Wahrscheinlichkeit“** maximiert (siehe Abbildung \@ref(fig:GMM-plot1))
 
 <br>
 
@@ -297,7 +297,7 @@ $$
 
 Die dazugehörige Dichtefunktion einer Gaußschen Mischverteilung ist folgendermaßen definiert:
 \begin{equation}
-f_G(x|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})=\sum_{g=1}^G\pi_gf(x|\mu_g\sigma_g) (\#eq:GMMdens)
+f_G(x|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})=\sum_{g=1}^G\pi_gf(x|\mu_g,\sigma_g) (\#eq:GMMdens)
 \end{equation}
 
 * **Gewichte:** $\boldsymbol{\pi}=(\pi_1,\dots,\pi_G)$ mit $\pi_g>0$ und $\sum_{g=1}^G\pi_g=1$
@@ -305,7 +305,7 @@ f_G(x|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})=\sum_{g=1}^G\pi_gf(
 * **Standardabweichungen:** $\boldsymbol{\sigma}=(\sigma_1,\dots,\sigma_G)$ mit $\sigma_g>0$ 
 * **Normalverteilung der Gruppe $g=1,\dots,G$:** 
 $$
-f(x|\mu_g\sigma_g)=\frac{1}{\sqrt{2\pi}\sigma_g}\exp\left(-\frac{1}{2}\left(\frac{x-\mu_g}{\sigma_g}\right)^2\right)
+f(x|\mu_g,\sigma_g)=\frac{1}{\sqrt{2\pi}\sigma_g}\exp\left(-\frac{1}{2}\left(\frac{x-\mu_g}{\sigma_g}\right)^2\right)
 $$
 * **Unbekannte Parameter:** <span style="color:#FF5733">$\boldsymbol{\pi}$</span>, <span style="color:#FF5733">$\boldsymbol{\mu}$</span> und <span style="color:#FF5733">$\boldsymbol{\sigma}$</span>
 
@@ -324,7 +324,7 @@ X_i\sim\mathcal{N}_{\mathcal{mix}}(G,\boldsymbol{\pi},\boldsymbol{\mu},\boldsymb
 $$ 
 für alle $i=1,\dots,n$. 
 
-<!-- und dazugehöriger Dichtefunktion $f_G(x|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})=\sum_{g=1}^G\pi_gf(x|\mu_g\sigma_g).$  -->
+<!-- und dazugehöriger Dichtefunktion $f_G(x|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})=\sum_{g=1}^G\pi_gf(x|\mu_g,\sigma_g).$  -->
 
 > Die Daten $\mathbf{x}=(x_1,\dots,x_n)$ „kennen“ also die unbekannten Parameter $\boldsymbol{\pi},$ $\boldsymbol{\mu}$ und $\boldsymbol{\sigma}$ und wir müssen ihnen diese Informationen „nur noch“ entlocken.
 
@@ -385,7 +385,7 @@ for(i in 1:rep){
 
 <br><br>
 
-`r emo::ji("unamused_face")` **Analytische Lösung:** Es ist zwar etwas mühsam, aber man kann versuchen die Log-Likelihood analytisch zu maximieren. Tut man dies sich das an, kommt man zu folgenden Ausdrücken:
+`r emo::ji("unamused_face")` **Analytische Lösung:** Es ist zwar etwas mühsam, aber man kann versuchen die Log-Likelihood analytisch zu maximieren. Tut man sich das an, kommt man zu folgenden Ausdrücken:
 \begin{align*}
 \hat\pi_g&=\frac{1}{n}\sum_{i=1}^np_{ig}\\
 \hat\mu_g&=\sum_{i=1}^n\frac{p_{ig}}{\left(\sum_{j=1}^np_{jg}\right)}x_i\\
@@ -393,7 +393,7 @@ for(i in 1:rep){
 \end{align*}
 für $g=1,\dots,G$.
 
-> Die Herleitung der Ausdrücke für $\mu_g$, $\sigma_g$ und $\pi_g$, $g=1,\dots,G$, ist wirklich etwas lästig (mehrfache Anwendungen der Kettenregel, Produktregel, etc., sowie Anwendung des Lagrange-Multiplikator Verfahrens zur Optimierung unter Nebenbedingungen) aber machbar.  In einer der Übungsaufgaben dürfen Sie den Ausdruck für $\hat\mu_g$ herleiten.
+> Die Herleitung der Ausdrücke für $\hat{\mu}_g$, $\hat{\sigma}_g$ und $\hat{\pi}_g$ ist wirklich etwas lästig (mehrfache Anwendungen der Kettenregel, Produktregel, etc., sowie Anwendung des Lagrange-Multiplikator Verfahrens zur Optimierung unter Nebenbedingungen) aber machbar.  In einer der Übungsaufgaben dürfen Sie den Ausdruck für $\hat\mu_g$ herleiten.
 
 `r emo::ji("see_no_evil")` <span style="color:#FF5733">**Aber:**</span> Diese Ausdrücke für $\hat\pi_g$, $\hat\mu_g$ und $\hat\sigma_g$ hängen von den <span style="color:#FF5733">**unbekannten**</span> Parametern $\boldsymbol{\pi}=(\pi_1,\dots,\pi_G)$, $\boldsymbol{\mu}=(\mu_1,\dots,\mu_G)$ und $\boldsymbol{\sigma}=(\sigma_1,\dots,\sigma_G)$, denn: 
 $$
@@ -505,6 +505,11 @@ results %>% round(., 2)
 ```
 
 <br>
+
+**Das Clusterverfahren basierend auf Gaußschen Mischverteilungen:**
+
+1. Gaußsche Mischverteilung (**per EM Algorithmus**) schätzen
+2. Die Datenpunkte $x_i$ derjenigen Gruppe $g$ zuordnen, welche die **a-posteriori-Wahrscheinlichkeit** $p_{ig}$ maximiert. 
 
 `r if(knitr::is_html_output()) 'Abbildung \\@ref(fig:EMGif) visualisiert den Fortschritt der iterativen Schätzung mit Hilfe des EM Algorithmuses.'`
 
@@ -664,9 +669,9 @@ Die Zuordnungen $z_{ig}$ können also die Werte $z_{ig}\in\{0,1\}$ annehmen, wob
 
 Die Zuordnungen $z_{ig}$ sind leider unbekannt (latent). Wir wissen aber trotzdem etwas über diese Zuordnungen. Die Gewichte $\pi_1,\dots,\pi_G$ der Gaußschen Mischverteilung 
 $$
-f_G(x|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})=\sum_{g=1}^G\pi_gf(x|\mu_g\sigma_g),
+f_G(x|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})=\sum_{g=1}^G\pi_gf(x|\mu_g,\sigma_g),
 $$
-geben die Anteile der Einzelverteilungen $f(\cdot|\mu_g\sigma_g)$ an der Gesamtverteilung $f_G$ an. Im Schnitt kommen also $\pi_g\cdot 100\%$ der Datenpunkte von Gruppe $g$, $g=1,\dots,G$. Somit können wir die (latente) Zuordnung $z_{ig}$ als eine Realisation der Zufallsvariablen $Z_{ig}$ mit Wahrscheinlichkeitsfunktion
+geben die Anteile der Einzelverteilungen $f(\cdot|\mu_g,\sigma_g)$ an der Gesamtverteilung $f_G$ an. Im Schnitt kommen also $\pi_g\cdot 100\%$ der Datenpunkte von Gruppe $g$, $g=1,\dots,G$. Somit können wir die (latente) Zuordnung $z_{ig}$ als eine Realisation der Zufallsvariablen $Z_{ig}$ mit Wahrscheinlichkeitsfunktion
 $$
 P(Z_{ig}=1)=\pi_g
 $$
@@ -758,9 +763,9 @@ Damit ist die Berechnung von $p_{ig}$ im **(Expectation)**-Schritt des EM Algori
 <!-- $$ -->
 <!-- \begin{align*} -->
 <!-- \mathcal{L}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x}) -->
-<!-- &=\prod_{i=1}^n\sum_{k=1}^K\pi_g\phi_{\mu_g\sigma_g}(x_i)\\[2ex] -->
+<!-- &=\prod_{i=1}^n\sum_{k=1}^K\pi_g\phi_{\mu_g,\sigma_g}(x_i)\\[2ex] -->
 <!-- \ell(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x}) -->
-<!-- &=\sum_{i=1}^n\ln\left(\sum_{k=1}^K\pi_g\phi_{\mu_g\sigma_g}(x_i)\right) -->
+<!-- &=\sum_{i=1}^n\ln\left(\sum_{k=1}^K\pi_g\phi_{\mu_g,\sigma_g}(x_i)\right) -->
 <!-- \end{align*} -->
 <!-- $$ -->
 

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>1 Der Expectation Maximization (EM) Algorithmus | Computational Statistics</title>
   <meta name="description" content="1 Der Expectation Maximization (EM) Algorithmus | Computational Statistics" />
-  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="1 Der Expectation Maximization (EM) Algorithmus | Computational Statistics" />
   <meta property="og:type" content="book" />
@@ -189,9 +189,12 @@ span {
 <p>Der EM Algorithmus wird häufig verwendet, um komplizierte Maximum Likelihood Schätzprobleme zu vereinfachen bzw. überhaupt erst möglich zu machen. In diesem Kapitel stellen wir den EM Algorithmus zur Schätzung von Gaußschen Mischverteilungen vor, da der EM Algorithmus hier wohl seine bekannteste Anwendung hat. Bereits die originale Arbeit zum EM Algorithmus <span class="citation">(Dempster, Laird, und Rubin <a href="#ref-Dempster_1977" role="doc-biblioref">1977</a>)</span> beschäftigt sich mit der Schätzung von Gaußschen Mischverteilungen.</p>
 <p><strong>Mögliche Anwendungen von Gaußschen Mischverteilungen:</strong></p>
 <ul>
-<li>Automatisierte Videobearbeitungen: Z.B. Bildeinteilungen in Vorder- und Hintergrund.</li>
+<li><p>Generell: Auffinden von Gruppierungen (zwei oder mehr) in den Daten (<strong>Clusteranalyse</strong>). Zum Beispiel:</p>
+<ul>
+<li>Automatisierte Videobearbeitungen (z.B. Bildeinteilungen in Vorder- und Hintergrund)</li>
 <li>Automatisierte Erkennung von Laufstilen</li>
-<li>Generell: Auffinden von Gruppierungen (zwei oder mehr) in den Daten (<strong>Clusteranalyse</strong>).</li>
+<li>etc.</li>
+</ul></li>
 </ul>
 <!-- [@Liebl2014] -->
 <!-- **Zur Info:** Gaußsche Mischverteilungen werden häufig in der Clusteranalyse verwendet. Da einem GMM ein Wahrscheinlichkeitsmodell zu Grunde liegt, gehören GMM-basierte Clustermethoden zu den *modellbasierten Clusterverfahren*. Das wohl beste und bekannteste R-Paket zur Schätzung und Verwendung von Gaußschen Mischungsmodellen ist das <tt>mclust</tt> package [@mclust]. -->
@@ -207,7 +210,7 @@ span {
 <br></li>
 <li>den <strong>EM Algorithmus</strong> zur Schätzung von Gaußschen Mischverteilungen <strong>anwenden</strong>.
 <br></li>
-<li>das <strong>Grundidee</strong> der Vervollständigung der Daten durch latente Variablen <strong>erläutern</strong>.
+<li>die <strong>Grundidee</strong> der Vervollständigung der Daten durch latente Variablen <strong>erläutern</strong>.
 <br></li>
 </ul>
 </div>

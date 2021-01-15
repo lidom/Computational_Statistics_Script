@@ -248,13 +248,18 @@ Der EM Algorithmus wird häufig verwendet, um komplizierte Maximum Likelihood Sc
 \textbf{Mögliche Anwendungen von Gaußschen Mischverteilungen:}
 
 \begin{itemize}
-\tightlist
 \item
-  Automatisierte Videobearbeitungen: Z.B. Bildeinteilungen in Vorder- und Hintergrund.
-\item
-  Automatisierte Erkennung von Laufstilen
-\item
-  Generell: Auffinden von Gruppierungen (zwei oder mehr) in den Daten (\textbf{Clusteranalyse}).
+  Generell: Auffinden von Gruppierungen (zwei oder mehr) in den Daten (\textbf{Clusteranalyse}). Zum Beispiel:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Automatisierte Videobearbeitungen (z.B. Bildeinteilungen in Vorder- und Hintergrund)
+  \item
+    Automatisierte Erkennung von Laufstilen
+  \item
+    etc.
+  \end{itemize}
 \end{itemize}
 
 \hypertarget{lernziele-fuxfcr-dieses-kapitel}{%
@@ -274,7 +279,7 @@ Sie können \ldots{}
 \item
   den \textbf{EM Algorithmus} zur Schätzung von Gaußschen Mischverteilungen \textbf{anwenden}.
 \item
-  das \textbf{Grundidee} der Vervollständigung der Daten durch latente Variablen \textbf{erläutern}.
+  die \textbf{Grundidee} der Vervollständigung der Daten durch latente Variablen \textbf{erläutern}.
 \end{itemize}
 
 \hypertarget{begleitlektuxfcren}{%
@@ -382,7 +387,7 @@ Der folgende Code-Chunck bereitet die Daten auf.
 \item
   Gaußsche Mischverteilung (\textbf{per EM Algorithmus}) schätzen
 \item
-  Die Datenpunkte wie bei der Linearen (oder Quadratischen) Diskriminanz-Analyse den Gruppen zuordnen (siehe Abbildung \ref{fig:GMM-plot1})
+  Die Datenpunkte \(x_i\) derjenigen Gruppe zuordnen, welche die \textbf{„a-posteriori-Wahrscheinlichkeit``} maximiert (siehe Abbildung \ref{fig:GMM-plot1})
 \end{enumerate}
 
 \begin{figure}[h]
@@ -469,7 +474,7 @@ X\sim\mathcal{N}_{\mathcal{mix}}(G,\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol
 
 Die dazugehörige Dichtefunktion einer Gaußschen Mischverteilung ist folgendermaßen definiert:
 \begin{equation}
-f_G(x|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})=\sum_{g=1}^G\pi_gf(x|\mu_g\sigma_g) \label{eq:GMMdens}
+f_G(x|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})=\sum_{g=1}^G\pi_gf(x|\mu_g,\sigma_g) \label{eq:GMMdens}
 \end{equation}
 
 \begin{itemize}
@@ -483,7 +488,7 @@ f_G(x|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})=\sum_{g=1}^G\pi_gf(
 \item
   \textbf{Normalverteilung der Gruppe \(g=1,\dots,G\):}
   \[
-  f(x|\mu_g\sigma_g)=\frac{1}{\sqrt{2\pi}\sigma_g}\exp\left(-\frac{1}{2}\left(\frac{x-\mu_g}{\sigma_g}\right)^2\right)
+  f(x|\mu_g,\sigma_g)=\frac{1}{\sqrt{2\pi}\sigma_g}\exp\left(-\frac{1}{2}\left(\frac{x-\mu_g}{\sigma_g}\right)^2\right)
   \]
 \item
   \textbf{Unbekannte Parameter:} {\(\boldsymbol{\pi}\)}, {\(\boldsymbol{\mu}\)} und {\(\boldsymbol{\sigma}\)}
@@ -547,7 +552,7 @@ Für echte GMMs (\(G>1\)) treten während einer numerischen Maximierung sehr lei
 \caption{Normalverteilung mit $\mu_g=x_i$ für $\sigma_g\to 0$.}\label{fig:dirac2}
 \end{figure}
 
-😒 \textbf{Analytische Lösung:} Es ist zwar etwas mühsam, aber man kann versuchen die Log-Likelihood analytisch zu maximieren. Tut man dies sich das an, kommt man zu folgenden Ausdrücken:
+😒 \textbf{Analytische Lösung:} Es ist zwar etwas mühsam, aber man kann versuchen die Log-Likelihood analytisch zu maximieren. Tut man sich das an, kommt man zu folgenden Ausdrücken:
 \begin{align*}
 \hat\pi_g&=\frac{1}{n}\sum_{i=1}^np_{ig}\\
 \hat\mu_g&=\sum_{i=1}^n\frac{p_{ig}}{\left(\sum_{j=1}^np_{jg}\right)}x_i\\
@@ -556,7 +561,7 @@ Für echte GMMs (\(G>1\)) treten während einer numerischen Maximierung sehr lei
 für \(g=1,\dots,G\).
 
 \begin{quote}
-Die Herleitung der Ausdrücke für \(\mu_g\), \(\sigma_g\) und \(\pi_g\), \(g=1,\dots,G\), ist wirklich etwas lästig (mehrfache Anwendungen der Kettenregel, Produktregel, etc., sowie Anwendung des Lagrange-Multiplikator Verfahrens zur Optimierung unter Nebenbedingungen) aber machbar. In einer der Übungsaufgaben dürfen Sie den Ausdruck für \(\hat\mu_g\) herleiten.
+Die Herleitung der Ausdrücke für \(\hat{\mu}_g\), \(\hat{\sigma}_g\) und \(\hat{\pi}_g\) ist wirklich etwas lästig (mehrfache Anwendungen der Kettenregel, Produktregel, etc., sowie Anwendung des Lagrange-Multiplikator Verfahrens zur Optimierung unter Nebenbedingungen) aber machbar. In einer der Übungsaufgaben dürfen Sie den Ausdruck für \(\hat\mu_g\) herleiten.
 \end{quote}
 
 🙈 {\textbf{Aber:}} Diese Ausdrücke für \(\hat\pi_g\), \(\hat\mu_g\) und \(\hat\sigma_g\) hängen von den {\textbf{unbekannten}} Parametern \(\boldsymbol{\pi}=(\pi_1,\dots,\pi_G)\), \(\boldsymbol{\mu}=(\mu_1,\dots,\mu_G)\) und \(\boldsymbol{\sigma}=(\sigma_1,\dots,\sigma_G)\), denn:
@@ -673,6 +678,17 @@ Der obige pseudo-Code wird im Folgenden Code-Chunck umgesetzt:
 \end{Highlighting}
 \end{Shaded}
 
+\textbf{Das Clusterverfahren basierend auf Gaußschen Mischverteilungen:}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Gaußsche Mischverteilung (\textbf{per EM Algorithmus}) schätzen
+\item
+  Die Datenpunkte \(x_i\) derjenigen Gruppe \(g\) zuordnen, welche die \textbf{a-posteriori-Wahrscheinlichkeit} \(p_{ig}\) maximiert.
+\end{enumerate}
+
 Das finale Schätzergebnis erlaubt es uns, Abbildung \ref{fig:GMM-plot1} zu replizieren.
 
 \begin{Shaded}
@@ -747,9 +763,9 @@ Die Zuordnungen \(z_{ig}\) können also die Werte \(z_{ig}\in\{0,1\}\) annehmen,
 
 Die Zuordnungen \(z_{ig}\) sind leider unbekannt (latent). Wir wissen aber trotzdem etwas über diese Zuordnungen. Die Gewichte \(\pi_1,\dots,\pi_G\) der Gaußschen Mischverteilung
 \[
-f_G(x|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})=\sum_{g=1}^G\pi_gf(x|\mu_g\sigma_g),
+f_G(x|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})=\sum_{g=1}^G\pi_gf(x|\mu_g,\sigma_g),
 \]
-geben die Anteile der Einzelverteilungen \(f(\cdot|\mu_g\sigma_g)\) an der Gesamtverteilung \(f_G\) an. Im Schnitt kommen also \(\pi_g\cdot 100\%\) der Datenpunkte von Gruppe \(g\), \(g=1,\dots,G\). Somit können wir die (latente) Zuordnung \(z_{ig}\) als eine Realisation der Zufallsvariablen \(Z_{ig}\) mit Wahrscheinlichkeitsfunktion
+geben die Anteile der Einzelverteilungen \(f(\cdot|\mu_g,\sigma_g)\) an der Gesamtverteilung \(f_G\) an. Im Schnitt kommen also \(\pi_g\cdot 100\%\) der Datenpunkte von Gruppe \(g\), \(g=1,\dots,G\). Somit können wir die (latente) Zuordnung \(z_{ig}\) als eine Realisation der Zufallsvariablen \(Z_{ig}\) mit Wahrscheinlichkeitsfunktion
 \[
 P(Z_{ig}=1)=\pi_g
 \]

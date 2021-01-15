@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>1.3 Der alternative (wahre) Blick auf den EM Algorithmus | Computational Statistics</title>
   <meta name="description" content="1.3 Der alternative (wahre) Blick auf den EM Algorithmus | Computational Statistics" />
-  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="1.3 Der alternative (wahre) Blick auf den EM Algorithmus | Computational Statistics" />
   <meta property="og:type" content="book" />
@@ -216,9 +216,9 @@ Im Fall von <span class="math inline">\(G&gt;2\)</span> Gruppen:<br />
 </blockquote>
 <p>Die Zuordnungen <span class="math inline">\(z_{ig}\)</span> sind leider unbekannt (latent). Wir wissen aber trotzdem etwas über diese Zuordnungen. Die Gewichte <span class="math inline">\(\pi_1,\dots,\pi_G\)</span> der Gaußschen Mischverteilung
 <span class="math display">\[
-f_G(x|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})=\sum_{g=1}^G\pi_gf(x|\mu_g\sigma_g),
+f_G(x|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})=\sum_{g=1}^G\pi_gf(x|\mu_g,\sigma_g),
 \]</span>
-geben die Anteile der Einzelverteilungen <span class="math inline">\(f(\cdot|\mu_g\sigma_g)\)</span> an der Gesamtverteilung <span class="math inline">\(f_G\)</span> an. Im Schnitt kommen also <span class="math inline">\(\pi_g\cdot 100\%\)</span> der Datenpunkte von Gruppe <span class="math inline">\(g\)</span>, <span class="math inline">\(g=1,\dots,G\)</span>. Somit können wir die (latente) Zuordnung <span class="math inline">\(z_{ig}\)</span> als eine Realisation der Zufallsvariablen <span class="math inline">\(Z_{ig}\)</span> mit Wahrscheinlichkeitsfunktion
+geben die Anteile der Einzelverteilungen <span class="math inline">\(f(\cdot|\mu_g,\sigma_g)\)</span> an der Gesamtverteilung <span class="math inline">\(f_G\)</span> an. Im Schnitt kommen also <span class="math inline">\(\pi_g\cdot 100\%\)</span> der Datenpunkte von Gruppe <span class="math inline">\(g\)</span>, <span class="math inline">\(g=1,\dots,G\)</span>. Somit können wir die (latente) Zuordnung <span class="math inline">\(z_{ig}\)</span> als eine Realisation der Zufallsvariablen <span class="math inline">\(Z_{ig}\)</span> mit Wahrscheinlichkeitsfunktion
 <span class="math display">\[
 P(Z_{ig}=1)=\pi_g
 \]</span>
@@ -290,9 +290,9 @@ Damit ist die Berechnung von <span class="math inline">\(p_{ig}\)</span> im <str
 <!-- $$ -->
 <!-- \begin{align*} -->
 <!-- \mathcal{L}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x}) -->
-<!-- &=\prod_{i=1}^n\sum_{k=1}^K\pi_g\phi_{\mu_g\sigma_g}(x_i)\\[2ex] -->
+<!-- &=\prod_{i=1}^n\sum_{k=1}^K\pi_g\phi_{\mu_g,\sigma_g}(x_i)\\[2ex] -->
 <!-- \ell(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x}) -->
-<!-- &=\sum_{i=1}^n\ln\left(\sum_{k=1}^K\pi_g\phi_{\mu_g\sigma_g}(x_i)\right) -->
+<!-- &=\sum_{i=1}^n\ln\left(\sum_{k=1}^K\pi_g\phi_{\mu_g,\sigma_g}(x_i)\right) -->
 <!-- \end{align*} -->
 <!-- $$ -->
 <!-- ##  -->
