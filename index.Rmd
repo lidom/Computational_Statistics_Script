@@ -52,7 +52,8 @@ library("tidyverse")
 ```
 
 
-Dies ist das Skript zur Vorlesung *Computational Statistik* (B.Sc. Informatik & Data Science)
+Dies ist das Skript zur Vorlesung *Computational Statistik* 
+<!-- (B.Sc. Informatik & Data Science) -->
 
 
 ```{r, eval=knitr::opts_knit$get("rmarkdown.pandoc.to") == "html", results='asis', echo=FALSE}
