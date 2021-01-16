@@ -37,7 +37,7 @@ Sie können ...
 
 + ein **Anwendungsfeld** des EM Algorithmuses **benennen**.
 <br>
-+ die **Probleme** der klassischen Maximum Likelihood Methode zur Schätzung von Gaußschen Mischverteilungen **benennen und erkläutern**.
++ die **Probleme** der klassischen Maximum Likelihood Methode zur Schätzung von Gaußschen Mischverteilungen **benennen und erläutern**.
 <br>
 + die **Grundidee** des EM Algorithmuses **erläutern**. 
 <br>

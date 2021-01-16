@@ -1,4 +1,4 @@
-## ----setup, include=FALSE---------------------
+## ----setup, include=FALSE------------------
 knitr::opts_chunk$set(echo = FALSE)
 
 
@@ -9,7 +9,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ## }
 
 
-## ---- eval=FALSE, echo=TRUE-------------------
+## ---- eval=FALSE, echo=TRUE----------------
 ## pkgs <- c("tidyverse",      # Die tidyverse-Pakete
 ##           "palmerpenguins", # Pinguin-Daten
 ##           "scales",         # Transparente Farben: alpha()
@@ -124,7 +124,7 @@ stripchart(Penguine_Flosse[class==2], method = "jitter", jitter = .0005, at = .0
 ## cat('<hr style="background-color:#3C6690;height:2px">')
 
 
-## ---- echo=TRUE, eval=FALSE-------------------
+## ---- echo=TRUE, eval=FALSE----------------
 ## ## mclust R-Paket:
 ## ## Clusteranalyse mit Hilfe von Gaußschen Mischmodellen
 ## suppressMessages(library("mclust"))
@@ -207,7 +207,7 @@ for(i in 1:rep){
   lines(x=xxd, y=dnorm(xxd, 0, sd_v[rep]), type="l", ylim=c(0,max(dnorm(xxd, 0, sd_v[rep]))), xlim = c(-1.5,1.5), lwd=2, col=alpha("darkblue", 1))
 
 
-## ---- echo=TRUE-------------------------------
+## ---- echo=TRUE----------------------------
 library("MASS")
 library("mclust")
 
