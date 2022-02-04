@@ -224,7 +224,7 @@ E(Y|X)=\beta_0+\beta_1X_1+\dots+\beta_pX_p.
 <p>Vorteile des <strong>multivariaten linearen Regressionsmodells:</strong></p>
 <ul>
 <li>Anstatt eine gänzlich unbekannte Funktion <span class="math inline">\(f\)</span> schätzen (lernen) zu müssen, muss man lediglich die unbekannten Parameterwerte <span class="math inline">\(\beta_0, \beta_1, \dots, \beta_p\)</span> schätzen.</li>
-<li>Die Modellstruktur ist <strong>keine Black Box</strong>, sondern gibt Aufschluss darüber den <strong>assoziativen Zusammenhang</strong> zwischen den Prädiktorvariablen und der Zielvariablen.</li>
+<li>Die Modellstruktur ist <strong>keine Black Box</strong>, sondern gibt Aufschluss über die <strong>assoziativen Zusammenhänge</strong> zwischen den Prädiktorvariablen und der Zielvariablen.</li>
 <li>Die lineare Modellstruktur ist <strong>extrem flexibel</strong>, da Transformationen der Prädiktorvariablen grundsätzlich erlaubt sind.</li>
 </ul>
 <blockquote>
@@ -247,7 +247,7 @@ verwenden, um die <span class="math inline">\(j\)</span>te Prädiktorvariable de
 <blockquote>
 <p><strong>Idee:</strong> Die Trainingsdaten <span class="math inline">\(\left\{(x_1,y_1),(x_2,y_2),\dots,(x_n,y_n)\right\}\)</span> enthalten Information zum unbekannten Regressionsmodell <span class="math inline">\(f\)</span>, da (so die Grundidee) die Daten von eben diesem Modell erzeugt wurden. Ziel ist also die unbekannte Regressionsfunktion <span class="math inline">\(f\)</span> mit Hilfe der Trainingsdaten zu schätzen (erlernen).</p>
 </blockquote>
-<p>Für jede mögliche Schätzung <span class="math inline">\(\hat{f}\)</span> von <span class="math inline">\(f\)</span> können wir die beobachteten Werte der Zielvariablen <span class="math inline">\(y_1,\dots,y_n\)</span> mit den vorhergesagten Werten
+<p>Für jede mögliche Schätzung <span class="math inline">\(\hat{f}\)</span> von <span class="math inline">\(f\)</span> können wir die beobachteten Werte der Zielvariablen <span class="math inline">\(y_i\)</span> mit den vorhergesagten Werten
 <span class="math display">\[
 \hat{y}_i=\hat{f}(x_i)=\hat{\beta}_0 + \hat{\beta}_1 x_{i1} +  \hat{\beta}_2 x_{i2} + \dots + \hat{\beta}_p x_{ip}
 \]</span>

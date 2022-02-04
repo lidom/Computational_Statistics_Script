@@ -285,7 +285,7 @@ E(Y|X)=\beta_0+\beta_1X_1+\dots+\beta_pX_p.
 Vorteile des **multivariaten linearen Regressionsmodells:**
 
 * Anstatt eine gänzlich unbekannte Funktion $f$ schätzen (lernen) zu müssen, muss man lediglich die unbekannten Parameterwerte $\beta_0, \beta_1, \dots, \beta_p$ schätzen. 
-* Die Modellstruktur ist **keine Black Box**, sondern gibt Aufschluss darüber den **assoziativen Zusammenhang** zwischen den Prädiktorvariablen und der Zielvariablen.
+* Die Modellstruktur ist **keine Black Box**, sondern gibt Aufschluss über die **assoziativen Zusammenhänge** zwischen den Prädiktorvariablen und der Zielvariablen.
 * Die lineare Modellstruktur ist **extrem flexibel**, da Transformationen der Prädiktorvariablen grundsätzlich erlaubt sind. 
 
 
@@ -312,7 +312,7 @@ verwenden, um die $j$te Prädiktorvariable der $i$ten Beobachtung zu bezeichnen.
 
 > **Idee:** Die Trainingsdaten $\left\{(x_1,y_1),(x_2,y_2),\dots,(x_n,y_n)\right\}$ enthalten Information zum unbekannten Regressionsmodell $f$, da (so die Grundidee) die Daten von eben diesem Modell erzeugt wurden. Ziel ist also die unbekannte Regressionsfunktion $f$ mit Hilfe der Trainingsdaten zu schätzen (erlernen). 
 
-Für jede mögliche Schätzung $\hat{f}$ von $f$ können wir die beobachteten Werte der Zielvariablen $y_1,\dots,y_n$ mit den vorhergesagten Werten 
+Für jede mögliche Schätzung $\hat{f}$ von $f$ können wir die beobachteten Werte der Zielvariablen $y_i$ mit den vorhergesagten Werten 
 $$
 \hat{y}_i=\hat{f}(x_i)=\hat{\beta}_0 + \hat{\beta}_1 x_{i1} +  \hat{\beta}_2 x_{i2} + \dots + \hat{\beta}_p x_{ip}
 $$
@@ -334,7 +334,7 @@ $$
 \dots +
 (y_n-\hat{\beta}_0 + \hat{\beta}_1 x_{n1} +  \dots + \hat{\beta}_p x_{np})^2
 $$
-Die Methode der kleinsten Quadrate bestimmt die Parameterschätzungen $\hat{\beta}=(\hat{\beta}_0,\hat{\beta}_1,\dots,\hat{\beta}_p)^T$ durch Minimierung der Residuenquadratsumme RSS. Nach ein paar Rechnungen kann man zeigen, dass  
+Die Methode der kleinsten Quadrate bestimmt die Parameterschätzungen $\hat{\beta}=(\hat{\beta}_0,\hat{\beta}_1,\dots,\hat{\beta}_p)^T$ durch **Minimierung der Residuenquadratsumme RSS**. Nach ein paar Rechnungen kann man zeigen, dass  
 \begin{align*}
 \left(
   \begin{matrix}
