@@ -216,7 +216,6 @@ div.csl-indent {
 <blockquote>
 <p><strong>Fazit:</strong> Methoden des <strong>maschinellen Lernens</strong> sind typischerweise sehr flexibel und bauen nicht auf strukturellen Modellen auf. Daher benötigen diese Methoden spezielle Verfahren der <strong>Modellauswahl</strong>, um eine Überanpassung an die Trainingsdaten zu vermeiden. Richtig angewandt, können Methoden des maschinellen Lernens unbekannte Zusammenhänge richtig erkennen.</p>
 </blockquote>
-<!-- Zur Extrapolation eignen sich diese methoden idR nicht.     -->
 </div>
 <div id="die-validierungsdaten-methode" class="section level3" number="1.3.1">
 <h3><span class="header-section-number">1.3.1</span> Die Validierungsdaten-Methode</h3>
@@ -229,7 +228,6 @@ und einen <strong>separaten</strong> (disjunkten) Satz von Validierungsdaten
 \text{Validierungsdaten}=\left\{(x_{1}^{Valid},y_{1}^{Valid}), (x_{2}^{Valid},y_{2}^{Valid}),\dots,(x_{n_{Valid}}^{Valid},y_{n_{Valid}}^{Valid})\right\}
 \]</span>
 zu teilen mit</p>
-<!-- \text{Validierungsdaten}=\left\{(x_{i},y_{i}):i\in\mathcal{I}_{Valid}\right\}\quad\text{mit}\quad n_{Valid}=|\mathcal{I}_{Valid}| -->
 <ul>
 <li><span class="math inline">\(n=n_{Train} + n_{Valid}\)</span></li>
 <li><span class="math inline">\(\text{Trainingsdaten}\cap \text{Validierungsdaten} = \emptyset\)</span></li>
@@ -261,7 +259,6 @@ y^{Train}_i
 Code-Schnipsel Beispiel:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="1.3-modellauswahl.html#cb6-1" aria-hidden="true" tabindex="-1"></a>Train_polreg <span class="ot">&lt;-</span> <span class="fu">lm</span>(Verbrauch <span class="sc">~</span> <span class="fu">poly</span>(PS, <span class="at">degree =</span> p, <span class="at">raw=</span><span class="cn">TRUE</span>), <span class="at">data =</span> Auto_Train_df)</span></code></pre></div>
 <p><br></p>
-<!-- \hat{y}_i=\hat{f}_{Train}(x_i)=\hat{\beta}_0 + \hat{\beta}_1 x_{i1} + \hat{\beta}_2 x_{i2}^2 + \dots + \hat{\beta}_p x_{ip}^p + e_i\quad\text{mit}\quad i\in\mathcal{I}_{Train} -->
 <p><strong>Schritt 2:</strong> Mit Hilfe der <strong>Validierungsdaten</strong> wird das geschätzte Polynomregressionsmodell <strong>validiert</strong>:
 <span class="math display">\[\begin{align*}
 \hat{y}^{Valid}_i
@@ -279,10 +276,6 @@ Code-Schnipsel Beispiel:</p>
 <span id="cb7-2"><a href="1.3-modellauswahl.html#cb7-2" aria-hidden="true" tabindex="-1"></a>RSS_Valid     <span class="ot">&lt;-</span> <span class="fu">sum</span>( (Auto_Valid_df<span class="sc">$</span>Verbrauch <span class="sc">-</span> y_fit_Valid)<span class="sc">^</span><span class="dv">2</span> )</span>
 <span id="cb7-3"><a href="1.3-modellauswahl.html#cb7-3" aria-hidden="true" tabindex="-1"></a>MSPE          <span class="ot">&lt;-</span> RSS_Valid <span class="sc">/</span> n_Valid</span></code></pre></div>
 <p><br></p>
-<!-- Der **mittleren quadratischen Prädiktionsfehler** (Mean Squared Prediction Error **MSPE**) berechnet: -->
-<!-- $$ -->
-<!-- \text{MSPE}=\frac{1}{n_{Valid}}\text{RSS}_{Valid}=\frac{1}{n_{Valid}}\overbrace{\sum_{i\in\mathcal{I}_{Valid}} \left(y_i - \hat{y}_i\right)^2}^{=\text{RSS}_{Valid}} -->
-<!-- $$ -->
 <p>Man wiederholt obige Schritte für eine Auswahl von verschiedenen Polynomgraden <span class="math inline">\(p=1,2,\dots,p_{\max}\)</span>, z.B. <span class="math inline">\(p_{\max}=10\)</span>, und berechnet für jeden dieser Fälle den <span class="math inline">\(\operatorname{MSPE}\)</span>, also:
 <span class="math display">\[
 \operatorname{MSPE}\equiv\operatorname{MSPE}(\hat{\beta}_0, \hat{\beta}_1, \dots, \hat{\beta}_p,p),\quad\text{für jedes}\quad p=1,2,\dots,p_{\max}
@@ -325,9 +318,9 @@ Die Minimierung des <span class="math inline">\(\operatorname{MSPE}\)</span> üb
 <span id="cb8-29"><a href="1.3-modellauswahl.html#cb8-29" aria-hidden="true" tabindex="-1"></a>  fit_plot[,p] <span class="ot">&lt;-</span> <span class="fu">predict</span>(Train_polreg, <span class="at">newdata =</span> plot_df)</span>
 <span id="cb8-30"><a href="1.3-modellauswahl.html#cb8-30" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:RSSPoly3"></span>
-<img src="Computational_Statistics_Script_files/figure-html/RSSPoly3-1.png" alt="Polynom Regression und die Wahl des Polynomgrades $p$ durch Minimierung des mittleren quadratischen Prädiktionsfehler MSPE. (Eine bessere Idee)." width="90%" />
+<img src="Computational_Statistics_Script_files/figure-html/RSSPoly3-1.png" alt="Polynom Regression und die Wahl des Polynomgrades $p$ durch Minimierung des mittleren quadratischen Prädiktionsfehler MSPE." width="90%" />
 <p class="caption">
-Abbildung 1.7: Polynom Regression und die Wahl des Polynomgrades <span class="math inline">\(p\)</span> durch Minimierung des mittleren quadratischen Prädiktionsfehler MSPE. (Eine bessere Idee).
+Abbildung 1.7: Polynom Regression und die Wahl des Polynomgrades <span class="math inline">\(p\)</span> durch Minimierung des mittleren quadratischen Prädiktionsfehler MSPE.
 </p>
 </div>
 <p><br></p>
@@ -345,8 +338,8 @@ Abbildung 1.8: Zehn verschiedene MSPE-Berechnungen basierend auf zehn verschiede
 <div id="k-fache-kreuzvalidierung" class="section level3" number="1.3.2">
 <h3><span class="header-section-number">1.3.2</span> k-Fache Kreuzvalidierung</h3>
 <p>Die <span class="math inline">\(k\)</span>-fache (z.B. <span class="math inline">\(k=5\)</span> oder <span class="math inline">\(k=10\)</span>) Kreuzvalidierung ist eine Vorgehensweise zur Bewertung der Leistung einer Schätzprozedur (Algorithmus) im Kontext des maschinellen Lernens. Als Schätzprozedur verwenden wir wieder das Beispiel der Polynomregression mit unbekanntem Polynomgrad <span class="math inline">\(p\)</span>, welcher zusammen mit den Modellparametern <span class="math inline">\(\beta_0,\beta_1,\dots,\beta_p\)</span> aus den Daten erlernt werden muss.</p>
-<p>Die <span class="math inline">\(k\)</span>-fache Kreuzvalidierung stellt eine Verbesserung der Validierungsdaten-Methode dar, da sie faktisch die Stichprobenumfänge in den Trainingsdaten und Validierungsdaten erhöht. Wie bei der Validierungsdaten-Methode wird der Datensatz in Trainings- und Validierungsdaten aufgeteilt – jedoch <span class="math inline">\(k\)</span>-fach. Abbildung <a href="1.3-modellauswahl.html#fig:kFoldCV">1.9</a> zeigt ein Beispiel der Datenaufteilung bei der <span class="math inline">\(5\)</span>-fachen Kreuzvalidierung.</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:kFoldCV"></span>
+<p>Die <span class="math inline">\(k\)</span>-fache Kreuzvalidierung stellt eine Verbesserung der Validierungsdaten-Methode dar, da sie faktisch die Stichprobenumfänge in den Trainingsdaten und Validierungsdaten erhöht. Wie bei der Validierungsdaten-Methode wird der Datensatz in Trainings- und Validierungsdaten aufgeteilt – jedoch <span class="math inline">\(k\)</span>-fach. Abbildung <a href="1.3-modellauswahl.html#fig:kfoldcv">1.9</a> zeigt ein Beispiel der Datenaufteilung bei der <span class="math inline">\(5\)</span>-fachen Kreuzvalidierung.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:kfoldcv"></span>
 <img src="images/5-fold_cross-validation.png" alt="Datenaufteilung in Trainings- und Validierungsdaten bei der $5$-fachen Kreuzvalidierung." width="70%" />
 <p class="caption">
 Abbildung 1.9: Datenaufteilung in Trainings- und Validierungsdaten bei der <span class="math inline">\(5\)</span>-fachen Kreuzvalidierung.
@@ -372,7 +365,7 @@ Abbildung 1.9: Datenaufteilung in Trainings- und Validierungsdaten bei der <span
 \]</span></p>
 <p>Der <span class="math inline">\(\operatorname{CV}_{(k)}\)</span>-Wert stellt eine im Vergleich zur Validierungsdaten-Methode verbesserte Schätzung des unbekannten mittleren quadratischen Pädiktionsfehlers <span class="math inline">\(\operatorname{CV}_{(k)}\approx E[(Y-\hat{Y})^2]\)</span> dar. Die Modellauswahl folgt also auch hier mittels Minimierung des <span class="math inline">\(\operatorname{CV}_{(k)}\)</span>-Wertes über die verschiedene Werte des Polynomgrades <span class="math inline">\(p=1,2,\dots\)</span>.</p>
 <blockquote>
-<p><strong>Wahl von <span class="math inline">\(k\)</span>:</strong> In der Praxis haben sich die Werte <span class="math inline">\(k=5\)</span> und <span class="math inline">\(k=10\)</span> etabliert, da diese Größenordnung einen guten Kompromiss zwischen der Varianz und der Verzerrung des Schätzers <span class="math inline">\(\operatorname{CV}_{(k)}\)</span> für <span class="math inline">\(E[(Y-\hat{Y})^2]\)</span> darstellen.</p>
+<p><strong>Wahl von <span class="math inline">\(k\)</span>:</strong> In der Praxis haben sich die Werte <span class="math inline">\(k=5\)</span> und <span class="math inline">\(k=10\)</span> etabliert, da diese Größenordnunen einen guten Kompromiss zwischen der Varianz und der Verzerrung des Schätzers <span class="math inline">\(\operatorname{CV}_{(k)}\)</span> für <span class="math inline">\(E[(Y-\hat{Y})^2]\)</span> darstellen.</p>
 </blockquote>
 </div>
 </div>

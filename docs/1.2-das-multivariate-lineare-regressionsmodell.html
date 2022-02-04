@@ -214,10 +214,6 @@ div.csl-indent {
 f(X)=\beta_0+\beta_1X_1+\dots+\beta_pX_p.
 \]</span></p>
 <p>Unter dieser Modellannahme wird das allgemeine Regressionsmodell <span class="math inline">\(Y=f(X)+\varepsilon\)</span> zum multivariaten (multiplen) linearen Regressionsmodell
-<!-- \begin{align*} -->
-<!-- Y=f(X)+\varepsilon -->
-<!-- \end{align*} -->
-<!-- zu  -->
 <span class="math display">\[\begin{align*}
 Y=\beta_0+\beta_1X_1+\dots+\beta_pX_p+\varepsilon.
 \end{align*}\]</span>
@@ -260,8 +256,6 @@ vergleichen, indem wir die <strong>Residuen</strong>
 e_i = y_i-\hat{y}_i\quad i=1,\dots,n
 \]</span>
 betrachten.</p>
-<!-- Ist $\hat{f}\approx f$ eine gute Schätzung von $f$, so ist der reduzierbare Teil des Prädiktionsfehlers klein, und die empirische Varianz der Residuen $\frac{1}{n}(e_1^2+e_2^2+\dots +e_n^2)$ ähnelt  den unbeobachteten Fehlertermen $\varepsilon_i$.    sollten die Residuen $e_1,\dots,e_n$ insgesamt klein sein.  im Schnitt (d.h. für alle $i=1,\dots,n$) -->
-<!-- ### Methode der kleinsten Quadrate {-} -->
 <p>Die gängigste Methode zur Schätzung der unbekannten Modellparameter <span class="math inline">\(\beta_0,\beta_1,\dots,\beta_p\)</span> ist die <strong>Methode der kleinsten Quadrate</strong>. Wir definieren die <strong>Residuenquadratsumme</strong> RSS (Residual Sum of Squares) als:
 <span class="math display">\[
 \operatorname{RSS}=e_1^2+e_2^2+\dots +e_n^2
@@ -289,7 +283,6 @@ Die Methode der kleinsten Quadrate bestimmt die Parameterschätzungen <span clas
   \vdots&amp;&amp;\ddots &amp; \vdots\\
   1&amp;x_{n1}&amp;\dots &amp; x_{np}\\
   \end{matrix}\right)^T
-
   \left(\begin{matrix}
   1&amp;x_{11}&amp;\dots &amp; x_{1p}\\
   \vdots&amp;&amp;\ddots &amp; \vdots\\

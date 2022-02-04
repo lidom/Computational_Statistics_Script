@@ -18,7 +18,7 @@ span {
 * vergleichsweise **einfach zu interpretieren** sind und 
 * zugleich **äußerst flexibel** sind. 
 
-In diesem Kapitel betrachten wir das multivariate (oder multiple) lineare Regressionsmodell als **Prädiktionsmodell** im Rahmen einer Anwendung des maschinellen Lernens. 
+In diesem Kapitel betrachten wir das multivariate (oder multiple) lineare Regressionsmodell als **Prädiktionsmodell** im Kontext des maschinellen Lernens. 
 
 
 ### Lernziele für dieses Kapitel {-}

@@ -219,30 +219,20 @@ span {
 <li>vergleichsweise <strong>einfach zu interpretieren</strong> sind und</li>
 <li>zugleich <strong>äußerst flexibel</strong> sind.</li>
 </ul>
-<p>In diesem Kapitel betrachten wir das multivariate (oder multiple) lineare Regressionsmodell als <strong>Prädiktionsmodell</strong> im Rahmen einer Anwendung des maschinellen Lernens.</p>
+<p>In diesem Kapitel betrachten wir das multivariate (oder multiple) lineare Regressionsmodell als <strong>Prädiktionsmodell</strong> im Kontext des maschinellen Lernens.</p>
 <div id="lernziele-für-dieses-kapitel" class="section level3 unnumbered">
 <h3>Lernziele für dieses Kapitel</h3>
 <p>Sie können …</p>
 <ul>
 <li>ein <strong>Anwendungsfeld</strong> des linearen Regressionsmodell als Prädiktionsmodell <strong>benennen</strong>.
 <br></li>
-<li>die <strong>Probleme</strong> der Auswahl eines geeigneten Prädiktionsmodells <strong>benennen und erläutern</strong>.
+<li>die <strong>Probleme</strong> der Auswahl eines geeigneten Prädiktionsmodells am Beispiel der Polynomregression <strong>benennen und erläutern</strong>.
 <br></li>
 <li>die <strong>Grundidee</strong> der Validierungsdaten-Methode <strong>erläutern</strong>.
 <br></li>
 <li>die <strong>Grundidee</strong> der k-fachen Kreuzvalidierung <strong>erläutern</strong>.
-<br>
-<!-- + den **EM Algorithmus** zur Schätzung von Gaußschen Mischverteilungen **anwenden**. -->
-<!-- <br> -->
-<!-- + die **Grundidee** der Vervollständigung der Daten durch latente Variablen **erläutern**. -->
-<!-- <br> --></li>
+<br></li>
 </ul>
-<!-- in einem **Machine Learning** Kontext. Dies bedeutet insbesondere, dass wir die Annahme einer bekannten Modellstruktur aufgeben und untersuchen inwiefern die Modellstruktur rein aus den gegebenen Daten erlernt werden kann.  -->
-<!-- **Fokus auf Prädiktion:** -->
-<!-- Eine mögliche Kausalbeziehung zwischen den Prädiktorvariablen und der Zielvariablen ist in diesem Kapitel nicht von zentraler Interesse -- darauf kommen wir aber noch zurück.  -->
-<!-- ```{r Fig-CorrelKausal, include=knitr::is_html_output(), echo=FALSE, out.width='70%', fig.cap="Prädition und Kausalität."} -->
-<!-- knitr::include_graphics("images/CorrelCausal.jpg") -->
-<!-- ``` -->
 </div>
 <div id="begleitlektüren" class="section level3 unnumbered">
 <h3>Begleitlektüren</h3>
@@ -294,7 +284,6 @@ Abbildung 1.1: Abgase am Morgen (Foto: David Lee).
 <li><strong>Hubraum (ccm):</strong> Großer Hubraum … höherer Verbrauch?</li>
 </ul></li>
 </ul>
-<!-- * **Beschleunigung (Sek):** Hohe Beschleunigung braucht wahrscheinlich viel Energie. -->
 <p><strong>Achtung:</strong> Es gibt sicherlich noch weitere relevante Prädiktorvariablen. Obige Auswahl ist jedoch relativ einfach zu erheben und ermöglicht eventuell bereits eine <strong>gute Prädiktion des Verbrauches</strong> im Rahmen eines <strong>Regressionsmodells</strong>. Falls dem so ist, könnte unser Prädiktionsmodell dazu dienen, nach Auffälligkeiten bei den herstellerseitigen Verbrauchsangaben zu suchen. Besonders große Abweichung zwischen Modellprädiktion und Herstellerangabe wäre ein mögliches Indiz auf unlautere Zahlenschönung.</p>
 <p><br></p>
 <p><strong>Aufbereitung der Daten:</strong></p>
@@ -308,7 +297,6 @@ Abbildung 1.1: Abgase am Morgen (Foto: David Lee).
 <span id="cb2-8"><a href="1-ch:RegML.html#cb2-8" aria-hidden="true" tabindex="-1"></a> <span class="fu">select</span>(Verbrauch, Gewicht, PS, Hubraum) </span>
 <span id="cb2-9"><a href="1-ch:RegML.html#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-10"><a href="1-ch:RegML.html#cb2-10" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(Auto_df) <span class="co"># Stichprobenumfang </span></span></code></pre></div>
-<!-- Beschleunigung = acceleration        # Zeit (Sek) von 0 auf 60 Meilen  -->
 <p><br></p>
 Insgesamt enthält der betrachtete Datensatz also fünf Variablen zu <span class="math inline">\(n=392\)</span> verschiedenen Autos. Dies sind die ersten sechs Zeilen des Datensatzes:
 <table>
@@ -415,16 +403,15 @@ Hubraum (ccm)
 </tr>
 </tbody>
 </table>
-<!-- "Beschleunigung (Sek)" -->
 <p><br></p>
 <p>Um sich einen Überblick zu den Beziehungen zwischen den Variablen zu verschaffen, eignet sich ein <strong>Pairs-Plot</strong> sehr gut (siehe Abbildung <a href="1-ch:RegML.html#fig:pairsplot">1.2</a>):</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="1-ch:RegML.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(Auto_df,</span>
 <span id="cb3-2"><a href="1-ch:RegML.html#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="at">upper =</span> <span class="fu">list</span>(<span class="at">continuous =</span> <span class="st">&quot;density&quot;</span>, <span class="at">combo =</span> <span class="st">&quot;box_no_facet&quot;</span>),</span>
 <span id="cb3-3"><a href="1-ch:RegML.html#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="at">lower =</span> <span class="fu">list</span>(<span class="at">continuous =</span> <span class="st">&quot;points&quot;</span>, <span class="at">combo =</span> <span class="st">&quot;dot_no_facet&quot;</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:pairsplot"></span>
-<img src="Computational_Statistics_Script_files/figure-html/pairsplot-1.png" alt="Pairs-Plot zur Veranschaulichung der paarweisen Zusammenhänge zwischen den Variablen im Datensatz `Auto_df`." width="100%" height="100%" />
+<img src="Computational_Statistics_Script_files/figure-html/pairsplot-1.png" alt="Pairs-Plot zur Veranschaulichung der paarweisen Zusammenhänge zwischen den Variablen." width="100%" height="100%" />
 <p class="caption">
-Abbildung 1.2: Pairs-Plot zur Veranschaulichung der paarweisen Zusammenhänge zwischen den Variablen im Datensatz <code>Auto_df</code>.
+Abbildung 1.2: Pairs-Plot zur Veranschaulichung der paarweisen Zusammenhänge zwischen den Variablen.
 </p>
 </div>
 <p>Der Pairs-Plot veranschaulicht alle paarweisen Zusammenhänge zwischen den Variablen im Datensatz <code>Auto_df</code>. Uns interessieren hierbei in erster Linie die Zusammenhänge zwischen der Zielvariable <strong>Verbrauch</strong> und den <strong>Prädiktorvariablen</strong>:</p>
@@ -434,8 +421,7 @@ Abbildung 1.2: Pairs-Plot zur Veranschaulichung der paarweisen Zusammenhänge zw
 <li><span class="math inline">\(G=\)</span> <strong>Gewicht</strong><span class="math inline">\(_i\)</span><strong>:</strong> haben einen nicht linearen, negativen Zusammenhang.</li>
 <li><span class="math inline">\(P=\)</span> <strong>PS:</strong> haben einen nicht linearen, negativen Zusammenhang.</li>
 <li><span class="math inline">\(H=\)</span> <strong>Hubraum:</strong> haben einen nicht linearen, negativen Zusammenhang.</li>
-</ul>
-<!-- * $B=$ **Beschleunigung:** haben einen etwas unklaren, wahrscheinlich nicht linearen, positiven Zusammenhang. --></li>
+</ul></li>
 </ul>
 </div>
 </div>
