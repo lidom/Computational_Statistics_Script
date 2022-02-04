@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="de" xml:lang="de">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>1.2 Vom allgemeinen zum linearen Regressionsmodell | Computational Statistics</title>
+  <meta name="description" content="1.2 Vom allgemeinen zum linearen Regressionsmodell | Computational Statistics" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="1.2 Vom allgemeinen zum linearen Regressionsmodell | Computational Statistics" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="/images/Florence_Nightingale.jpg" />
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="1.2 Vom allgemeinen zum linearen Regressionsmodell | Computational Statistics" />
+  
+  
+  <meta name="twitter:image" content="/images/Florence_Nightingale.jpg" />
+
+<meta name="author" content="Prof. Dr. Dominik Liebl" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="1.1-prädiktionsproblem-benzinverbrauch.html"/>
+<link rel="next" href="1.3-maschineles-lernen.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="toc.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><center><a href="http://www.dliebl.com/Computational_Statistics_Script/"><img src="images/Florence_Nightingale.jpg" alt="logo" width="60%" height="60%"style="margin: 15px 0 0 0"></a></center></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Informationen</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#vorlesungszeiten"><i class="fa fa-check"></i>Vorlesungszeiten</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#rcodes"><i class="fa fa-check"></i>RCodes</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#leseecke"><i class="fa fa-check"></i>Leseecke</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#florence-nightingale"><i class="fa fa-check"></i>Florence Nightingale</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="1-lineare-regressionsmodelle.html"><a href="1-lineare-regressionsmodelle.html"><i class="fa fa-check"></i><b>1</b> Lineare Regressionsmodelle</a>
+<ul>
+<li class="chapter" data-level="" data-path="1-lineare-regressionsmodelle.html"><a href="1-lineare-regressionsmodelle.html#lernziele-für-dieses-kapitel"><i class="fa fa-check"></i>Lernziele für dieses Kapitel</a></li>
+<li class="chapter" data-level="" data-path="1-lineare-regressionsmodelle.html"><a href="1-lineare-regressionsmodelle.html#begleitlektüren"><i class="fa fa-check"></i>Begleitlektüren</a></li>
+<li class="chapter" data-level="1.1" data-path="1.1-prädiktionsproblem-benzinverbrauch.html"><a href="1.1-prädiktionsproblem-benzinverbrauch.html"><i class="fa fa-check"></i><b>1.1</b> Prädiktionsproblem: Benzinverbrauch</a></li>
+<li class="chapter" data-level="1.2" data-path="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html"><i class="fa fa-check"></i><b>1.2</b> Vom allgemeinen zum linearen Regressionsmodell</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#prädiktionsfehler-zwischen-haty-und-y"><i class="fa fa-check"></i><b>1.2.1</b> Prädiktionsfehler (zwischen <span class="math inline">\(\hat{Y}\)</span> und <span class="math inline">\(Y\)</span>)</a></li>
+<li class="chapter" data-level="1.2.2" data-path="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#das-multivariate-lineare-regressionsmodell"><i class="fa fa-check"></i><b>1.2.2</b> Das multivariate lineare Regressionsmodell</a></li>
+<li class="chapter" data-level="1.2.3" data-path="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#schätzung"><i class="fa fa-check"></i><b>1.2.3</b> Schätzung</a></li>
+<li class="chapter" data-level="" data-path="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#methode-der-kleinsten-quadrate"><i class="fa fa-check"></i>Methode der kleinsten Quadrate</a></li>
+<li class="chapter" data-level="1.2.4" data-path="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#polynom-regression"><i class="fa fa-check"></i><b>1.2.4</b> Polynom-Regression</a></li>
+<li class="chapter" data-level="" data-path="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#mittlerer-quadratischer-prädiktionsfehler-mspe"><i class="fa fa-check"></i>Mittlerer Quadratischer Prädiktionsfehler (MSPE)</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="1.3-maschineles-lernen.html"><a href="1.3-maschineles-lernen.html"><i class="fa fa-check"></i><b>1.3</b> Maschineles Lernen</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="literatur.html"><a href="literatur.html"><i class="fa fa-check"></i>Literatur</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Computational Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="vom-allgemeinen-zum-linearen-regressionsmodell" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Vom allgemeinen zum linearen Regressionsmodell</h2>
+<p>Die einzelnen Prädiktorvariablen werden gerne kompakt zu einer multivariaten Prädiktorvariablen <span class="math inline">\(X=(X_1,X_2,\dots,X_p)\)</span> zusammengefasst; in unserem Benzinverbrauchsbeispiel also <span class="math inline">\(X=(G,P,H,B)\)</span>. So lässt sich das <strong>allgemeines Regressionsmodell</strong> schreiben als
+<span class="math display">\[
+Y=f(X)+\varepsilon
+\]</span>
+wobei</p>
+<ul>
+<li><span class="math inline">\(f\)</span> den <strong>systematischen Zusammenhang</strong> zwischen der Zielvariable <span class="math inline">\(Y\)</span> und den Prädiktorvariablen <span class="math inline">\(X\)</span> beschreibt und</li>
+<li><span class="math inline">\(\varepsilon\)</span> ein <strong>Fehlerterm</strong> ist, der unabhängig von <span class="math inline">\(X\)</span> ist und Mittelwert <span class="math inline">\(E(\varepsilon)=0\)</span> Null hat.</li>
+</ul>
+<p>Daraus ergibt sich folgender Zusammenhang zwischen der <strong>allgemeinen Regressionsfunktion</strong> <span class="math inline">\(f\)</span> und dem bedingten Mittelwert von <span class="math inline">\(Y\)</span> gegeben <span class="math inline">\(X\)</span>:
+<span class="math display">\[
+E(Y|X)=f(X)
+\]</span>
+Die Funktion <span class="math inline">\(f\)</span> beschreibt also den bedingten Mittelwert von <span class="math inline">\(Y\)</span> gegeben <span class="math inline">\(X\)</span>. Ziel ist es nun, die Regressionsfunktion <span class="math inline">\(f\)</span> aus den Daten zu schätzen (lernen).</p>
+<blockquote>
+<p><strong>Achtung:</strong> Die Annahme der Unabhängigkeit zwischen <span class="math inline">\(\varepsilon\)</span> und <span class="math inline">\(X\)</span> kann in der Praxis verletzt sein. Die Verletzung dieser Unabhängigkeitsannahme erlaubt insbesondere keine kausale Interpretation der Ergebnisse, daher betrachtet die Literatur zur Kausalinferenz viele Möglichkeiten diese Unabhängigkeitsannahme durch eine weniger strikte Annahmen zu ersetzen. In der Literatur zur prädiktiven Inferenzen wird eine Verletzung der Unabhängigkeitsannahme weniger kritisch gesehen, da eine Prädiktion trotz verletzter Unabhängigkeitsannahme sehr gut sein kann. Eine schöne und gut lesbare Übersicht zu den Unterschieden zwischen der Kausalinferenz und der prädiktiven Inferenzen findet man, z.B., im Artikel <a href="https://projecteuclid.org/journals/statistical-science/volume-25/issue-3/To-Explain-or-to-Predict/10.1214/10-STS330.full">To Explain or To Predict?</a> <span class="citation">(<a href="#ref-Shmueli_2010" role="doc-biblioref">Shmueli 2010</a>)</span>.</p>
+</blockquote>
+Abbildung <a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#fig:fakedata">1.3</a> zeigt ein Beispiel von <span class="math inline">\(50\)</span> simulierten Daten (künstlich erzeugte Fake-Daten). Der Plot legt nahe, dass man das Einkommen mit Hilfe der Ausbildungsjahre vorhersagen kann. Normalerweise ist die wahre Funktion <span class="math inline">\(f\)</span>, welche die Verbindung zwischen <span class="math inline">\(Y\)</span> und <span class="math inline">\(X\)</span> beschreibt, unbekannt und muss aus den Daten geschätzt werden. Da es sich hier um simuliete Daten handelt, können wir den Graph der Funktion <span class="math inline">\(f\)</span> als blaue Linie plotten. Einige der <span class="math inline">\(50\)</span> Beobachtungenspunkte <span class="math inline">\((X,Y)\)</span> liegen über der Regressionsfunktion <span class="math inline">\(f(X)\)</span>, andere darunter. Im Großen und Ganzen haben die Fehlerterme einen Mittelwert von Null.
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:fakedata"></span>
+<img src="Computational_Statistics_Script_files/figure-html/fakedata-1.png" alt="Simulierte (künstlich erzeugte) Daten zur Veranschaulichung einer allgemeinen, univariaten Regressionsbeziehung." width="90%" />
+<p class="caption">
+Abbildung 1.3: Simulierte (künstlich erzeugte) Daten zur Veranschaulichung einer allgemeinen, univariaten Regressionsbeziehung.
+</p>
+</div>
+<p><br></p>
+Abbildung <a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#fig:plot3d">1.4</a> zeigt ein simuliertes Beispiel einer allgemeinen, bivariaten Regressionsbeziehung
+<span class="math display">\[
+Y=f(X)+\varepsilon\quad\text{mit}\quad X=(X_1,X_2).
+\]</span><br />
+
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:plot3d"></span>
+<img src="Computational_Statistics_Script_files/figure-html/plot3d-1.png" alt="Veranschaulichung einer allgemeinen, bivariaten Regressionsbeziehung." width="500%" height="500%" />
+<p class="caption">
+Abbildung 1.4: Veranschaulichung einer allgemeinen, bivariaten Regressionsbeziehung.
+</p>
+</div>
+<div id="prädiktionsfehler-zwischen-haty-und-y" class="section level3" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> Prädiktionsfehler (zwischen <span class="math inline">\(\hat{Y}\)</span> und <span class="math inline">\(Y\)</span>)</h3>
+<p>In vielen Datenproblemen sind zwar die Prädiktorvariablen <span class="math inline">\(X\)</span> bekannt (z.B. Gewicht, PS und Hubraum eines neuen Autos), aber die dazugehörige Zielvariable <span class="math inline">\(Y\)</span> ist unbekannt. Da sich der Fehlerterm zu Null mittelt, lässt sich in solch einem Fall das unbekannte <span class="math inline">\(Y\)</span> durch
+<span class="math display">\[
+\hat{Y}=\hat{f}(X)
+\]</span>
+vorhersagen, wobei</p>
+<ul>
+<li><span class="math inline">\(\hat{f}\)</span> für unsere Schätzung von <span class="math inline">\(f\)</span> steht und</li>
+<li><span class="math inline">\(\hat{Y}\)</span> die Vorhersage von <span class="math inline">\(Y\)</span> für gegebene Prädiktorvariablen <span class="math inline">\(X\)</span> ist.</li>
+</ul>
+<p>Die Genauigkeit der Vorhersage von <span class="math inline">\(\hat{Y}\)</span> für <span class="math inline">\(Y\)</span> hängt von zwei verschiedenen Prädiktionsfehlergrößen ab:</p>
+<ul>
+<li><strong>Reduzierbarer Prädiktionsfehler</strong> aufgrund des Schätzfehlers in <span class="math inline">\(\hat{f}\)</span>. Eine genauere Schätzung kann diesen Fehler reduzieren.</li>
+<li><strong>Nicht reduzierbarer Prädiktionsfehler</strong> aufgrund des Fehlerterms <span class="math inline">\(\varepsilon\)</span>. Das ist der Fehler, den wir selbst bei perfekter Schätzung von <span class="math inline">\(f\)</span> nicht reduzieren können.</li>
+</ul>
+<p>Der <strong>nicht reduzierbare Fehler</strong> <span class="math inline">\(\varepsilon\)</span> enthält alle nicht messbaren und nicht gemessenen Variablen, die ebenfalls einen Einfluss auf <span class="math inline">\(Y\)</span> haben. Und da wir diese Variablen nicht messen können, können wir sie auch nicht verwenden, um <span class="math inline">\(f\)</span> zu schätzen.</p>
+<p><br></p>
+<p>Sei nun <span class="math inline">\(\hat{f}\)</span> eine gegebene Schätzung von <span class="math inline">\(f\)</span> und seien <span class="math inline">\(X\)</span> gegeben Werte der Prädiktorvariablen welche die Vorhersage <span class="math inline">\(\hat{Y}=\hat{f}(X)\)</span> ergeben. Nehmen wir nun für einen Moment an, dass <span class="math inline">\(\hat{f}\)</span> und <span class="math inline">\(X\)</span> gegeben und fest (also nicht zufällig) sind, dann
+<span class="math display">\[\begin{align*}
+E\left[(Y-\hat{Y})^2\right]
+&amp;=E\Big[(\overbrace{f(X)+\varepsilon}^{=Y} - \overbrace{\hat{f}(X)}^{=\hat{Y}})^2\Big]\\
+&amp;=E\left[\left((f(X)-\hat{f}(X)\right)^2+2\left((f(X)-\hat{f}(X)\right)\varepsilon+\varepsilon^2\right]\\
+&amp;=\underbrace{\left((f(X)-\hat{f}(X)\right)^2}_{\text{reduzierbar}}+\underbrace{\operatorname{Var}(\varepsilon)}_{\text{nicht reduzierbar}}
+\end{align*}\]</span>
+Der mittlere quadratische Prädiktionsfehler <span class="math inline">\(E\left[(Y-\hat{Y})^2\right]\)</span> lässt sich also in eine reduzierbare und eine nicht reduzierbare Fehlerkomponente zerlegen.</p>
+</div>
+<div id="das-multivariate-lineare-regressionsmodell" class="section level3" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> Das multivariate lineare Regressionsmodell</h3>
+<p>Um die allgemeine Regressionsfunktion <span class="math inline">\(f(X)=E(Y|X)\)</span> mit Hilfe der Daten zu schätzen (lernen), gibt es sehr viele verschiedenen Möglichkeiten. Eine der erfolgreichsten und am häufigsten verwendete Möglichkeit ist das <strong>multivariaten linear Regressionsmodell</strong>. Dieses Modell ist die <strong>strukturelle Modellannahme</strong>, dass sich die unbekannte Regressionsfunktion <span class="math inline">\(f\)</span> als lineare Funktion (linear in den Modellparametern <span class="math inline">\(\beta_0, \beta_1, \dots, \beta_p\)</span>) schreiben lässt:
+<span class="math display">\[
+f(X)=\beta_0+\beta_1X_1+\dots+\beta_pX_p.
+\]</span></p>
+<p>Unter dieser Modellannahme wird das allgemeine Regressionsmodell <span class="math inline">\(Y=f(X)+\varepsilon\)</span> zum multivariaten (multiplen) linearen Regressionsmodell
+<!-- \begin{align*} -->
+<!-- Y=f(X)+\varepsilon -->
+<!-- \end{align*} -->
+<!-- zu  -->
+<span class="math display">\[\begin{align*}
+Y=\beta_0+\beta_1X_1+\dots+\beta_pX_p+\varepsilon.
+\end{align*}\]</span>
+Zusammen mit der Annahme, dass <span class="math inline">\(\varepsilon\)</span> unabhängig von <span class="math inline">\(X\)</span> ist, und dass <span class="math inline">\(E(\varepsilon)=0\)</span>, können wir mit dieser Modellannahme den unbekannten bedingten Mittelwert <span class="math inline">\(E(Y|X)=f(X)\)</span> vereinfacht schreiben als
+<span class="math display">\[\begin{align*}
+E(Y|X)=\beta_0+\beta_1X_1+\dots+\beta_pX_p.
+\end{align*}\]</span></p>
+<p>Vorteile des <strong>multivariaten linearen Regressionsmodells:</strong></p>
+<ul>
+<li>Anstatt eine gänzlich unbekannte Funktion <span class="math inline">\(f\)</span> schätzen (lernen) zu müssen, muss man lediglich die unbekannten Parameterwerte <span class="math inline">\(\beta_0, \beta_1, \dots, \beta_p\)</span> schätzen.</li>
+<li>Die Modellstruktur ist <strong>keine Black Box</strong>, sondern gibt Aufschluss darüber den <strong>assoziativen Zusammenhang</strong> zwischen den Prädiktorvariablen und der Zielvariablen.</li>
+<li>Die lineare Modellstruktur ist <strong>extrem flexibel</strong>, da Transformationen der Prädiktorvariablen grundsätzlich erlaubt sind.</li>
+</ul>
+<blockquote>
+<p>Gerade die große Flexibilität linearer Modelle werden wir nutzten müssen, um die <strong>nicht linearen Zusammenhänge</strong> zwischen den Prädiktorvariablen und der Zielvariablen in unserem Benzinverbrauchsbeispiel berücksichtigen zu können (siehe Abbildung <a href="1.1-prädiktionsproblem-benzinverbrauch.html#fig:pairsplot">1.2</a>).</p>
+</blockquote>
+</div>
+<div id="schätzung" class="section level3" number="1.2.3">
+<h3><span class="header-section-number">1.2.3</span> Schätzung</h3>
+<p>Wir wollen nun diejenige Funktion
+<span class="math display">\[
+\hat{f}(X)=\hat{\beta}_0 + \hat{\beta}_1 X_1 + \dots + \hat{\beta}_p X_p
+\]</span>
+finden, sodass <span class="math inline">\(Y\approx \hat{f}(X)\)</span> für alle Datenpunkte <span class="math inline">\((Y,X)\)</span>.</p>
+<p>Zur Berechnung von <span class="math inline">\(\hat{f}\)</span> können wir die <strong>beobachteten Daten</strong> als <strong>Trainingsdaten</strong> verwenden:
+<span class="math display">\[
+\left\{(x_1,y_1),(x_2,y_2),\dots,(x_n,y_n)\right\}\quad\text{wobei}\quad x_i=(x_{i1},x_{i2},\dots,x_{ip})^T.
+\]</span>
+Im Folgenden werden wir oft die Notation
+<span class="math display">\[x_{ij},\quad i=1,\dots,n,\quad j=1,\dots,p\]</span>
+verwenden, um die <span class="math inline">\(j\)</span>te Prädiktorvariable der <span class="math inline">\(i\)</span>ten Beobachtung zu bezeichnen. Der Laufindex <span class="math inline">\(j=1,\dots,p\)</span> repräsentiert die einzelnen Prädiktorvariablen (z.B. Verbrauch, Gewicht, Pferdestärken, und Hubraum im <code>Auto_df</code> Datensatz) und der Laufindex <span class="math inline">\(i=1,\dots,n\)</span> repräsentiert die einzelnen Beobachtungen (z.B. gespeichert als Zeilen im <code>Auto_df</code> Datensatz).</p>
+<blockquote>
+<p><strong>Idee:</strong> Die Trainingsdaten <span class="math inline">\(\left\{(x_1,y_1),(x_2,y_2),\dots,(x_n,y_n)\right\}\)</span> enthalten Information zum unbekannten Regressionsmodell <span class="math inline">\(f\)</span>, da (so die Grundidee) die Daten von eben diesem Modell erzeugt wurden. Ziel ist also die unbekannte Regressionsfunktion <span class="math inline">\(f\)</span> mit Hilfe der Trainingsdaten zu schätzen (erlernen).</p>
+</blockquote>
+<p>Für jede mögliche Schätzung <span class="math inline">\(\hat{f}\)</span> von <span class="math inline">\(f\)</span> können wir die beobachteten Werte der Zielvariablen <span class="math inline">\(y_1,\dots,y_n\)</span> mit den vorhergesagten Werten
+<span class="math display">\[
+\hat{y}_i=\hat{f}(x_i)=\hat{\beta}_0 + \hat{\beta}_1 x_{i1} +  \hat{\beta}_2 x_{i2} + \dots + \hat{\beta}_p x_{ip}
+\]</span>
+vergleichen, indem wir die <strong>Residuen</strong>
+<span class="math display">\[
+e_i = y_i-\hat{y}_i\quad i=1,\dots,n
+\]</span>
+betrachten.</p>
+<!-- Ist $\hat{f}\approx f$ eine gute Schätzung von $f$, so ist der reduzierbare Teil des Prädiktionsfehlers klein, und die empirische Varianz der Residuen $\frac{1}{n}(e_1^2+e_2^2+\dots +e_n^2)$ ähnelt  den unbeobachteten Fehlertermen $\varepsilon_i$.    sollten die Residuen $e_1,\dots,e_n$ insgesamt klein sein.  im Schnitt (d.h. für alle $i=1,\dots,n$) -->
+</div>
+<div id="methode-der-kleinsten-quadrate" class="section level3 unnumbered">
+<h3>Methode der kleinsten Quadrate</h3>
+<p>Die gängigste Methode zur Schätzung der unbekannten Modellparameter <span class="math inline">\(\beta_0,\beta_1,\dots,\beta_p\)</span> ist die <strong>Methode der kleinsten Quadrate</strong>. Wir definieren die <strong>Residuenquadratsumme</strong> RSS (Residual Sum of Squares) als:
+<span class="math display">\[
+\operatorname{RSS}=e_1^2+e_2^2+\dots +e_n^2
+\]</span>
+oder äquivalent als
+<span class="math display">\[
+\operatorname{RSS}=
+(y_1-\hat{\beta}_0 + \hat{\beta}_1 x_{11} +  \dots + \hat{\beta}_p x_{1p})^2 + 
+\dots +
+(y_n-\hat{\beta}_0 + \hat{\beta}_1 x_{n1} +  \dots + \hat{\beta}_p x_{np})^2
+\]</span>
+Die Methode der kleinsten Quadrate bestimmt die Parameterschätzungen <span class="math inline">\(\hat{\beta}=(\hat{\beta}_0,\hat{\beta}_1,\dots,\hat{\beta}_p)^T\)</span> durch Minimierung der Residuenquadratsumme RSS. Nach ein paar Rechnungen kann man zeigen, dass<br />
+<span class="math display">\[\begin{align*}
+\left(
+  \begin{matrix}
+  \hat{\beta}_0\\
+  \hat{\beta}_1\\
+  \vdots\\
+  \hat{\beta}_p
+  \end{matrix}
+\right)=
+\left(
+  \left(\begin{matrix}
+  1&amp;x_{11}&amp;\dots &amp; x_{1p}\\
+  \vdots&amp;&amp;\ddots &amp; \vdots\\
+  1&amp;x_{n1}&amp;\dots &amp; x_{np}\\
+  \end{matrix}\right)^T
+
+  \left(\begin{matrix}
+  1&amp;x_{11}&amp;\dots &amp; x_{1p}\\
+  \vdots&amp;&amp;\ddots &amp; \vdots\\
+  1&amp;x_{n1}&amp;\dots &amp; x_{np}\\
+  \end{matrix}\right)
+\right)^{-1}
+\left(\begin{matrix}
+  1&amp;x_{11}&amp;\dots &amp; x_{1p}\\
+  \vdots&amp;&amp;\ddots &amp; \vdots\\
+  1&amp;x_{n1}&amp;\dots &amp; x_{np}\\
+  \end{matrix}\right)^T
+\left(
+  \begin{matrix}
+  Y_1\\
+  \vdots\\
+  Y_n
+  \end{matrix}
+\right)
+\end{align*}\]</span></p>
+</div>
+<div id="polynom-regression" class="section level3" number="1.2.4">
+<h3><span class="header-section-number">1.2.4</span> Polynom-Regression</h3>
+<p>Die <strong>Polynom-Regression</strong> ist eine Möglichkeit, die nicht linearen Beziehungen zwischen der Zielvariablen und den Prädiktorvariablen in unserem Benzinverbrauchsproblem (siehe Abbildung <a href="1.1-prädiktionsproblem-benzinverbrauch.html#fig:pairsplot">1.2</a>) berücksichtigen zu können. So kann, zum Beispiel, der nicht lineare Zusammenhang zwischen <code>Verbrauch</code> und Leistung <code>PS</code> sehr flexibel als Polynomfunktion modelliert werden:
+<span class="math display">\[
+\texttt{Verbrauch}=\beta_0 + \beta_1 \texttt{Ps} + \beta_2 \texttt{PS}^2 + \dots + \beta_p \texttt{PS}^p
+\]</span>
+Je höher der Grad <span class="math inline">\(p\)</span> des Polynoms, desto flexibler ist ein Polynom-Regressionsmodell und ermöglicht so auch die Modellierung nicht linearen Zusammenhänge. Das Polynom-Regressionsmodell ist jedoch für alle Polynomgrade <span class="math inline">\(p\)</span> ein <strong>(multivariates) lineares Regressionsmodell</strong>, denn es ist linear bezüglich der Modellparameter <span class="math inline">\(\beta_0, \beta_1, \dots, \beta_p\)</span>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Polynom Regressionen</span></span>
+<span id="cb4-2"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb4-2" aria-hidden="true" tabindex="-1"></a>polreg_1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Verbrauch <span class="sc">~</span> <span class="fu">poly</span>(PS, <span class="at">degree =</span> <span class="dv">1</span>, <span class="at">raw=</span><span class="cn">TRUE</span>), <span class="at">data =</span> Auto_df)</span>
+<span id="cb4-3"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb4-3" aria-hidden="true" tabindex="-1"></a>polreg_2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Verbrauch <span class="sc">~</span> <span class="fu">poly</span>(PS, <span class="at">degree =</span> <span class="dv">2</span>, <span class="at">raw=</span><span class="cn">TRUE</span>), <span class="at">data =</span> Auto_df)</span>
+<span id="cb4-4"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb4-4" aria-hidden="true" tabindex="-1"></a>polreg_5 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Verbrauch <span class="sc">~</span> <span class="fu">poly</span>(PS, <span class="at">degree =</span> <span class="dv">5</span>, <span class="at">raw=</span><span class="cn">TRUE</span>), <span class="at">data =</span> Auto_df)</span>
+<span id="cb4-5"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Data-Frame zum Abspeichern der Prädiktionen</span></span>
+<span id="cb4-6"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb4-6" aria-hidden="true" tabindex="-1"></a>plot_df       <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="st">&quot;PS&quot;</span> <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">45</span>, <span class="dv">250</span>, <span class="at">len=</span><span class="dv">50</span>))</span>
+<span id="cb4-7"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Abspeichern der Prädiktionen</span></span>
+<span id="cb4-8"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb4-8" aria-hidden="true" tabindex="-1"></a>plot_df<span class="sc">$</span>fit_1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(polreg_1, <span class="at">newdata =</span> plot_df)</span>
+<span id="cb4-9"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb4-9" aria-hidden="true" tabindex="-1"></a>plot_df<span class="sc">$</span>fit_2 <span class="ot">&lt;-</span> <span class="fu">predict</span>(polreg_2, <span class="at">newdata =</span> plot_df)</span>
+<span id="cb4-10"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb4-10" aria-hidden="true" tabindex="-1"></a>plot_df<span class="sc">$</span>fit_5 <span class="ot">&lt;-</span> <span class="fu">predict</span>(polreg_5, <span class="at">newdata =</span> plot_df)</span>
+<span id="cb4-11"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Ploten</span></span>
+<span id="cb4-12"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Verbrauch <span class="sc">~</span> PS, <span class="at">data =</span> Auto_df, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">20</span>),</span>
+<span id="cb4-13"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb4-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Leistung (PS)&quot;</span>, <span class="at">pch=</span><span class="dv">21</span>, <span class="at">col=</span><span class="st">&quot;gray&quot;</span>, <span class="at">bg=</span><span class="st">&quot;gray&quot;</span>, <span class="at">cex=</span><span class="fl">1.5</span>)</span>
+<span id="cb4-14"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(plot_df, <span class="fu">lines</span>(<span class="at">x =</span> PS, <span class="at">y =</span> fit_1, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">col=</span><span class="st">&quot;orange&quot;</span>))</span>
+<span id="cb4-15"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(plot_df, <span class="fu">lines</span>(<span class="at">x =</span> PS, <span class="at">y =</span> fit_2, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">col=</span><span class="st">&quot;blue&quot;</span>))</span>
+<span id="cb4-16"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(plot_df, <span class="fu">lines</span>(<span class="at">x =</span> PS, <span class="at">y =</span> fit_5, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">col=</span><span class="st">&quot;darkgreen&quot;</span>))</span>
+<span id="cb4-17"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">lty=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">21</span>,<span class="cn">NA</span>,<span class="cn">NA</span>,<span class="cn">NA</span>), </span>
+<span id="cb4-18"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb4-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">col=</span><span class="fu">c</span>(<span class="st">&quot;gray&quot;</span>,<span class="st">&quot;orange&quot;</span>,<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;darkgreen&quot;</span>), <span class="at">pt.bg=</span><span class="st">&quot;gray&quot;</span>, <span class="at">pt.cex=</span><span class="fl">1.5</span>,</span>
+<span id="cb4-19"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb4-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Datenpunkte&quot;</span>, <span class="st">&quot;Grad 1&quot;</span>, <span class="st">&quot;Grad 2&quot;</span>, <span class="st">&quot;Grad 5&quot;</span>), <span class="at">bty=</span><span class="st">&quot;n&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:polynom"></span>
+<img src="Computational_Statistics_Script_files/figure-html/polynom-1.png" alt="Polynom Regression bei verschiedenen Polynomgraden $p$." width="100%" height="100%" />
+<p class="caption">
+Abbildung 1.5: Polynom Regression bei verschiedenen Polynomgraden <span class="math inline">\(p\)</span>.
+</p>
+</div>
+<p>Zusätzlich zur Wahl der Modellparameter <span class="math inline">\(\hat{\beta}_0, \hat{\beta}_1, \dots, \hat{\beta}_p\)</span> besteht hier nun das Problem
+der Wahl des Grades <span class="math inline">\(p\)</span> des Polynoms als weiteren Modellparameter
+<span class="math display">\[
+y_i=\hat{\beta}_0 + \hat{\beta}_1 x_{i1} + \hat{\beta}_2 x_{i2}^2 + \dots + \hat{\beta}_p x_{ip}^p + e_i
+\]</span>
+Wenn man jedoch versucht, alle Modellparameter (also <span class="math inline">\(\hat{\beta}_0, \hat{\beta}_1, \dots, \hat{\beta}_p\)</span> <strong>und</strong> <span class="math inline">\(p\)</span>) durch Minimieren der Trainingsdaten-RSS
+<span class="math display">\[
+\operatorname{RSS}\equiv\operatorname{RSS}(\hat{\beta}_0, \hat{\beta}_1, \dots, \hat{\beta}_p,p)=e_1^2 + e_2^2 + \dots + e_n^2
+\]</span>
+zu schätzen, so ergibt sich ein Problem das als <strong>Überanpassung</strong> (<strong>Overfitting</strong>) bekannt ist (siehe Abbildung <a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#fig:RSSPoly2">1.6</a>). Das Polynom-Regressionsmodell ist so flexibel, dass es auch den unbeobachtbaren Fehlertermen <span class="math inline">\(\varepsilon\)</span> in den Trainingsdaten (<span class="math inline">\((x_i,y_i)\)</span>) folgen kann. Ein Regressionsmodell, welches mittels Minimierung der Trainingsdaten-RSS geschätzt wurde, ermöglicht daher zwar eine sehr gute Anpassung an die Trainingsdaten. Eine Überangepassung an die Trainingsdaten führt jedoch notwendigerweise zu einer Verschlechterung der Vorhersagegüte bezüglich <em>neuer</em> Daten mit eigenen (ebenso nicht reduzierbarem) Fehlertermen <span class="math inline">\(\varepsilon\)</span>.</p>
+<p><img src="Computational_Statistics_Script_files/figure-html/RSSPoly1-.gif" width="90%" style="display: block; margin: auto;" /></p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:RSSPoly2"></span>
+<img src="Computational_Statistics_Script_files/figure-html/RSSPoly2-1.png" alt="Polynom Regression und die Wahl des Polynomgrades $p$ durch Minimierung der Trainingsdaten-RSS. (Eine schlechte Idee)." width="90%" />
+<p class="caption">
+Abbildung 1.6: Polynom Regression und die Wahl des Polynomgrades <span class="math inline">\(p\)</span> durch Minimierung der Trainingsdaten-RSS. (Eine schlechte Idee).
+</p>
+</div>
+<p>Das oben veranschaulichte Problem der Überanpassung (Overfitting) ist eng damit verbunden, dass wir hier ein sehr flexibles Regressionsmodell (Polynom-Regression) betrachten. Viele der möglichen Polynomfunktionen sind unsinnig, da sie nicht die strukturellen Einschränkungen des betrachteten Datenproblems berücksichtigen. Falls ein gesicheretes Wissen zu den zugrundeliegenden strukturellen Zusammenhängen zwischen der Zielvariable <span class="math inline">\(Y\)</span> und den Prädiktorvariablen <span class="math inline">\(X\)</span> existiert, sollte man diese strukturellen Zusammenhängen auch im statistischen Modell berücksichtigen. (Immer mit den Expert*Innen des Faches sprechen!) Im besten Falle gibt es ein <strong>strukturelles Modell</strong> zu den systematischen Zusammenhängen <span class="math inline">\(f\)</span> zwischen <span class="math inline">\(Y\)</span> und <span class="math inline">\(X\)</span>, welches genügend Einschränkungen bietet, sodass alle unsinnigen Modellierungen vermieden werden können. In solchen Idealfällen führt die Minimierung der Trainingsdaten-RSS zu keinem Problem der Überanpassung.</p>
+<p>Falls jedoch kein (vertrauenswürdiges) strukturelles Modell vorliegt, ist die Verwendung von sehr flexiblen Regressionsmodellen wie dem Polynom-Regressionsmodell eine grundsätzlich sehr gute Idee, da wir so ohne große Einschränkungen nach den unbekannten richtigen Zusammenhängen <span class="math inline">\(f\)</span> suchen können. Wir benötigen jedoch eine alternative Methode zur Minimierung der Trainingsdaten-RSS, um eine Überanpassung an die Trainingsdaten zu vermeiden.</p>
+</div>
+<div id="mittlerer-quadratischer-prädiktionsfehler-mspe" class="section level3 unnumbered">
+<h3>Mittlerer Quadratischer Prädiktionsfehler (MSPE)</h3>
+<p>Da die Minimierung der Trainingsdaten-RSS schnell zu einem Problem der Überanpassung führt, benötigen wir eine alternative Methode, um die Güte des geschätzten Modells zu prüfen. Die einfachste Idee ist dabei die beobachteten Daten in einen Satz von Trainingsdaten
+<span class="math display">\[
+\text{Trainingsdaten}=\left\{(x_{1}^{Train},y_{1}^{Train}), (x_{2}^{Train},y_{2}^{Train}),\dots,(x_{n_{Train}}^{Train},y_{n_{Train}}^{Train})\right\}
+\]</span>
+und einen <strong>separaten</strong> (disjunkten) Satz von Validierungsdaten
+<span class="math display">\[
+\text{Validierungsdaten}=\left\{(x_{1}^{Valid},y_{1}^{Valid}), (x_{2}^{Valid},y_{2}^{Valid}),\dots,(x_{n_{Valid}}^{Valid},y_{n_{Valid}}^{Valid})\right\}
+\]</span>
+zu teilen mit</p>
+<!-- \text{Validierungsdaten}=\left\{(x_{i},y_{i}):i\in\mathcal{I}_{Valid}\right\}\quad\text{mit}\quad n_{Valid}=|\mathcal{I}_{Valid}| -->
+<ul>
+<li><span class="math inline">\(n=n_{Train} + n_{Valid}\)</span></li>
+<li><span class="math inline">\(\text{Trainingsdaten}\cap \text{Validierungsdaten} = \emptyset\)</span></li>
+<li><span class="math inline">\(\text{Trainingsdaten}\cup \text{Validierungsdaten} = \left\{1,2,\dots,n\right\}\)</span></li>
+</ul>
+<p>Diese Aufteilung der Daten ermöglicht uns nun ein zweistufiges Verfahren:</p>
+<p><strong>Schritt 1:</strong> Mit Hilfe der <strong>Trainingsdaten</strong> wird das Polynom-Regressionsmodell <span class="math inline">\(\hat{f}_{Train}\)</span> <strong>geschätzt</strong>
+<span class="math display">\[
+\hat{y}^{Train}_i=\hat{f}_{Train}(x_i^{Train})=\hat{\beta}_0 + \hat{\beta}_1 x_{i1}^{Train} + \hat{\beta}_2 (x_{i2}^{Train})^2 + \dots + \hat{\beta}_p (x_{ip}^{Train})^p + e_i^{Train}
+\]</span></p>
+<!-- \hat{y}_i=\hat{f}_{Train}(x_i)=\hat{\beta}_0 + \hat{\beta}_1 x_{i1} + \hat{\beta}_2 x_{i2}^2 + \dots + \hat{\beta}_p x_{ip}^p + e_i\quad\text{mit}\quad i\in\mathcal{I}_{Train} -->
+<p><strong>Schritt 2:</strong> Mit Hilfe der <strong>Validierungsdaten</strong> wird das geschätzte Polynom-Regressionsmodell <span class="math inline">\(\hat{f}_{Train}\)</span> <strong>validiert</strong>
+<span class="math display">\[
+\hat{y}^{Valid}_i=\hat{f}_{Train}(x_i^{Valid})=\hat{\beta}_0 + \hat{\beta}_1 x_{i1}^{Valid} + \hat{\beta}_2 (x_{i2}^{Valid})^2 + \dots + \hat{\beta}_p (x_{ip}^{Valid})^p + e_i^{Valid},
+\]</span>
+indem man den <strong>mittleren quadratischen Prädiktionsfehler</strong> (Mean Squared Prediction Error <strong>MSPE</strong>) berechnet:
+<span class="math display">\[
+\text{MSPE}=\frac{1}{n_{Valid}}\text{RSS}_{Valid}=\frac{1}{n_{Valid}}\overbrace{\sum_{i\in\mathcal{I}_{Valid}} \left(y_i - \hat{y}_i\right)^2}^{=\text{RSS}_{Valid}}
+\]</span></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">31</span>)</span>
+<span id="cb5-2"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb5-3"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb5-3" aria-hidden="true" tabindex="-1"></a>n        <span class="ot">&lt;-</span> <span class="fu">nrow</span>(Auto_df) <span class="co"># Stichprobenumfang</span></span>
+<span id="cb5-4"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb5-4" aria-hidden="true" tabindex="-1"></a>n_Train  <span class="ot">&lt;-</span> <span class="dv">200</span>           <span class="co"># Stichprobenumfang der Trainingsdaten</span></span>
+<span id="cb5-5"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb5-5" aria-hidden="true" tabindex="-1"></a>n_Valid  <span class="ot">&lt;-</span>n <span class="sc">-</span> n_Train    <span class="co"># Stichprobenumfang der Validierungsdaten</span></span>
+<span id="cb5-6"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Index-Mengen zur Auswahl der </span></span>
+<span id="cb5-8"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Trainings- und Validierungsdaten</span></span>
+<span id="cb5-9"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb5-9" aria-hidden="true" tabindex="-1"></a>I_Train  <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span>n, <span class="at">size =</span> n_Train, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-10"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb5-10" aria-hidden="true" tabindex="-1"></a>I_Valid  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>n)[<span class="sc">-</span>I_Train]</span>
+<span id="cb5-11"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb5-12" aria-hidden="true" tabindex="-1"></a>p_max         <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb5-13"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb5-13" aria-hidden="true" tabindex="-1"></a>MSPE          <span class="ot">&lt;-</span> <span class="fu">numeric</span>(p_max)</span>
+<span id="cb5-14"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb5-14" aria-hidden="true" tabindex="-1"></a>fit_plot      <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="dv">50</span>, p_max)</span>
+<span id="cb5-15"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(p <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>p_max){</span>
+<span id="cb5-16"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Schritt 1</span></span>
+<span id="cb5-17"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb5-17" aria-hidden="true" tabindex="-1"></a>  Train_polreg_p <span class="ot">&lt;-</span> <span class="fu">lm</span>(Verbrauch <span class="sc">~</span> <span class="fu">poly</span>(PS, <span class="at">degree =</span> p, <span class="at">raw=</span><span class="cn">TRUE</span>), </span>
+<span id="cb5-18"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb5-18" aria-hidden="true" tabindex="-1"></a>                       <span class="at">data =</span> Auto_df[I_Train,])</span>
+<span id="cb5-19"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Schritt 2</span></span>
+<span id="cb5-20"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb5-20" aria-hidden="true" tabindex="-1"></a>  Valid_fitted  <span class="ot">&lt;-</span> <span class="fu">predict</span>(Train_polreg_p, <span class="at">newdata =</span> Auto_df[I_Valid,])</span>
+<span id="cb5-21"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb5-21" aria-hidden="true" tabindex="-1"></a>  RSS_Valid     <span class="ot">&lt;-</span> <span class="fu">sum</span>( (Auto_df<span class="sc">$</span>Verbrauch[I_Valid] <span class="sc">-</span> Valid_fitted)<span class="sc">^</span><span class="dv">2</span> )</span>
+<span id="cb5-22"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb5-22" aria-hidden="true" tabindex="-1"></a>  MSPE[p]       <span class="ot">&lt;-</span> RSS_Valid <span class="sc">/</span> n_Valid</span>
+<span id="cb5-23"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Daten für&#39;s plotten</span></span>
+<span id="cb5-24"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb5-24" aria-hidden="true" tabindex="-1"></a>  fit_plot[,p] <span class="ot">&lt;-</span> <span class="fu">predict</span>(Train_polreg_p, <span class="at">newdata =</span> plot_df)</span>
+<span id="cb5-25"><a href="1.2-vom-allgemeinen-zum-linearen-regressionsmodell.html#cb5-25" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:RSSPoly3"></span>
+<img src="Computational_Statistics_Script_files/figure-html/RSSPoly3-1.png" alt="Polynom Regression und die Wahl des Polynomgrades $p$ durch Minimierung des mittleren quadratischen Prädiktionsfehler MSPE. (Eine bessere Idee)." width="90%" />
+<p class="caption">
+Abbildung 1.7: Polynom Regression und die Wahl des Polynomgrades <span class="math inline">\(p\)</span> durch Minimierung des mittleren quadratischen Prädiktionsfehler MSPE. (Eine bessere Idee).
+</p>
+</div>
+</div>
+</div>
+<h3>Literatur</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Shmueli_2010" class="csl-entry">
+Shmueli, Galit. 2010. <span>„<span>To Explain or to Predict?</span>“</span> <em>Statistical Science</em> 25 (3): 289–310. <a href="https://doi.org/10.1214/10-STS330">https://doi.org/10.1214/10-STS330</a>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="1.1-prädiktionsproblem-benzinverbrauch.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="1.3-maschineles-lernen.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "serif",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/lidom/Computational_Statistics_Script/edit/main/03-Linear-Models-Regr.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Computational_Statistics_Script.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

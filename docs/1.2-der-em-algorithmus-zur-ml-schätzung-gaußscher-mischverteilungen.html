@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="de" xml:lang="de">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>1.2 Der EM Algorithmus zur ML-Schätzung Gaußscher Mischverteilungen | Computational Statistics</title>
+  <meta name="description" content="1.2 Der EM Algorithmus zur ML-Schätzung Gaußscher Mischverteilungen | Computational Statistics" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="1.2 Der EM Algorithmus zur ML-Schätzung Gaußscher Mischverteilungen | Computational Statistics" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="/images/Florence_Nightingale.jpg" />
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="1.2 Der EM Algorithmus zur ML-Schätzung Gaußscher Mischverteilungen | Computational Statistics" />
+  
+  
+  <meta name="twitter:image" content="/images/Florence_Nightingale.jpg" />
+
+<meta name="author" content="Prof. Dr. Dominik Liebl" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html"/>
+<link rel="next" href="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="toc.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><center><a href="http://www.dliebl.com/Computational_Statistics_Script/"><img src="images/Florence_Nightingale.jpg" alt="logo" width="60%" height="60%"style="margin: 15px 0 0 0"></a></center></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Informationen</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#vorlesungszeiten"><i class="fa fa-check"></i>Vorlesungszeiten</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#rcodes"><i class="fa fa-check"></i>RCodes</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#leseecke"><i class="fa fa-check"></i>Leseecke</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#florence-nightingale"><i class="fa fa-check"></i>Florence Nightingale</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="1-der-expectation-maximization-em-algorithmus.html"><a href="1-der-expectation-maximization-em-algorithmus.html"><i class="fa fa-check"></i><b>1</b> Der Expectation Maximization (EM) Algorithmus</a>
+<ul>
+<li class="chapter" data-level="" data-path="1-der-expectation-maximization-em-algorithmus.html"><a href="1-der-expectation-maximization-em-algorithmus.html#lernziele-für-dieses-kapitel"><i class="fa fa-check"></i>Lernziele für dieses Kapitel</a></li>
+<li class="chapter" data-level="" data-path="1-der-expectation-maximization-em-algorithmus.html"><a href="1-der-expectation-maximization-em-algorithmus.html#begleitlektüren"><i class="fa fa-check"></i>Begleitlektüre(n)</a></li>
+<li class="chapter" data-level="" data-path="1-der-expectation-maximization-em-algorithmus.html"><a href="1-der-expectation-maximization-em-algorithmus.html#r-pakete-für-diese-kapitel"><i class="fa fa-check"></i>R-Pakete für diese Kapitel</a></li>
+<li class="chapter" data-level="1.1" data-path="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html"><i class="fa fa-check"></i><b>1.1</b> Motivation: Clusteranalyse mit Hilfe Gaußscher Mischverteilungen</a></li>
+<li class="chapter" data-level="1.2" data-path="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><i class="fa fa-check"></i><b>1.2</b> Der EM Algorithmus zur ML-Schätzung Gaußscher Mischverteilungen</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#gaußsche-mischmodelle-gmm"><i class="fa fa-check"></i><b>1.2.1</b> Gaußsche Mischmodelle (GMM)</a></li>
+<li class="chapter" data-level="1.2.2" data-path="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#maximum-likelihood-ml-schätzung"><i class="fa fa-check"></i><b>1.2.2</b> Maximum Likelihood (ML) Schätzung</a></li>
+<li class="chapter" data-level="1.2.3" data-path="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#ch:EM1"><i class="fa fa-check"></i><b>1.2.3</b> Der EM Algorithmus für GMMs</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><a href="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><i class="fa fa-check"></i><b>1.3</b> Der alternative (wahre) Blick auf den EM Algorithmus</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><a href="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html#vervollständigung-der-daten"><i class="fa fa-check"></i><b>1.3.1</b> Vervollständigung der Daten</a></li>
+<li class="chapter" data-level="1.3.2" data-path="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><a href="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html#a-priori-und-a-posteriori-wahrscheinlichkeiten-pi_g-und-p_ig"><i class="fa fa-check"></i><b>1.3.2</b> A-priori und A-posteriori Wahrscheinlichkeiten: <span class="math inline">\(\pi_g\)</span> und <span class="math inline">\(p_{ig}\)</span></a></li>
+<li class="chapter" data-level="1.3.3" data-path="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><a href="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html#der-bedingte-mittelwert-p_ig"><i class="fa fa-check"></i><b>1.3.3</b> Der (bedingte) Mittelwert: <span class="math inline">\(p_{ig}\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="1.4-das-große-ganze.html"><a href="1.4-das-große-ganze.html"><i class="fa fa-check"></i><b>1.4</b> Das Große Ganze</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="1.4-das-große-ganze.html"><a href="1.4-das-große-ganze.html#ch:EM2"><i class="fa fa-check"></i><b>1.4.1</b> Der EM Algorithmus: <em>Die abstrakte Version</em></a></li>
+<li class="chapter" data-level="" data-path="1.4-das-große-ganze.html"><a href="1.4-das-große-ganze.html#ende"><i class="fa fa-check"></i>Ende</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="2-lineare-regressionsmodelle.html"><a href="2-lineare-regressionsmodelle.html"><i class="fa fa-check"></i><b>2</b> Lineare Regressionsmodelle</a>
+<ul>
+<li class="chapter" data-level="" data-path="2-lineare-regressionsmodelle.html"><a href="2-lineare-regressionsmodelle.html#begleitlektüren-1"><i class="fa fa-check"></i>Begleitlektüre(n)</a></li>
+<li class="chapter" data-level="2.1" data-path="2.1-einführung.html"><a href="2.1-einführung.html"><i class="fa fa-check"></i><b>2.1</b> Einführung</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="literatur.html"><a href="literatur.html"><i class="fa fa-check"></i>Literatur</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Computational Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Der EM Algorithmus zur ML-Schätzung Gaußscher Mischverteilungen</h2>
+<div id="gaußsche-mischmodelle-gmm" class="section level3" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> Gaußsche Mischmodelle (GMM)</h3>
+<p>Eine Zufallsvariable <span class="math inline">\(X\)</span>, die einer Gauschen Mischverteilung folgt, bezeichnen wir als
+<span class="math display">\[
+X\sim\mathcal{N}_{\mathcal{mix}}(G,\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})
+\]</span></p>
+<p>Die dazugehörige Dichtefunktion einer Gaußschen Mischverteilung ist folgendermaßen definiert:
+<span class="math display" id="eq:GMMdens">\[\begin{equation}
+f_G(x|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})=\sum_{g=1}^G\pi_gf(x|\mu_g,\sigma_g) \tag{1.1}
+\end{equation}\]</span></p>
+<ul>
+<li><strong>Gewichte:</strong> <span class="math inline">\(\boldsymbol{\pi}=(\pi_1,\dots,\pi_G)\)</span> mit <span class="math inline">\(\pi_g&gt;0\)</span> und <span class="math inline">\(\sum_{g=1}^G\pi_g=1\)</span></li>
+<li><strong>Mittelwerte:</strong> <span class="math inline">\(\boldsymbol{\mu}=(\mu_1,\dots,\mu_G)\)</span> mit <span class="math inline">\(\mu_g\in\mathbb{R}\)</span></li>
+<li><strong>Standardabweichungen:</strong> <span class="math inline">\(\boldsymbol{\sigma}=(\sigma_1,\dots,\sigma_G)\)</span> mit <span class="math inline">\(\sigma_g&gt;0\)</span></li>
+<li><strong>Normalverteilung der Gruppe <span class="math inline">\(g=1,\dots,G\)</span>:</strong>
+<span class="math display">\[
+f(x|\mu_g,\sigma_g)=\frac{1}{\sqrt{2\pi}\sigma_g}\exp\left(-\frac{1}{2}\left(\frac{x-\mu_g}{\sigma_g}\right)^2\right)
+\]</span></li>
+<li><strong>Unbekannte Parameter:</strong> <span style="color:#FF5733"><span class="math inline">\(\boldsymbol{\pi}\)</span></span>, <span style="color:#FF5733"><span class="math inline">\(\boldsymbol{\mu}\)</span></span> und <span style="color:#FF5733"><span class="math inline">\(\boldsymbol{\sigma}\)</span></span></li>
+</ul>
+</div>
+<div id="maximum-likelihood-ml-schätzung" class="section level3" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> Maximum Likelihood (ML) Schätzung</h3>
+<p>Man kann versuchen die unbekannten Parameter <span class="math inline">\(\boldsymbol{\pi}=(\pi_1,\dots,\pi_G)\)</span>, <span class="math inline">\(\boldsymbol{\mu}=(\mu_1,\dots,\mu_G)\)</span> und <span class="math inline">\(\boldsymbol{\sigma}=(\sigma_1,\dots,\sigma_G)\)</span> eines Gaußschen Mischmodells klassisch mit Hilfe der Maximum Likelihood Methode zu schätzen.</p>
+<blockquote>
+<p>Ich sag’s gleich: Der Versuch wird scheitern.</p>
+</blockquote>
+<p><strong>Wiederholung der Grundidee der ML-Schätzung:</strong></p>
+<ul>
+<li><strong>Annahme:</strong> Die Daten <span class="math inline">\(\mathbf{x}=(x_1,\dots,x_n)\)</span> sind eine Realisation einer einfachen (also i.i.d.) Zufallsstichprobe <span class="math inline">\((X_1,\dots,X_n)\)</span> mit
+<span class="math display">\[ 
+X_i\sim\mathcal{N}_{\mathcal{mix}}(G,\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})
+\]</span>
+für alle <span class="math inline">\(i=1,\dots,n\)</span>.</li>
+</ul>
+<!-- und dazugehöriger Dichtefunktion $f_G(x|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})=\sum_{g=1}^G\pi_gf(x|\mu_g,\sigma_g).$  -->
+<blockquote>
+<p>Die Daten <span class="math inline">\(\mathbf{x}=(x_1,\dots,x_n)\)</span> „kennen“ also die unbekannten Parameter <span class="math inline">\(\boldsymbol{\pi},\)</span> <span class="math inline">\(\boldsymbol{\mu}\)</span> und <span class="math inline">\(\boldsymbol{\sigma}\)</span> und wir müssen ihnen diese Informationen „nur noch“ entlocken.</p>
+</blockquote>
+<ul>
+<li><p><strong>Schätz-Idee:</strong> Wähle <span class="math inline">\(\boldsymbol{\pi}\)</span>, <span class="math inline">\(\boldsymbol{\mu}\)</span> und <span class="math inline">\(\boldsymbol{\sigma}\)</span> so, dass <span class="math inline">\(f_G(\cdot|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})\)</span> <strong>„optimal“</strong> zu den beobachteten Daten <span class="math inline">\(\mathbf{x}\)</span> passt.<br></p></li>
+<li><p><strong>Umsetzung der Schätz-Idee:</strong> Maximiere (bzgl. <span class="math inline">\(\boldsymbol{\pi}\)</span>, <span class="math inline">\(\boldsymbol{\mu}\)</span> und <span class="math inline">\(\boldsymbol{\sigma}\)</span>) die Likelihood Funktion
+<span class="math display">\[\mathcal{L}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x})=\prod_{i=1}^nf_G(x_i|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})\]</span>
+Bzw. maximiere die Log-Likelihood Funktion (einfachere Maximierung)
+<span class="math display">\[\begin{align*}
+\ln\left(\mathcal{L}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x})\right)=
+\ell(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x})
+=&amp;\sum_{i=1}^n\ln\left(f_G(x_i|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})\right)\\
+=&amp;\sum_{i=1}^n\ln\left(\sum_{g=1}^G\pi_gf(x_i|\mu_g,\sigma_g)\right)
+\end{align*}\]</span>
+<strong>Beachte:</strong> Die Maximierung muss die Parameterrestriktionen in <a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#eq:GMMdens">(1.1)</a> berücksichtigen (<span class="math inline">\(\sigma_g&gt;0\)</span> und <span class="math inline">\(\pi_g&gt;0\)</span> für alle <span class="math inline">\(g=1,\dots,G\)</span> und <span class="math inline">\(\sum_{g=1}^G\pi_g=1\)</span>).</p></li>
+<li><p>Die maximierenden Parameterwerte <span style="color:#FF5733"><span class="math inline">\(\hat{\boldsymbol{\pi}}\)</span></span>, <span style="color:#FF5733"><span class="math inline">\(\hat{\boldsymbol{\mu}}\)</span></span> und <span style="color:#FF5733"><span class="math inline">\(\hat{\boldsymbol{\sigma}}\)</span></span> sind die <span style="color:#FF5733"><strong>ML-Schätzer</strong></span>. Das kann man so ausdrücken:
+<span class="math display">\[
+(\hat{\boldsymbol{\pi}},\hat{\boldsymbol{\mu}},\hat{\boldsymbol{\sigma}})=\arg\max_{\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}}\ell(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x})
+\]</span></p></li>
+</ul>
+<p>😒 <strong>Probleme mit Singularitäten bei Numerische Lösungen:</strong> Versucht man obiges Maximierungsproblem <a href="https://cran.r-project.org/web/packages/EstimationTools/vignettes/maxlogL.pdf">numerisch mit Hilfe des Computers zu lösen</a>, wird man schnell merken, dass die Ergebnisse höchst instabil, unplausibel und wenig vertrauenswürdig sind. Der Grund für diese instabilen Schätzungen sind Probleme mit Singularitäten: <br>
+Für echte GMMs (<span class="math inline">\(G&gt;1\)</span>) treten während einer numerischen Maximierung sehr leicht Probleme mit Singularitäten auf. Dies geschieht immer dann, wenn eine der Normalverteilungskomponenten versucht den ganzen Datensatz <span class="math inline">\(\mathbf{x}\)</span> zu beschreiben und die andere(n) Normalverteilungskomponente(n) versuchen lediglich einzelne Datenpunkte zu beschreiben. Eine Gaußsche Dichtefunktion, die sich um einen einzigen Datenpunkt <span class="math inline">\(x_i\)</span> konzentriert (d.h. <span class="math inline">\(\mu_g=x_i\)</span> und <span class="math inline">\(\sigma_g\to 0\)</span>) wird dabei sehr große Werte annehmen (d.h. <span class="math inline">\(f(x_i|\mu_g=x_i,\sigma_g)\to\infty\)</span> für <span class="math inline">\(\sigma_g\to 0\)</span>) und so die Log-Likelihood auf unerwünschte Weise maximieren (siehe Abbildung <a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#fig:dirac1">1.3</a>). Solch <strong>unerwünschte, triviale Maximierungslösungen</strong> führen i.d.R. zu unplausiblen Schätzergebnissen.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:dirac1"></span>
+<img src="Computational_Statistics_Script_files/figure-html/dirac1-.gif" alt="Normalverteilung mit $\mu_g=x_i$ für $\sigma_g\to 0$." width="90%" />
+<p class="caption">
+Abbildung 1.3: Normalverteilung mit <span class="math inline">\(\mu_g=x_i\)</span> für <span class="math inline">\(\sigma_g\to 0\)</span>.
+</p>
+</div>
+<p><br><br></p>
+<p>😒 <strong>Analytische Lösung:</strong> Es ist zwar etwas mühsam, aber man kann versuchen die Log-Likelihood analytisch zu maximieren. Tut man sich das an, kommt man zu folgenden Ausdrücken:
+<span class="math display">\[\begin{align*}
+\hat\pi_g&amp;=\frac{1}{n}\sum_{i=1}^np_{ig}\\
+\hat\mu_g&amp;=\sum_{i=1}^n\frac{p_{ig}}{\left(\sum_{j=1}^np_{jg}\right)}x_i\\
+\hat\sigma_g&amp;=\sqrt{\sum_{i=1}^n\frac{p_{ig}}{\left(\sum_{j=1}^np_{jg}\right)}\left(x_i-\hat\mu_g\right)^2}
+\end{align*}\]</span>
+für <span class="math inline">\(g=1,\dots,G\)</span>.</p>
+<blockquote>
+<p>Die Herleitung der Ausdrücke für <span class="math inline">\(\hat{\mu}_g\)</span>, <span class="math inline">\(\hat{\sigma}_g\)</span> und <span class="math inline">\(\hat{\pi}_g\)</span> ist wirklich etwas lästig (mehrfache Anwendungen der Kettenregel, Produktregel, etc., sowie Anwendung des Lagrange-Multiplikator Verfahrens zur Optimierung unter Nebenbedingungen) aber machbar. In einer der Übungsaufgaben dürfen Sie den Ausdruck für <span class="math inline">\(\hat\mu_g\)</span> herleiten.</p>
+</blockquote>
+<p>🙈 <span style="color:#FF5733"><strong>Aber:</strong></span> Diese Ausdrücke für <span class="math inline">\(\hat\pi_g\)</span>, <span class="math inline">\(\hat\mu_g\)</span> und <span class="math inline">\(\hat\sigma_g\)</span> hängen von den <span style="color:#FF5733"><strong>unbekannten</strong></span> Parametern <span class="math inline">\(\boldsymbol{\pi}=(\pi_1,\dots,\pi_G)\)</span>, <span class="math inline">\(\boldsymbol{\mu}=(\mu_1,\dots,\mu_G)\)</span> und <span class="math inline">\(\boldsymbol{\sigma}=(\sigma_1,\dots,\sigma_G)\)</span>, denn:
+<span class="math display">\[
+p_{ig}=\frac{\pi_gf(x_i|\mu_g,\sigma_g)}{f_G(x_i|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})}
+\]</span>
+für <span class="math inline">\(i=1,\dots,n\)</span> und <span class="math inline">\(g=1,\dots,G\)</span>. Die Ausdrücke für <span class="math inline">\(\hat\pi_g\)</span>, <span class="math inline">\(\hat\mu_g\)</span>, und <span class="math inline">\(\hat\sigma_g\)</span> erlauben also keine keine direkte Schätzung der unbekannten Parameter <span class="math inline">\(\pi_g\)</span>, <span class="math inline">\(\mu_g\)</span> und <span class="math inline">\(\sigma_g\)</span>.</p>
+<p>🥳 <span style="color:#138D75"><strong>Lösung: Der EM Algorithmus</strong></span></p>
+<!-- ## Der <span style="color:#FF5733">E</span><span style="color:#2471A3">M</span> Algorithmus -->
+</div>
+<div id="ch:EM1" class="section level3" number="1.2.3">
+<h3><span class="header-section-number">1.2.3</span> Der EM Algorithmus für GMMs</h3>
+<p>Die Ausdrücke für <span class="math inline">\(\hat\pi_g\)</span>, <span class="math inline">\(\hat\mu_g\)</span> und <span class="math inline">\(\hat\sigma_g\)</span> legen jedoch ein einfaches, iteratives ML-Schätzverfahren nahe: Nämlich einer alternierenden Schätzung von <span class="math inline">\(p_{ig}\)</span> und <span class="math inline">\((\hat\pi_g, \hat\mu_g,\hat\sigma_g)\)</span>.</p>
+<!-- ist einfach und folgt einem iterativen Schema: Für gegebene Werte  -->
+<!-- 1. Starte mit errateten Werten für $\boldsymbol{\pi}^{(0)}$, $\boldsymbol{\mu}^{(0)}$ und $\boldsymbol{\sigma}^{(0)}$.  -->
+<!-- 2. In der $k$ten Wiederholung ($k=1,2,\dots$) kann man, erstens, neue $p_{ig}^{(r)}$ Werte berechnen (basierend auf $\boldsymbol{\pi}^{(r-1)}$, $\boldsymbol{\mu}^{(r-1)}$ und $\boldsymbol{\sigma}^{(r-1)}$) und, zweitens, neue ML-Schätzer $\boldsymbol{\pi}^{(r)}$, $\boldsymbol{\mu}^{(r)}$ und $\boldsymbol{\sigma}^{(r)}$ berechnen (basierend auf den neuen $p_{ig}^{(r)}$).  -->
+<!-- 3. Dies wiederholt man bis die Schätzung konvergiert - d.h. bis sich das Schätzergebnis nicht mehr ändert.  -->
+<p><strong>Der Der EM Algorithmus:</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Setze Startwerte <span class="math inline">\(\boldsymbol{\pi}^{(0)}\)</span>, <span class="math inline">\(\boldsymbol{\mu}^{(0)}\)</span> und <span class="math inline">\(\boldsymbol{\sigma}^{(0)}\)</span></p></li>
+<li><p>Für <span class="math inline">\(r=1,2,\dots\)</span></p>
+<ul>
+<li><p><span style="color:#FF5733"><strong>(Expectation)</strong></span> Berechne:
+<span class="math display">\[p_{ig}^{(r)}=\frac{\pi_g^{(r-1)}f(x_i|\mu^{(r-1)}_g,\sigma_g^{(r-1)})}{f_G(x_i|\boldsymbol{\pi}^{(r-1)},\boldsymbol{\mu}^{(r-1)},\boldsymbol{\sigma}^{(r-1)})}\]</span></p></li>
+<li><p><span style="color:#2471A3"><strong>(Maximization)</strong></span> Berechne:</p>
+<center>
+<p><span class="math inline">\(\hat\pi_g^{(r)}=\frac{1}{n}\sum_{i=1}^np_{ig}^{(r)},\quad\quad\hat\mu_g^{(r)}=\sum_{i=1}^n\frac{p_{ig}^{(r)}}{\left(\sum_{j=1}^np_{jg}^{(r)}\right)}x_i\)</span></p>
+</center>
+<center>
+<p><span class="math inline">\(\hat\sigma_g^{(r)}=\sqrt{\sum_{i=1}^n\frac{p_{ig}^{(r)}}{\left(\sum_{j=1}^np_{jg}^{(r)}\right)}\left(x_i-\hat\mu_g^{(r)}\right)^2}\)</span></p>
+</center></li>
+</ul></li>
+<li><p>Prüfe Konvergenz:</p>
+<ul>
+<li>Stoppe, falls sich der Wert der maximierten Log-Likelihood Funktion, <span class="math inline">\(\ell(\boldsymbol{\pi}^{(r)},\boldsymbol{\mu}^{(r)},\boldsymbol{\sigma}^{(r)}|\mathbf{z})\)</span>, nicht mehr ändert.</li>
+</ul></li>
+</ol>
+<p><br></p>
+<p>Der obige pseudo-Code wird im Folgenden Code-Chunck umgesetzt:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;MASS&quot;</span>)</span>
+<span id="cb4-2"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;mclust&quot;</span>)</span>
+<span id="cb4-3"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Daten:</span></span>
+<span id="cb4-5"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-5" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">cbind</span>(Penguine_Flosse) <span class="co"># Daten [n x d]-Dimensional. </span></span>
+<span id="cb4-6"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-6" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">ncol</span>(x)                <span class="co"># Dimension (d=1: univariat)</span></span>
+<span id="cb4-7"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-7" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(x)                <span class="co"># Stichprobenumfang</span></span>
+<span id="cb4-8"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-8" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">2</span>                      <span class="co"># Anzahl Gruppen</span></span>
+<span id="cb4-9"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Weitere Deklarationen:</span></span>
+<span id="cb4-11"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-11" aria-hidden="true" tabindex="-1"></a>llk       <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, n, G)</span>
+<span id="cb4-12"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-12" aria-hidden="true" tabindex="-1"></a>p         <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, n, G)  </span>
+<span id="cb4-13"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-13" aria-hidden="true" tabindex="-1"></a>loglikOld <span class="ot">&lt;-</span> <span class="fl">1e07</span></span>
+<span id="cb4-14"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-14" aria-hidden="true" tabindex="-1"></a>tol       <span class="ot">&lt;-</span> <span class="fl">1e-05</span></span>
+<span id="cb4-15"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-15" aria-hidden="true" tabindex="-1"></a>it        <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb4-16"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-16" aria-hidden="true" tabindex="-1"></a>check     <span class="ot">&lt;-</span> <span class="cn">TRUE</span> </span>
+<span id="cb4-17"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="do">## EM Algorithmus</span></span>
+<span id="cb4-20"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="do">## 1. Startwerte für pi, mu und sigma:</span></span>
+<span id="cb4-22"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-22" aria-hidden="true" tabindex="-1"></a>pi    <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span>G, G)              <span class="co"># Naive pi</span></span>
+<span id="cb4-23"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-23" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">diag</span>(d), <span class="fu">c</span>(d,d,G)) <span class="co"># Varianz = 1</span></span>
+<span id="cb4-24"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-24" aria-hidden="true" tabindex="-1"></a>mu    <span class="ot">&lt;-</span> <span class="fu">t</span>(MASS<span class="sc">::</span><span class="fu">mvrnorm</span>(G, <span class="fu">colMeans</span>(x), sigma[,,<span class="dv">1</span>]<span class="sc">*</span><span class="dv">4</span>) )</span>
+<span id="cb4-25"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span>(check){</span>
+<span id="cb4-27"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-27" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-28"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="do">## 2.a Expectation-Schritt </span></span>
+<span id="cb4-29"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-29" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(g <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>G){</span>
+<span id="cb4-30"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-30" aria-hidden="true" tabindex="-1"></a>    p[,g] <span class="ot">&lt;-</span> pi[g] <span class="sc">*</span> mclust<span class="sc">:::</span><span class="fu">dmvnorm</span>(x, mu[,g], sigma[,,g])</span>
+<span id="cb4-31"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-31" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-32"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-32" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">sweep</span>(p, <span class="dv">1</span>, <span class="at">STATS =</span> <span class="fu">rowSums</span>(p), <span class="at">FUN =</span> <span class="st">&quot;/&quot;</span>)</span>
+<span id="cb4-33"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-33" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-34"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-34" aria-hidden="true" tabindex="-1"></a>  <span class="do">## 2.b Maximization-Schritt</span></span>
+<span id="cb4-35"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-35" aria-hidden="true" tabindex="-1"></a>  par   <span class="ot">&lt;-</span> mclust<span class="sc">::</span><span class="fu">covw</span>(x, p, <span class="at">normalize =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb4-36"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-36" aria-hidden="true" tabindex="-1"></a>  mu    <span class="ot">&lt;-</span> par<span class="sc">$</span>mean</span>
+<span id="cb4-37"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-37" aria-hidden="true" tabindex="-1"></a>  sigma <span class="ot">&lt;-</span> par<span class="sc">$</span>S</span>
+<span id="cb4-38"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-38" aria-hidden="true" tabindex="-1"></a>  pi    <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(p)</span>
+<span id="cb4-39"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-39" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-40"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-40" aria-hidden="true" tabindex="-1"></a>  <span class="do">## 3. Prüfung der Konvergenz</span></span>
+<span id="cb4-41"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-41" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(g <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>G) {</span>
+<span id="cb4-42"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-42" aria-hidden="true" tabindex="-1"></a>    llk[,g] <span class="ot">&lt;-</span> pi[g] <span class="sc">*</span> mclust<span class="sc">:::</span><span class="fu">dmvnorm</span>(x, mu[,g], sigma[,,g])</span>
+<span id="cb4-43"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-43" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-44"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-44" aria-hidden="true" tabindex="-1"></a>  loglik <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">log</span>(<span class="fu">rowSums</span>(llk))) <span class="co"># aktueller max. Log-Likelihood Wert</span></span>
+<span id="cb4-45"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-45" aria-hidden="true" tabindex="-1"></a>  <span class="do">##</span></span>
+<span id="cb4-46"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-46" aria-hidden="true" tabindex="-1"></a>  diff      <span class="ot">&lt;-</span> <span class="fu">abs</span>(loglik <span class="sc">-</span> loglikOld)<span class="sc">/</span><span class="fu">abs</span>(loglik) <span class="co"># Änderungsrate</span></span>
+<span id="cb4-47"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-47" aria-hidden="true" tabindex="-1"></a>  loglikOld <span class="ot">&lt;-</span> loglik</span>
+<span id="cb4-48"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-48" aria-hidden="true" tabindex="-1"></a>  it        <span class="ot">&lt;-</span> it <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb4-49"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-49" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Änderungsrate noch groß genug (&gt; tol)?</span></span>
+<span id="cb4-50"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-50" aria-hidden="true" tabindex="-1"></a>  check     <span class="ot">&lt;-</span> diff <span class="sc">&gt;</span> tol</span>
+<span id="cb4-51"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-51" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-52"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-53"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-53" aria-hidden="true" tabindex="-1"></a><span class="do">## Schätz-Resultate:</span></span>
+<span id="cb4-54"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-54" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(pi, mu, <span class="fu">sqrt</span>(sigma)), </span>
+<span id="cb4-55"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-55" aria-hidden="true" tabindex="-1"></a>                  <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb4-56"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-56" aria-hidden="true" tabindex="-1"></a>                  <span class="at">dimnames =</span> <span class="fu">list</span>(</span>
+<span id="cb4-57"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-57" aria-hidden="true" tabindex="-1"></a>            <span class="fu">c</span>(<span class="st">&quot;Gewichte&quot;</span>, <span class="st">&quot;Mittelwerte&quot;</span>, <span class="st">&quot;Standardabweichungen&quot;</span>),</span>
+<span id="cb4-58"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-58" aria-hidden="true" tabindex="-1"></a>            <span class="fu">c</span>(<span class="st">&quot;Gruppe 1&quot;</span>, <span class="st">&quot;Gruppe 2&quot;</span>))) </span>
+<span id="cb4-59"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-59" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb4-60"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-60" aria-hidden="true" tabindex="-1"></a>results <span class="sc">%&gt;%</span> <span class="fu">round</span>(., <span class="dv">2</span>)</span>
+<span id="cb4-61"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                      Gruppe 1 Gruppe 2</span></span>
+<span id="cb4-62"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Gewichte                 0.31     0.69</span></span>
+<span id="cb4-63"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Mittelwerte            194.27   216.20</span></span>
+<span id="cb4-64"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#cb4-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Standardabweichungen     6.27     7.32</span></span></code></pre></div>
+<p><br></p>
+<p><strong>Das Clusterverfahren basierend auf Gaußschen Mischverteilungen:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Gaußsche Mischverteilung (<strong>per EM Algorithmus</strong>) schätzen</li>
+<li>Die Datenpunkte <span class="math inline">\(x_i\)</span> derjenigen Gruppe <span class="math inline">\(g\)</span> zuordnen, welche die <strong>a-posteriori-Wahrscheinlichkeit</strong> <span class="math inline">\(p_{ig}\)</span> maximiert.</li>
+</ol>
+<p>Abbildung <a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#fig:EMGif">1.4</a> visualisiert den Fortschritt der iterativen Schätzung mit Hilfe des EM Algorithmuses.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:EMGif"></span>
+<img src="Computational_Statistics_Script_files/figure-html/EMGif-.gif" alt="Iterative Schätzung mit Hilfe des EM Algorithmuses." width="90%" />
+<p class="caption">
+Abbildung 1.4: Iterative Schätzung mit Hilfe des EM Algorithmuses.
+</p>
+</div>
+<p>Das finale Schätzergebnis erlaubt es uns, Abbildung <a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#fig:GMM-plot1">1.2</a> zu replizieren.
+<br></p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "serif",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/lidom/Computational_Statistics_Script/edit/main/02-EM-Algorithmus.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Computational_Statistics_Script.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

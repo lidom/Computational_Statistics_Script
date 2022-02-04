@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="de" xml:lang="de">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>1.3 Der alternative (wahre) Blick auf den EM Algorithmus | Computational Statistics</title>
+  <meta name="description" content="1.3 Der alternative (wahre) Blick auf den EM Algorithmus | Computational Statistics" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="1.3 Der alternative (wahre) Blick auf den EM Algorithmus | Computational Statistics" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="/images/Florence_Nightingale.jpg" />
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="1.3 Der alternative (wahre) Blick auf den EM Algorithmus | Computational Statistics" />
+  
+  
+  <meta name="twitter:image" content="/images/Florence_Nightingale.jpg" />
+
+<meta name="author" content="Prof. Dr. Dominik Liebl" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"/>
+<link rel="next" href="1.4-das-große-ganze.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="toc.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><center><a href="http://www.dliebl.com/Computational_Statistics_Script/"><img src="images/Florence_Nightingale.jpg" alt="logo" width="60%" height="60%"style="margin: 15px 0 0 0"></a></center></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Informationen</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#vorlesungszeiten"><i class="fa fa-check"></i>Vorlesungszeiten</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#rcodes"><i class="fa fa-check"></i>RCodes</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#leseecke"><i class="fa fa-check"></i>Leseecke</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#florence-nightingale"><i class="fa fa-check"></i>Florence Nightingale</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="1-der-expectation-maximization-em-algorithmus.html"><a href="1-der-expectation-maximization-em-algorithmus.html"><i class="fa fa-check"></i><b>1</b> Der Expectation Maximization (EM) Algorithmus</a>
+<ul>
+<li class="chapter" data-level="" data-path="1-der-expectation-maximization-em-algorithmus.html"><a href="1-der-expectation-maximization-em-algorithmus.html#lernziele-für-dieses-kapitel"><i class="fa fa-check"></i>Lernziele für dieses Kapitel</a></li>
+<li class="chapter" data-level="" data-path="1-der-expectation-maximization-em-algorithmus.html"><a href="1-der-expectation-maximization-em-algorithmus.html#begleitlektüren"><i class="fa fa-check"></i>Begleitlektüre(n)</a></li>
+<li class="chapter" data-level="" data-path="1-der-expectation-maximization-em-algorithmus.html"><a href="1-der-expectation-maximization-em-algorithmus.html#r-pakete-für-diese-kapitel"><i class="fa fa-check"></i>R-Pakete für diese Kapitel</a></li>
+<li class="chapter" data-level="1.1" data-path="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html"><i class="fa fa-check"></i><b>1.1</b> Motivation: Clusteranalyse mit Hilfe Gaußscher Mischverteilungen</a></li>
+<li class="chapter" data-level="1.2" data-path="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><i class="fa fa-check"></i><b>1.2</b> Der EM Algorithmus zur ML-Schätzung Gaußscher Mischverteilungen</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#gaußsche-mischmodelle-gmm"><i class="fa fa-check"></i><b>1.2.1</b> Gaußsche Mischmodelle (GMM)</a></li>
+<li class="chapter" data-level="1.2.2" data-path="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#maximum-likelihood-ml-schätzung"><i class="fa fa-check"></i><b>1.2.2</b> Maximum Likelihood (ML) Schätzung</a></li>
+<li class="chapter" data-level="1.2.3" data-path="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#ch:EM1"><i class="fa fa-check"></i><b>1.2.3</b> Der EM Algorithmus für GMMs</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><a href="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><i class="fa fa-check"></i><b>1.3</b> Der alternative (wahre) Blick auf den EM Algorithmus</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><a href="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html#vervollständigung-der-daten"><i class="fa fa-check"></i><b>1.3.1</b> Vervollständigung der Daten</a></li>
+<li class="chapter" data-level="1.3.2" data-path="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><a href="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html#a-priori-und-a-posteriori-wahrscheinlichkeiten-pi_g-und-p_ig"><i class="fa fa-check"></i><b>1.3.2</b> A-priori und A-posteriori Wahrscheinlichkeiten: <span class="math inline">\(\pi_g\)</span> und <span class="math inline">\(p_{ig}\)</span></a></li>
+<li class="chapter" data-level="1.3.3" data-path="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><a href="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html#der-bedingte-mittelwert-p_ig"><i class="fa fa-check"></i><b>1.3.3</b> Der (bedingte) Mittelwert: <span class="math inline">\(p_{ig}\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="1.4-das-große-ganze.html"><a href="1.4-das-große-ganze.html"><i class="fa fa-check"></i><b>1.4</b> Das Große Ganze</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="1.4-das-große-ganze.html"><a href="1.4-das-große-ganze.html#ch:EM2"><i class="fa fa-check"></i><b>1.4.1</b> Der EM Algorithmus: <em>Die abstrakte Version</em></a></li>
+<li class="chapter" data-level="" data-path="1.4-das-große-ganze.html"><a href="1.4-das-große-ganze.html#ende"><i class="fa fa-check"></i>Ende</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="2-lineare-regressionsmodelle.html"><a href="2-lineare-regressionsmodelle.html"><i class="fa fa-check"></i><b>2</b> Lineare Regressionsmodelle</a>
+<ul>
+<li class="chapter" data-level="" data-path="2-lineare-regressionsmodelle.html"><a href="2-lineare-regressionsmodelle.html#begleitlektüren-1"><i class="fa fa-check"></i>Begleitlektüre(n)</a></li>
+<li class="chapter" data-level="2.1" data-path="2.1-einführung.html"><a href="2.1-einführung.html"><i class="fa fa-check"></i><b>2.1</b> Einführung</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="literatur.html"><a href="literatur.html"><i class="fa fa-check"></i>Literatur</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Computational Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="der-alternative-wahre-blick-auf-den-em-algorithmus" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Der alternative (wahre) Blick auf den EM Algorithmus</h2>
+<p>Der EM Algorithmus ermöglicht es Maximum Likelihood Probleme zu vereinfachen, indem man die Daten durch nicht beobachtete („latente“) Variablen vervollständigt. Dieses Prinzip ist der eigentliche wahre Beitrag des EM Algorithmus. Es ermöglicht die Lösung verschiedener Maximum Likelihood Probleme - wir bleiben aber hier bei der Schätzung von GMMs.</p>
+<blockquote>
+<p><strong>Zur Erinnerung:</strong> Wir haben es ja nicht geschafft, die Log-Likelihood Funktion
+<span class="math display">\[
+\ell(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x})
+=\sum_{i=1}^n\ln\left(\sum_{g=1}^G\pi_gf(x_i|\mu_g,\sigma_g)\right)
+\]</span>
+direkt zu maximieren. Die <span class="math inline">\(\ln(\sum_{g=1}^G[\dots])\)</span>-Konstruktion macht einem hier das Leben schwer.</p>
+</blockquote>
+<div id="vervollständigung-der-daten" class="section level3" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> Vervollständigung der Daten</h3>
+<p>In unseren Pinguin-Daten gibt zwei Gruppen (<span class="math inline">\(g\in\{1,2\}\)</span>). Es gäbe also im Prinzip <span class="math inline">\(G=2\)</span>-dimensionale Zuordnungsvektoren <span class="math inline">\((z_{i1},z_{i2})\)</span> mit
+<span class="math display">\[
+(z_{i1},z_{i2})=
+\left\{\begin{array}{ll}
+(1,0)&amp;\text{falls Pinguin }i\text{ zu Gruppe }g=1\text{ gehört.}\\
+(0,1)&amp;\text{falls Pinguin }i\text{ zu Gruppe }g=2\text{ gehört.}\\
+\end{array}\right.
+\]</span>
+Im Fall von <span class="math inline">\(G&gt;2\)</span> Gruppen:<br />
+<span class="math display">\[
+(z_{i1},\dots,z_{ig},\dots,z_{iG})=
+\left\{\begin{array}{ll}
+(1,0,\dots,0)&amp;\text{falls Datenpunkt }i\text{ zu Gruppe }g=1\text{ gehört.}\\
+(0,1,\dots,0)&amp;\text{falls Datenpunkt }i\text{ zu Gruppe }g=2\text{ gehört.}\\
+\quad\quad\vdots&amp;\\
+(0,0,\dots,1)&amp;\text{falls Datenpunkt }i\text{ zu Gruppe }g=G\text{ gehört.}\\
+\end{array}\right.
+\]</span></p>
+<p>Die Zuordnungen <span class="math inline">\(z_{ig}\)</span> können also die Werte <span class="math inline">\(z_{ig}\in\{0,1\}\)</span> annehmen, wobei aber gelten muss, dass <span class="math inline">\(\sum_{g=1}^Gz_{ig}=1\)</span>.</p>
+<blockquote>
+<p><strong>Beachte:</strong> Für jeden Datenpunkt <span class="math inline">\(i\)</span> (jeder Pinguin <span class="math inline">\(i\)</span>) gibt es nur <strong>eine</strong> Gruppe (daher <span class="math inline">\(\sum_{g=1}^Gz_{ig}=1\)</span>). Dies ist eine wichtige Restriktion von GMMs, welche bei den Pinguindaten unproblematisch ist. Bei Anwendungen mit hirarchischen Gruppierungen ist dies aber evtl. problematisch.</p>
+</blockquote>
+<p>Die Zuordnungen <span class="math inline">\(z_{ig}\)</span> sind leider unbekannt (latent). Wir wissen aber trotzdem etwas über diese Zuordnungen. Die Gewichte <span class="math inline">\(\pi_1,\dots,\pi_G\)</span> der Gaußschen Mischverteilung
+<span class="math display">\[
+f_G(x|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})=\sum_{g=1}^G\pi_gf(x|\mu_g,\sigma_g),
+\]</span>
+geben die Anteile der Einzelverteilungen <span class="math inline">\(f(\cdot|\mu_g,\sigma_g)\)</span> an der Gesamtverteilung <span class="math inline">\(f_G\)</span> an. Im Schnitt kommen also <span class="math inline">\(\pi_g\cdot 100\%\)</span> der Datenpunkte von Gruppe <span class="math inline">\(g\)</span>, <span class="math inline">\(g=1,\dots,G\)</span>. Somit können wir die (latente) Zuordnung <span class="math inline">\(z_{ig}\)</span> als eine Realisation der Zufallsvariablen <span class="math inline">\(Z_{ig}\)</span> mit Wahrscheinlichkeitsfunktion
+<span class="math display">\[
+P(Z_{ig}=1)=\pi_g
+\]</span>
+auffassen.</p>
+<p>Wegen der Bedingung <span class="math inline">\(\sum_{g=1}^Gz_{ig}=1\)</span>, gilt dass
+<!-- für Realisationen $Z_{ig}=1$, dass alle anderen Zuordnungen $Z_{i-g}=0$ immer gleich null  -->
+<span class="math display">\[
+Z_{ig}=1\quad \Rightarrow\quad Z_{i1}=0,\dots,Z_{ig-1}=0,Z_{ig+1}=0,\dots,Z_{iG}=0.
+\]</span></p>
+<!-- Somit können wir die Zuordnungsdaten  $\mathbf{z}=\big((z_{11},\dots,z_{1G}),\dots,(z_{n1},\dots,z_{nG})\big)$ als eine Realisation einer einfachen (i.i.d.) Zufallsstichprobe $(Z_1,\dots,Z_n)$ auffassen, wobei $Z_i\in\{(z_1,\dots,z_G)\in\{0,1\}^G\text{ so, dass }\sum_{g=1}^Gz_g=1\}$ eine diskrete Zufallsvariable ist. Die Wahrscheinlichkeitsfunktion $p_Z$ von $Z_i=(Z_{i1},\dots,Z_{iG})$ lautet: -->
+<!-- $$ -->
+<!-- \begin{array}{ll} -->
+<!-- p_Z\big((1,0,\dots,0)\big)&=\pi_1\\ -->
+<!-- p_Z\big((0,1,\dots,0)\big)&=\pi_2\\ -->
+<!-- \quad\quad\quad\quad\vdots&\\ -->
+<!-- p_Z\big((0,0,\dots,1)\big)&=\pi_G\\ -->
+<!-- \end{array} -->
+<!-- $$ -->
+<!-- Achtung: Wegen der restrition sind dann immer all anderen null. -->
+<!-- (Im Falle von $G=2$, wie bei den Pinguinen, kann man das alles vereinfachen zu einer Bernoulli Zufallsvariable) -->
+<!-- \begin{align*} -->
+<!-- P(Z_{ig}=1)&=\;\;\;\pi_g\;\;=P(\text{Pinguin $i$ gehört zu Gruppe }g)\\ -->
+<!-- P(Z_{ig}=0)&=1-\pi_g=P(\text{Pinguin $i$ gehört nicht zu Gruppe }g) -->
+<!-- \end{align*} -->
+</div>
+<div id="a-priori-und-a-posteriori-wahrscheinlichkeiten-pi_g-und-p_ig" class="section level3" number="1.3.2">
+<h3><span class="header-section-number">1.3.2</span> A-priori und A-posteriori Wahrscheinlichkeiten: <span class="math inline">\(\pi_g\)</span> und <span class="math inline">\(p_{ig}\)</span></h3>
+<strong>A-priori-Wahrscheinlichkeit <span class="math inline">\(\pi_g\)</span>:</strong> Man bezeichnet die Wahrscheinlichkeiten <span class="math inline">\(\pi_g\)</span> als die <em>a-priori-Wahrscheinlichkeiten</em>. Wenn wir nichts über die Flossenlänge von Pinguin <span class="math inline">\(i\)</span> wissen, dann bleiben uns nur die a-priori-Wahrscheinlichkeiten:
+<br>
+<center>
+„Mit Wahrscheinlichkeit <span class="math inline">\(\pi_g=P(Z_{ig}=1)\)</span> gehört Pinguin <span class="math inline">\(i\)</span> zu Gruppe <span class="math inline">\(g\)</span>.“
+</center>
+<p><br></p>
+<strong>A-posteriori-Wahrscheinlichkeit <span class="math inline">\(\;p_{ig}\)</span>:</strong> Falls wir die Flossenlänge <span class="math inline">\(x_i\)</span> von Pinguin <span class="math inline">\(i\)</span> erfahren, können wir die a-priori-Wahrscheinlichkeiten mit Hilfe des <strong>Satzes von Bayes</strong> aktualisieren. Dies führt dann zur <em>a-posteriori-Wahrscheinlichkeit</em>:
+<br>
+<center>
+„Mit Wahrscheinlichkeit <span class="math inline">\(p_{ig}=P(Z_{ig=1}|X_i=x_i)\)</span> gehört ein Pinguin <span class="math inline">\(i\)</span> mit Flossenlänge <span class="math inline">\(x_i\)</span> zu Gruppe <span class="math inline">\(g\)</span>.
+</center>
+<p><br>
+<br></p>
+<p><strong>Satz von Bayes:</strong>
+<span class="math display">\[\begin{align*}
+p_{ig}
+&amp;=\frac{\pi_gf(x_i|\mu_g,\sigma_g)}{f_G(x_i|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})}\\[2ex]
+&amp;=\frac{\overbrace{P(Z_{ig}=1)}^{\text{„A-priori-Wahrs.“}}f(x_i|\mu_g,\sigma_g)}{f_G(x_i|\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma})}=\overbrace{P(Z_{ig}=1|X_i=x_i)}^{\text{„A-posteriori-Wahrs.“}}=p_{ig}\\
+\end{align*}\]</span></p>
+<p><br><br></p>
+</div>
+<div id="der-bedingte-mittelwert-p_ig" class="section level3" number="1.3.3">
+<h3><span class="header-section-number">1.3.3</span> Der (bedingte) Mittelwert: <span class="math inline">\(p_{ig}\)</span></h3>
+<p><strong>Beachte:</strong> Die a-posteriori-Wahrscheinlichkeiten <span class="math inline">\(p_{ig}\)</span> sind tatsächlich (bedingte) Erwartungswerte:
+<span class="math display">\[\begin{align*}
+p_{ig}&amp;= 1\cdot P(Z_{ig}=1|X_i=x_i)+0\cdot P(Z_{ig}=0|X_i=x_i) = E(Z_{ig}|X_i=x_i)\\
+\end{align*}\]</span>
+Damit ist die Berechnung von <span class="math inline">\(p_{ig}\)</span> im <strong>(Expectation)</strong>-Schritt des EM Algorithmuses (siehe Kapitel <a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#ch:EM1">1.2.3</a>) also tatsächlich eine Erwartungswertberechnung.</p>
+<!-- ### Der EM Algorithmus: *Tatsächlich eine Expectation*  -->
+<!-- Der folgende EM Algorithmus unterscheidet sich lediglich in der Notation von der oben eingeführten Version (siehe Kapitel \@ref(ch:EM1)). Die hier gewählte Notation  wird es klar, warum es ein **Expectation**-Maximization Algorithmus ist:  -->
+<!-- <br> -->
+<!-- 1. Setze Startwerte $\theta^{(0)}=\boldsymbol{\pi}^{(0)}$, $\boldsymbol{\mu}^{(0)}$ und $\boldsymbol{\sigma}^{(0)}$ -->
+<!-- 2. Für $r=1,2,\dots$ -->
+<!--     - <span style="color:#FF5733">**(Expectation)** </span> Berechne:         -->
+<!--     $$p_{ig}^{(r)}=E_{\theta^{(r-1)}}\left(Z_{ig}\left|X_i=x_i\right.\right)=\frac{\pi_g^{(r-1)}f(x_i|\mu^{(r-1)}_g\sigma_g^{(r-1)})}{f_G(x_i|\boldsymbol{\pi}^{(r-1)},\boldsymbol{\mu}^{(r-1)},\boldsymbol{\sigma}^{(r-1)})}$$ -->
+<!--     - <span style="color:#2471A3">**(Maximization)**</span>  Berechne:  -->
+<!--     <center>$\hat\pi_g^{(r)}=\frac{1}{n}\sum_{i=1}^np_{ig}^{(r)},\quad\quad\hat\mu_g^{(r)}=\sum_{i=1}^n\frac{p_{ig}^{(r)}}{\left(\sum_{j=1}^np_{jg}^{(r)}\right)}x_i$</center>  -->
+<!--     <center>$\hat\sigma_g^{(r)}=\sqrt{\sum_{i=1}^n\frac{p_{ig}^{(r)}}{\left(\sum_{j=1}^np_{jg}^{(r)}\right)}\left(x_i-\hat\mu_g^{(r)}\right)^2}$</center>  -->
+<!-- 3. Prüfe Konvergenz: -->
+<!--     - Stoppe, falls sich der Wert der maximierten Log-Likelihood Funktion, $\ell(\boldsymbol{\pi}^{(r)},\boldsymbol{\mu}^{(r)},\boldsymbol{\sigma}^{(r)}|\mathbf{z})$, nicht mehr ändert. -->
+<!-- **Likelihood Funktion (klassisch/erfolglos):** -->
+<!-- $$ -->
+<!-- \begin{align*} -->
+<!-- \mathcal{L}(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x}) -->
+<!-- &=\prod_{i=1}^n\sum_{k=1}^K\pi_g\phi_{\mu_g,\sigma_g}(x_i)\\[2ex] -->
+<!-- \ell(\boldsymbol{\pi},\boldsymbol{\mu},\boldsymbol{\sigma}|\mathbf{x}) -->
+<!-- &=\sum_{i=1}^n\ln\left(\sum_{k=1}^K\pi_g\phi_{\mu_g,\sigma_g}(x_i)\right) -->
+<!-- \end{align*} -->
+<!-- $$ -->
+<!-- ##  -->
+<!-- <br><br><br><br> -->
+<!-- <div class="centered"> -->
+<!-- <bdi style="font-size:300%;"><b>Zum Schluss Abstrakt:<span style="color:#34495E">Die Essenz des EM Algorithmuses</span></b></bdi> -->
+<!-- </div> -->
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="1.4-das-große-ganze.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "serif",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/lidom/Computational_Statistics_Script/edit/main/02-EM-Algorithmus.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Computational_Statistics_Script.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

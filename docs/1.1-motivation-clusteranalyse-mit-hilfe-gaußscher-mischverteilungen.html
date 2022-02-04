@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="de" xml:lang="de">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>1.1 Motivation: Clusteranalyse mit Hilfe Gaußscher Mischverteilungen | Computational Statistics</title>
+  <meta name="description" content="1.1 Motivation: Clusteranalyse mit Hilfe Gaußscher Mischverteilungen | Computational Statistics" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="1.1 Motivation: Clusteranalyse mit Hilfe Gaußscher Mischverteilungen | Computational Statistics" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="/images/Florence_Nightingale.jpg" />
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="1.1 Motivation: Clusteranalyse mit Hilfe Gaußscher Mischverteilungen | Computational Statistics" />
+  
+  
+  <meta name="twitter:image" content="/images/Florence_Nightingale.jpg" />
+
+<meta name="author" content="Prof. Dr. Dominik Liebl" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="1-der-expectation-maximization-em-algorithmus.html"/>
+<link rel="next" href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="toc.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><center><a href="http://www.dliebl.com/Computational_Statistics_Script/"><img src="images/Florence_Nightingale.jpg" alt="logo" width="60%" height="60%"style="margin: 15px 0 0 0"></a></center></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Informationen</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#vorlesungszeiten"><i class="fa fa-check"></i>Vorlesungszeiten</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#rcodes"><i class="fa fa-check"></i>RCodes</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#leseecke"><i class="fa fa-check"></i>Leseecke</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#florence-nightingale"><i class="fa fa-check"></i>Florence Nightingale</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="1-der-expectation-maximization-em-algorithmus.html"><a href="1-der-expectation-maximization-em-algorithmus.html"><i class="fa fa-check"></i><b>1</b> Der Expectation Maximization (EM) Algorithmus</a>
+<ul>
+<li class="chapter" data-level="" data-path="1-der-expectation-maximization-em-algorithmus.html"><a href="1-der-expectation-maximization-em-algorithmus.html#lernziele-für-dieses-kapitel"><i class="fa fa-check"></i>Lernziele für dieses Kapitel</a></li>
+<li class="chapter" data-level="" data-path="1-der-expectation-maximization-em-algorithmus.html"><a href="1-der-expectation-maximization-em-algorithmus.html#begleitlektüren"><i class="fa fa-check"></i>Begleitlektüre(n)</a></li>
+<li class="chapter" data-level="" data-path="1-der-expectation-maximization-em-algorithmus.html"><a href="1-der-expectation-maximization-em-algorithmus.html#r-pakete-für-diese-kapitel"><i class="fa fa-check"></i>R-Pakete für diese Kapitel</a></li>
+<li class="chapter" data-level="1.1" data-path="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html"><i class="fa fa-check"></i><b>1.1</b> Motivation: Clusteranalyse mit Hilfe Gaußscher Mischverteilungen</a></li>
+<li class="chapter" data-level="1.2" data-path="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><i class="fa fa-check"></i><b>1.2</b> Der EM Algorithmus zur ML-Schätzung Gaußscher Mischverteilungen</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#gaußsche-mischmodelle-gmm"><i class="fa fa-check"></i><b>1.2.1</b> Gaußsche Mischmodelle (GMM)</a></li>
+<li class="chapter" data-level="1.2.2" data-path="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#maximum-likelihood-ml-schätzung"><i class="fa fa-check"></i><b>1.2.2</b> Maximum Likelihood (ML) Schätzung</a></li>
+<li class="chapter" data-level="1.2.3" data-path="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#ch:EM1"><i class="fa fa-check"></i><b>1.2.3</b> Der EM Algorithmus für GMMs</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><a href="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><i class="fa fa-check"></i><b>1.3</b> Der alternative (wahre) Blick auf den EM Algorithmus</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><a href="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html#vervollständigung-der-daten"><i class="fa fa-check"></i><b>1.3.1</b> Vervollständigung der Daten</a></li>
+<li class="chapter" data-level="1.3.2" data-path="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><a href="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html#a-priori-und-a-posteriori-wahrscheinlichkeiten-pi_g-und-p_ig"><i class="fa fa-check"></i><b>1.3.2</b> A-priori und A-posteriori Wahrscheinlichkeiten: <span class="math inline">\(\pi_g\)</span> und <span class="math inline">\(p_{ig}\)</span></a></li>
+<li class="chapter" data-level="1.3.3" data-path="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><a href="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html#der-bedingte-mittelwert-p_ig"><i class="fa fa-check"></i><b>1.3.3</b> Der (bedingte) Mittelwert: <span class="math inline">\(p_{ig}\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="1.4-das-große-ganze.html"><a href="1.4-das-große-ganze.html"><i class="fa fa-check"></i><b>1.4</b> Das Große Ganze</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="1.4-das-große-ganze.html"><a href="1.4-das-große-ganze.html#ch:EM2"><i class="fa fa-check"></i><b>1.4.1</b> Der EM Algorithmus: <em>Die abstrakte Version</em></a></li>
+<li class="chapter" data-level="" data-path="1.4-das-große-ganze.html"><a href="1.4-das-große-ganze.html#ende"><i class="fa fa-check"></i>Ende</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="2-lineare-regressionsmodelle.html"><a href="2-lineare-regressionsmodelle.html"><i class="fa fa-check"></i><b>2</b> Lineare Regressionsmodelle</a>
+<ul>
+<li class="chapter" data-level="" data-path="2-lineare-regressionsmodelle.html"><a href="2-lineare-regressionsmodelle.html#begleitlektüren-1"><i class="fa fa-check"></i>Begleitlektüre(n)</a></li>
+<li class="chapter" data-level="2.1" data-path="2.1-einführung.html"><a href="2.1-einführung.html"><i class="fa fa-check"></i><b>2.1</b> Einführung</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="literatur.html"><a href="literatur.html"><i class="fa fa-check"></i>Literatur</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Computational Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Motivation: Clusteranalyse mit Hilfe Gaußscher Mischverteilungen</h2>
+<p>Als Datenbeispiel verwendent wir die <a href="https://allisonhorst.github.io/palmerpenguins/articles/intro.html"><code>palmerpenguins</code></a> Daten <span class="citation">(<a href="#ref-palmerpenguins" role="doc-biblioref">Horst, Hill, und Gorman 2020</a>)</span>.</p>
+<p>Diese Daten stammen aus Vermessungen von Pinguinpopulationen auf dem Palmer-Archipel (Antarktische Halbinsel). Pinguine sind oft schwer von einander zu unterscheiden (Abbildung <a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#fig:pinguine">1.1</a>). Wir werden versuchen, mit Hilfe einer Gaußschen Mischverteilung Gruppierungen in den Pinguindaten (Flossenlänge) zu finden. Um solche Mischverteilungen schätzen zu können, führen wir den EM Algorithmus ein.</p>
+<!-- <center> -->
+<!-- <div class="centered"> -->
+<!-- <img src="images/penguins.gif" width="550" height="450"/> -->
+<!-- </div> -->
+<!-- </center> -->
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:pinguine"></span>
+<img src="images/penguins.gif" alt="Frecher Pinguin bei der Tat." width="70%" />
+<p class="caption">
+Abbildung 1.1: Frecher Pinguin bei der Tat.
+</p>
+</div>
+<p>Der folgende Code-Chunck bereitet die Daten auf.</p>
+<blockquote>
+<p><strong>Achtung:</strong> Wir haben zwar die Information zu den verschiedenen Pinguin-Arten (<code>Penguine_Art</code>) tun aber im Folgenden so, also ob wir diese Information nicht kennen würden. Wir wollen alleine auf Basis der Flossenlängen (<code>Penguine_Flosse</code>) die Gruppenzugehörigkeiten per Clusteranalyse bestimmen. (Im Nachhinein können wir dann mit Hilfe der Daten in <code>Penguine_Art</code> prüfen, wie gut unsere Clusteranalyse ist.)</p>
+</blockquote>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;palmerpenguins&quot;</span>) <span class="co"># Pinguin-Daten</span></span>
+<span id="cb2-2"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;RColorBrewer&quot;</span>)   <span class="co"># Hübsche Farben</span></span>
+<span id="cb2-3"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;scales&quot;</span>)         <span class="co"># Für transparente Farben: alpha()</span></span>
+<span id="cb2-4"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-5" aria-hidden="true" tabindex="-1"></a>col_v <span class="ot">&lt;-</span> RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="at">n =</span> <span class="dv">3</span>, <span class="at">name =</span> <span class="st">&quot;Set2&quot;</span>)</span>
+<span id="cb2-6"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Vorbereitung der Daten:</span></span>
+<span id="cb2-8"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-8" aria-hidden="true" tabindex="-1"></a>Pinguine <span class="ot">&lt;-</span> palmerpenguins<span class="sc">::</span>penguins <span class="sc">%&gt;%</span> <span class="co"># Pinguin-Daten</span></span>
+<span id="cb2-9"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-9" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span>                 <span class="co"># Datenformat: &#39;tibble&#39;-dataframe</span></span>
+<span id="cb2-10"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-10" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(species<span class="sc">!=</span><span class="st">&quot;Adelie&quot;</span>) <span class="sc">%&gt;%</span>   <span class="co"># Pinguin-Art &#39;Adelie&#39; löschen </span></span>
+<span id="cb2-11"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">droplevels</span>() <span class="sc">%&gt;%</span>                       <span class="co"># Lösche das nicht mehr benötigte Adelie-Level</span></span>
+<span id="cb2-12"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-12" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">drop_na</span>() <span class="sc">%&gt;%</span>                   <span class="co"># NAs löschen</span></span>
+<span id="cb2-13"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-13" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">Art    =</span> species,        <span class="co"># Variablen umbenennen</span></span>
+<span id="cb2-14"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-14" aria-hidden="true" tabindex="-1"></a>                <span class="at">Flosse =</span> flipper_length_mm) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-15"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-15" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Art, Flosse)             <span class="co"># Variablen auswählen</span></span>
+<span id="cb2-16"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="do">##  </span></span>
+<span id="cb2-18"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-18" aria-hidden="true" tabindex="-1"></a>n      <span class="ot">&lt;-</span> <span class="fu">nrow</span>(Pinguine)                 <span class="co"># Stichprobenumfang</span></span>
+<span id="cb2-19"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="do">## Variable &#39;Penguine_Art&#39; aus Pinguine-Daten &quot;herausziehen&quot;</span></span>
+<span id="cb2-21"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-21" aria-hidden="true" tabindex="-1"></a>Penguine_Art    <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">pull</span>(Pinguine, Art)</span>
+<span id="cb2-22"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="do">## Variable &#39;Penguine_Flosse&#39; aus Pinguine-Daten &quot;herausziehen&quot;</span></span>
+<span id="cb2-24"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-24" aria-hidden="true" tabindex="-1"></a>Penguine_Flosse <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">pull</span>(Pinguine, Flosse)</span>
+<span id="cb2-25"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot</span></span>
+<span id="cb2-27"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="do">## Histogramm:</span></span>
+<span id="cb2-28"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="at">x =</span> Penguine_Flosse, <span class="at">freq =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb2-29"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-29" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Flossenlänge (mm)&quot;</span>, <span class="at">main=</span><span class="st">&quot;Pinguine</span><span class="sc">\n</span><span class="st">(Zwei Gruppen)&quot;</span>,</span>
+<span id="cb2-30"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-30" aria-hidden="true" tabindex="-1"></a>     <span class="at">col=</span><span class="fu">gray</span>(.<span class="dv">65</span>,.<span class="dv">5</span>), <span class="at">border=</span><span class="fu">gray</span>(.<span class="dv">35</span>,.<span class="dv">5</span>), <span class="at">ylim=</span><span class="fu">c</span>(<span class="fl">0.0003</span>, <span class="fl">0.039</span>))</span>
+<span id="cb2-31"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="do">## Stipchart hinzufügen:</span></span>
+<span id="cb2-32"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="fu">stripchart</span>(<span class="at">x =</span> Penguine_Flosse, <span class="at">method =</span> <span class="st">&quot;jitter&quot;</span>, </span>
+<span id="cb2-33"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-33" aria-hidden="true" tabindex="-1"></a>           <span class="at">jitter =</span> .<span class="dv">0005</span>, <span class="at">at =</span> .<span class="dv">001</span>,</span>
+<span id="cb2-34"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-34" aria-hidden="true" tabindex="-1"></a>           <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">col=</span><span class="fu">alpha</span>(col_v[<span class="dv">3</span>],.<span class="dv">5</span>), </span>
+<span id="cb2-35"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb2-35" aria-hidden="true" tabindex="-1"></a>           <span class="at">bg=</span><span class="fu">alpha</span>(col_v[<span class="dv">3</span>],.<span class="dv">5</span>), <span class="at">cex=</span><span class="fl">1.3</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="Computational_Statistics_Script_files/figure-html/unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p><strong>Das Clusterverfahren basierend auf Gaußschen Mischverteilungen:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Gaußsche Mischverteilung (<strong>per EM Algorithmus</strong>) schätzen</li>
+<li>Die Datenpunkte <span class="math inline">\(x_i\)</span> derjenigen Gruppe zuordnen, welche die <strong>„a-posteriori-Wahrscheinlichkeit“</strong> maximiert (siehe Abbildung <a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#fig:GMM-plot1">1.2</a>)</li>
+</ol>
+<p><br></p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:GMM-plot1"></span>
+<img src="Computational_Statistics_Script_files/figure-html/GMM-plot1-1.png" alt="Clusteranalyse basierend auf einer  Mischverteilung mit zwei gewichteten Normalverteilungen." width="100%" />
+<p class="caption">
+Abbildung 1.2: Clusteranalyse basierend auf einer Mischverteilung mit zwei gewichteten Normalverteilungen.
+</p>
+</div>
+<p>Abbildung <a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#fig:GMM-plot1">1.2</a> zeigt das Resultat einer Clusteranalyse basierend auf einer Mischverteilung zweier gewichteter Normalverteilungen. Cluster-Ergebnis: 95% der Pinguine konnten richtig zugeordnet werden - lediglich auf Basis ihrer Flossenlängen.</p>
+<p><br><br><br></p>
+<hr style="background-color:#3C6690;height:2px">
+<p>Mit Hilfe der folgenden R-Codes kann die obige Clusteranalyse und die Ergebnisgrafik repliziert werden:
+<br></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## mclust R-Paket:</span></span>
+<span id="cb3-2"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Clusteranalyse mit Hilfe von Gaußschen Mischmodellen</span></span>
+<span id="cb3-3"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(<span class="st">&quot;mclust&quot;</span>))</span>
+<span id="cb3-4"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Anzahl der Gruppen</span></span>
+<span id="cb3-6"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-6" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="dv">2</span> </span>
+<span id="cb3-7"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Schätzung des Gaußschen Mischmodells (per EM Algorithmus)</span></span>
+<span id="cb3-9"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="do">## und Clusteranalyse</span></span>
+<span id="cb3-10"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-10" aria-hidden="true" tabindex="-1"></a>mclust_obj <span class="ot">&lt;-</span> mclust<span class="sc">::</span><span class="fu">Mclust</span>(<span class="at">data =</span> Penguine_Flosse, <span class="at">G=</span>G, </span>
+<span id="cb3-11"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-11" aria-hidden="true" tabindex="-1"></a>                              <span class="at">modelNames =</span> <span class="st">&quot;V&quot;</span>, </span>
+<span id="cb3-12"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-12" aria-hidden="true" tabindex="-1"></a>                              <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-13"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(mclust_obj)</span></span>
+<span id="cb3-15"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># str(mclust_obj)</span></span>
+<span id="cb3-16"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="do">## Geschätzte Gruppen-Zuordnungen (Cluster-Resultat)</span></span>
+<span id="cb3-18"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-18" aria-hidden="true" tabindex="-1"></a>class <span class="ot">&lt;-</span> mclust_obj<span class="sc">$</span>classification</span>
+<span id="cb3-19"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="do">## Anteil der korrekten Zuordnungen:</span></span>
+<span id="cb3-21"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co"># cbind(class, Penguine_Art)</span></span>
+<span id="cb3-22"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">sum</span>(class <span class="sc">==</span> <span class="fu">as.numeric</span>(Penguine_Art))<span class="sc">/</span>n, <span class="dv">2</span>)</span>
+<span id="cb3-23"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="do">## Geschätzte Mittelwerte </span></span>
+<span id="cb3-25"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-25" aria-hidden="true" tabindex="-1"></a>mean_m <span class="ot">&lt;-</span> <span class="fu">t</span>(mclust_obj<span class="sc">$</span>parameters<span class="sc">$</span>mean)</span>
+<span id="cb3-26"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="do">## Geschätzte Varianzen (und evtl. Kovarianzen) </span></span>
+<span id="cb3-28"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-28" aria-hidden="true" tabindex="-1"></a>cov_l  <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">&quot;Cov1&quot;</span> <span class="ot">=</span> mclust_obj<span class="sc">$</span>parameters<span class="sc">$</span>variance<span class="sc">$</span>sigmasq[<span class="dv">1</span>], </span>
+<span id="cb3-29"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-29" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;Cov2&quot;</span> <span class="ot">=</span> mclust_obj<span class="sc">$</span>parameters<span class="sc">$</span>variance<span class="sc">$</span>sigmasq[<span class="dv">2</span>])</span>
+<span id="cb3-30"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-31"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="do">## Geschätzte Gewichte (a-priori-Wahrscheinlichkeiten) </span></span>
+<span id="cb3-32"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-32" aria-hidden="true" tabindex="-1"></a>prop_v <span class="ot">&lt;-</span> mclust_obj<span class="sc">$</span>parameters<span class="sc">$</span>pro</span>
+<span id="cb3-33"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-34"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="do">## Auswerten der Gaußsche Mischung-Dichtefunktion</span></span>
+<span id="cb3-35"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-35" aria-hidden="true" tabindex="-1"></a>np      <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="co"># Anzahl der Auswertungspunkte</span></span>
+<span id="cb3-36"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-36" aria-hidden="true" tabindex="-1"></a>xxd     <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">min</span>(Penguine_Flosse)<span class="sc">-</span><span class="dv">3</span>, <span class="fu">max</span>(Penguine_Flosse)<span class="sc">+</span><span class="dv">5</span>, <span class="at">length.out =</span> np)</span>
+<span id="cb3-37"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="do">## Mischungs-Dichte</span></span>
+<span id="cb3-38"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-38" aria-hidden="true" tabindex="-1"></a>yyd     <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(xxd, mean_m[<span class="dv">1</span>], <span class="fu">sqrt</span>(cov_l[[<span class="dv">1</span>]]))<span class="sc">*</span>prop_v[<span class="dv">1</span>] <span class="sc">+</span></span>
+<span id="cb3-39"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-39" aria-hidden="true" tabindex="-1"></a>           <span class="fu">dnorm</span>(xxd, mean_m[<span class="dv">2</span>], <span class="fu">sqrt</span>(cov_l[[<span class="dv">2</span>]]))<span class="sc">*</span>prop_v[<span class="dv">2</span>]</span>
+<span id="cb3-40"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="do">## Einzel-Dichten</span></span>
+<span id="cb3-41"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-41" aria-hidden="true" tabindex="-1"></a>yyd1    <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(xxd, mean_m[<span class="dv">1</span>], <span class="fu">sqrt</span>(cov_l[[<span class="dv">1</span>]]))<span class="sc">*</span>prop_v[<span class="dv">1</span>]</span>
+<span id="cb3-42"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-42" aria-hidden="true" tabindex="-1"></a>yyd2    <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(xxd, mean_m[<span class="dv">2</span>], <span class="fu">sqrt</span>(cov_l[[<span class="dv">2</span>]]))<span class="sc">*</span>prop_v[<span class="dv">2</span>]</span>
+<span id="cb3-43"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-44"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-44" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot</span></span>
+<span id="cb3-45"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="at">x =</span> Penguine_Flosse, <span class="at">xlab=</span><span class="st">&quot;Flossenlänge (mm)&quot;</span>, <span class="at">main=</span><span class="st">&quot;Pinguine</span><span class="sc">\n</span><span class="st">(Zwei Gruppen)&quot;</span>,</span>
+<span id="cb3-46"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-46" aria-hidden="true" tabindex="-1"></a>     <span class="at">col=</span><span class="fu">gray</span>(.<span class="dv">65</span>,.<span class="dv">5</span>), <span class="at">border=</span><span class="fu">gray</span>(.<span class="dv">35</span>,.<span class="dv">5</span>), <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.04</span>))</span>
+<span id="cb3-47"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">x =</span> xxd, <span class="at">y=</span>yyd, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">col=</span><span class="fu">gray</span>(.<span class="dv">35</span>,.<span class="dv">75</span>))</span>
+<span id="cb3-48"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">x =</span> xxd, <span class="at">y=</span>yyd1, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">col=</span><span class="fu">gray</span>(.<span class="dv">35</span>,.<span class="dv">75</span>), <span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb3-49"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-49" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">x =</span> xxd, <span class="at">y=</span>yyd2, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">col=</span><span class="fu">gray</span>(.<span class="dv">35</span>,.<span class="dv">75</span>), <span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb3-50"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-50" aria-hidden="true" tabindex="-1"></a><span class="fu">stripchart</span>(Penguine_Flosse[class<span class="sc">==</span><span class="dv">1</span>], <span class="at">method =</span> <span class="st">&quot;jitter&quot;</span>, <span class="at">jitter =</span> .<span class="dv">0005</span>, <span class="at">at =</span> .<span class="dv">001</span>,</span>
+<span id="cb3-51"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-51" aria-hidden="true" tabindex="-1"></a>           <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">col=</span><span class="fu">alpha</span>(col_v[<span class="dv">1</span>],.<span class="dv">5</span>), <span class="at">bg=</span><span class="fu">alpha</span>(col_v[<span class="dv">1</span>],.<span class="dv">5</span>), <span class="at">cex=</span><span class="fl">1.3</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-52"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-52" aria-hidden="true" tabindex="-1"></a><span class="fu">stripchart</span>(Penguine_Flosse[class<span class="sc">==</span><span class="dv">2</span>], <span class="at">method =</span> <span class="st">&quot;jitter&quot;</span>, <span class="at">jitter =</span> .<span class="dv">0005</span>, <span class="at">at =</span> .<span class="dv">001</span>,</span>
+<span id="cb3-53"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html#cb3-53" aria-hidden="true" tabindex="-1"></a>           <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">col=</span><span class="fu">alpha</span>(col_v[<span class="dv">2</span>],.<span class="dv">5</span>), <span class="at">bg=</span><span class="fu">alpha</span>(col_v[<span class="dv">2</span>],.<span class="dv">5</span>), <span class="at">cex=</span><span class="fl">1.3</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+</div>
+<h3>Literatur</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-palmerpenguins" class="csl-entry">
+Horst, Allison Marie, Alison Presmanes Hill, und Kristen B Gorman. 2020. <em>palmerpenguins: Palmer Archipelago (Antarctica) Penguin Data</em>. <a href="https://allisonhorst.github.io/palmerpenguins/">https://allisonhorst.github.io/palmerpenguins/</a>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="1-der-expectation-maximization-em-algorithmus.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "serif",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/lidom/Computational_Statistics_Script/edit/main/02-EM-Algorithmus.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Computational_Statistics_Script.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

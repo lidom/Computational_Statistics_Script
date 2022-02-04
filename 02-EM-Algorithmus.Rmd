@@ -51,7 +51,7 @@ Sie können ...
 
 ### Begleitlektüre(n) {-}
 
-Zur Vorbereitung der Klausur ist es grundsätzlich aussreichend das Kursskript durchzuarbeiten - aber Lesen hat ja noch nie geschadet. Dieses Kapitel basiert hauptsächlich auf: 
+Zur Vorbereitung der Klausur ist es grundsätzlich aussreichend dieses Kapitel durchzuarbeiten - aber Lesen hat ja noch nie geschadet. Dieses Kapitel basiert hauptsächlich auf: 
 
 + Kapitel 9 in [**Pattern Recognition and Machine Learning**](https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf) [@book_Bishop2006].<br> 
 Die pdf-Version des Buches ist frei erhältlichen: [**pdf-Version**](https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf)
