@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="de" xml:lang="de">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 Regressionsmodelle im Kontext des Maschinellen Lernens | Computational Statistics</title>
+  <meta name="description" content="2 Regressionsmodelle im Kontext des Maschinellen Lernens | Computational Statistics" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2 Regressionsmodelle im Kontext des Maschinellen Lernens | Computational Statistics" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="/images/Florence_Nightingale.jpg" />
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2 Regressionsmodelle im Kontext des Maschinellen Lernens | Computational Statistics" />
+  
+  
+  <meta name="twitter:image" content="/images/Florence_Nightingale.jpg" />
+
+<meta name="author" content="Prof. Dr. Dominik Liebl" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="1.4-das-große-ganze.html"/>
+<link rel="next" href="2.1-das-allgemeine-regressionsmodell.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="toc.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><center><a href="http://www.dliebl.com/Computational_Statistics_Script/"><img src="images/Florence_Nightingale.jpg" alt="logo" width="60%" height="60%"style="margin: 15px 0 0 0"></a></center></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Informationen</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#vorlesungszeiten"><i class="fa fa-check"></i>Vorlesungszeiten</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#rcodes"><i class="fa fa-check"></i>RCodes</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#leseecke"><i class="fa fa-check"></i>Leseecke</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#florence-nightingale"><i class="fa fa-check"></i>Florence Nightingale</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="1-der-expectation-maximization-em-algorithmus.html"><a href="1-der-expectation-maximization-em-algorithmus.html"><i class="fa fa-check"></i><b>1</b> Der Expectation Maximization (EM) Algorithmus</a>
+<ul>
+<li class="chapter" data-level="" data-path="1-der-expectation-maximization-em-algorithmus.html"><a href="1-der-expectation-maximization-em-algorithmus.html#lernziele-für-dieses-kapitel"><i class="fa fa-check"></i>Lernziele für dieses Kapitel</a></li>
+<li class="chapter" data-level="" data-path="1-der-expectation-maximization-em-algorithmus.html"><a href="1-der-expectation-maximization-em-algorithmus.html#begleitlektüren"><i class="fa fa-check"></i>Begleitlektüre(n)</a></li>
+<li class="chapter" data-level="" data-path="1-der-expectation-maximization-em-algorithmus.html"><a href="1-der-expectation-maximization-em-algorithmus.html#r-pakete-für-diese-kapitel"><i class="fa fa-check"></i>R-Pakete für diese Kapitel</a></li>
+<li class="chapter" data-level="1.1" data-path="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html"><i class="fa fa-check"></i><b>1.1</b> Motivation: Clusteranalyse mit Hilfe Gaußscher Mischverteilungen</a></li>
+<li class="chapter" data-level="1.2" data-path="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><i class="fa fa-check"></i><b>1.2</b> Der EM Algorithmus zur ML-Schätzung Gaußscher Mischverteilungen</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#gaußsche-mischmodelle-gmm"><i class="fa fa-check"></i><b>1.2.1</b> Gaußsche Mischmodelle (GMM)</a></li>
+<li class="chapter" data-level="1.2.2" data-path="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#maximum-likelihood-ml-schätzung"><i class="fa fa-check"></i><b>1.2.2</b> Maximum Likelihood (ML) Schätzung</a></li>
+<li class="chapter" data-level="1.2.3" data-path="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#ch:EM1"><i class="fa fa-check"></i><b>1.2.3</b> Der EM Algorithmus für GMMs</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><a href="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><i class="fa fa-check"></i><b>1.3</b> Der alternative (wahre) Blick auf den EM Algorithmus</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><a href="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html#vervollständigung-der-daten"><i class="fa fa-check"></i><b>1.3.1</b> Vervollständigung der Daten</a></li>
+<li class="chapter" data-level="1.3.2" data-path="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><a href="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html#a-priori-und-a-posteriori-wahrscheinlichkeiten-pi_g-und-p_ig"><i class="fa fa-check"></i><b>1.3.2</b> A-priori und A-posteriori Wahrscheinlichkeiten: <span class="math inline">\(\pi_g\)</span> und <span class="math inline">\(p_{ig}\)</span></a></li>
+<li class="chapter" data-level="1.3.3" data-path="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><a href="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html#der-bedingte-mittelwert-p_ig"><i class="fa fa-check"></i><b>1.3.3</b> Der (bedingte) Mittelwert: <span class="math inline">\(p_{ig}\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="1.4-das-große-ganze.html"><a href="1.4-das-große-ganze.html"><i class="fa fa-check"></i><b>1.4</b> Das Große Ganze</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="1.4-das-große-ganze.html"><a href="1.4-das-große-ganze.html#ch:EM2"><i class="fa fa-check"></i><b>1.4.1</b> Der EM Algorithmus: <em>Die abstrakte Version</em></a></li>
+<li class="chapter" data-level="" data-path="1.4-das-große-ganze.html"><a href="1.4-das-große-ganze.html#ende"><i class="fa fa-check"></i>Ende</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="2-ch:RegML.html"><a href="2-ch:RegML.html"><i class="fa fa-check"></i><b>2</b> Regressionsmodelle im Kontext des Maschinellen Lernens</a>
+<ul>
+<li class="chapter" data-level="" data-path="2-ch:RegML.html"><a href="2-ch:RegML.html#lernziele-für-dieses-kapitel-1"><i class="fa fa-check"></i>Lernziele für dieses Kapitel</a></li>
+<li class="chapter" data-level="" data-path="2-ch:RegML.html"><a href="2-ch:RegML.html#begleitlektüren-1"><i class="fa fa-check"></i>Begleitlektüren</a></li>
+<li class="chapter" data-level="" data-path="2-ch:RegML.html"><a href="2-ch:RegML.html#r-pakete-und-datenbeispiel-für-dieses-kapitel"><i class="fa fa-check"></i>R-Pakete und Datenbeispiel für dieses Kapitel</a></li>
+<li class="chapter" data-level="2.1" data-path="2.1-das-allgemeine-regressionsmodell.html"><a href="2.1-das-allgemeine-regressionsmodell.html"><i class="fa fa-check"></i><b>2.1</b> Das allgemeine Regressionsmodell</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="2.1-das-allgemeine-regressionsmodell.html"><a href="2.1-das-allgemeine-regressionsmodell.html#der-prädiktionsfehler-zwischen-y-und-haty"><i class="fa fa-check"></i><b>2.1.1</b> Der Prädiktionsfehler (zwischen <span class="math inline">\(Y\)</span> und <span class="math inline">\(\hat{Y}\)</span>)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="2.2-das-multivariate-lineare-regressionsmodell.html"><a href="2.2-das-multivariate-lineare-regressionsmodell.html"><i class="fa fa-check"></i><b>2.2</b> Das multivariate lineare Regressionsmodell</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="2.2-das-multivariate-lineare-regressionsmodell.html"><a href="2.2-das-multivariate-lineare-regressionsmodell.html#schätzung"><i class="fa fa-check"></i><b>2.2.1</b> Schätzung</a></li>
+<li class="chapter" data-level="2.2.2" data-path="2.2-das-multivariate-lineare-regressionsmodell.html"><a href="2.2-das-multivariate-lineare-regressionsmodell.html#polynomregression"><i class="fa fa-check"></i><b>2.2.2</b> Polynomregression</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="2.3-modellauswahl.html"><a href="2.3-modellauswahl.html"><i class="fa fa-check"></i><b>2.3</b> Modellauswahl</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="2.3-modellauswahl.html"><a href="2.3-modellauswahl.html#die-validierungsdaten-methode"><i class="fa fa-check"></i><b>2.3.1</b> Die Validierungsdaten-Methode</a></li>
+<li class="chapter" data-level="2.3.2" data-path="2.3-modellauswahl.html"><a href="2.3-modellauswahl.html#k-fache-kreuzvalidierung"><i class="fa fa-check"></i><b>2.3.2</b> k-Fache Kreuzvalidierung</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="2.4-anwendung-vorhersage-des-benzinverbrauchs.html"><a href="2.4-anwendung-vorhersage-des-benzinverbrauchs.html"><i class="fa fa-check"></i><b>2.4</b> Anwendung: Vorhersage des Benzinverbrauchs</a></li>
+<li class="chapter" data-level="2.5" data-path="2.5-ende-1.html"><a href="2.5-ende-1.html"><i class="fa fa-check"></i><b>2.5</b> Ende</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="literatur.html"><a href="literatur.html"><i class="fa fa-check"></i>Literatur</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Computational Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ch:RegML" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Regressionsmodelle im Kontext des Maschinellen Lernens</h1>
+<style type="text/css">
+span {
+  display: inline-block;
+}
+</style>
+<p><strong>Lineare Regressionsmodelle</strong> gehören zu den erfolgreichsten statistischen Modellen, da sie</p>
+<ul>
+<li>vergleichsweise <strong>einfach zu interpretieren</strong> sind und</li>
+<li>zugleich <strong>äußerst flexibel</strong> sind.</li>
+</ul>
+<p>In diesem Kapitel betrachten wir das multivariate (oder multiple) lineare Regressionsmodell als <strong>Prädiktionsmodell</strong> im Kontext des maschinellen Lernens.</p>
+<div id="lernziele-für-dieses-kapitel-1" class="section level3 unnumbered">
+<h3>Lernziele für dieses Kapitel</h3>
+<p>Sie können …</p>
+<ul>
+<li>ein <strong>Anwendungsfeld</strong> des linearen Regressionsmodell als Prädiktionsmodell <strong>benennen</strong>.
+<br></li>
+<li>die <strong>Probleme</strong> der Auswahl eines geeigneten Prädiktionsmodells am Beispiel der Polynomregression <strong>benennen und erläutern</strong>.
+<br></li>
+<li>die <strong>Grundidee</strong> der Validierungsdaten-Methode <strong>erläutern</strong>.
+<br></li>
+<li>die <strong>Grundidee</strong> der k-fachen Kreuzvalidierung <strong>erläutern</strong>.
+<br></li>
+</ul>
+</div>
+<div id="begleitlektüren-1" class="section level3 unnumbered">
+<h3>Begleitlektüren</h3>
+<p>Zur Vorbereitung der Klausur ist es grundsätzlich ausreichend dieses Kapitel durchzuarbeiten - aber Lesen hat ja noch nie geschadet. Empfehlenswerte weiterführende Literatur:</p>
+<ul>
+<li><p>Kapitel 3 in <a href="https://trevorhastie.github.io/ISLR/"><strong>An Introduction to Statistical Learning, with Applications in R</strong></a> <span class="citation">(<a href="#ref-ISLR2021" role="doc-biblioref">James u. a. 2021</a>)</span>.<br>
+Die pdf-Version des Buches ist hier frei erhältlichen:
+<a href="https://www.statlearning.com/"><strong>www.statlearning.com</strong></a></p></li>
+<li><p>Kapitel 3 in <a href="https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf"><strong>Pattern Recognition and Machine Learning</strong></a> <span class="citation">(<a href="#ref-book_Bishop2006" role="doc-biblioref">Bishop 2006</a>)</span>.<br>
+Die pdf-Version des Buches ist frei erhältlichen: <a href="https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf"><strong>pdf-Version</strong></a></p></li>
+<li><p>Kapitel 6 in <a href="https://www.econometrics-with-r.org/"><strong>Introduction to Econometrics with R</strong></a> <span class="citation">(<a href="#ref-IntroEconometricsR2021" role="doc-biblioref">Hanck u. a. 2021</a>)</span>.<br>
+Freies Online-Buch: <a href="https://www.econometrics-with-r.org/"><strong>www.econometrics-with-r.org</strong></a></p></li>
+</ul>
+</div>
+<div id="r-pakete-und-datenbeispiel-für-dieses-kapitel" class="section level3 unnumbered">
+<h3>R-Pakete und Datenbeispiel für dieses Kapitel</h3>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:Fig-BikeSharing"></span>
+<img src="images/Car_Pollution.jpg" alt="Abgase am Morgen (Foto: David Lee)." width="70%" />
+<p class="caption">
+Abbildung 2.1: Abgase am Morgen (Foto: David Lee).
+</p>
+</div>
+<p>Folgende Pakete werden in diesem Kapitel benötigt.</p>
+<ul>
+<li><strong>tidyverse</strong>: Viele nützliche Pakete zur Datenverarbeitung.</li>
+<li><strong>GGally</strong>: Enthält die Funktion <code>ggpairs()</code> zur Erzeugung von Pairs-Plots</li>
+<li><strong>ISLR</strong>: Enthält die <code>Auto</code> Daten</li>
+</ul>
+<p>Falls noch nicht geschehen, müssen diese Pakete installiert und geladen werden:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="2-ch:RegML.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Installieren</span></span>
+<span id="cb5-2"><a href="2-ch:RegML.html#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>) </span>
+<span id="cb5-3"><a href="2-ch:RegML.html#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;GGally&quot;</span>)    </span>
+<span id="cb5-4"><a href="2-ch:RegML.html#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;ISLR&quot;</span>)      </span>
+<span id="cb5-5"><a href="2-ch:RegML.html#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Laden</span></span>
+<span id="cb5-6"><a href="2-ch:RegML.html#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;tidyverse&quot;</span>) <span class="co"># Viele nützliche Pakete zur Datenverarbeitung</span></span>
+<span id="cb5-7"><a href="2-ch:RegML.html#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;GGally&quot;</span>)    <span class="co"># Pairs-Plot</span></span>
+<span id="cb5-8"><a href="2-ch:RegML.html#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;ISLR&quot;</span>)      <span class="co"># Enthält die Auto-Daten</span></span>
+<span id="cb5-9"><a href="2-ch:RegML.html#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Auto)           <span class="co"># Auto-Daten abrufbar machen</span></span></code></pre></div>
+<p>Als Datenbeispiel für diese Kapitel betrachten wir den <code>Auto</code> Datensatz im R-Paket ISLR. Wir betrachten folgende Auswahl der Variablen im Datensatz <code>Auto</code>:</p>
+<ul>
+<li><strong>Zielvariable:</strong>
+<ul>
+<li><strong>Verbrauch (km/Liter)</strong></li>
+</ul></li>
+<li><strong>Prädiktorvariablen:</strong>
+<ul>
+<li><strong>Gewicht (kg):</strong> Schwerere Autos verbrauchen wahrscheinlich mehr.</li>
+<li><strong>Leistung (PS):</strong> Höhere Leistung geht wohl auch mit höherem Verbrauch einher.</li>
+<li><strong>Hubraum (ccm):</strong> Großer Hubraum … höherer Verbrauch?</li>
+</ul></li>
+</ul>
+<p><strong>Achtung:</strong> Es gibt sicherlich noch weitere relevante Prädiktorvariablen. Obige Auswahl ist jedoch relativ einfach zu erheben und ermöglicht eventuell bereits eine <strong>gute Prädiktion des Verbrauches</strong> im Rahmen eines <strong>Regressionsmodells</strong>. Falls dem so ist, könnte unser Prädiktionsmodell dazu dienen, nach Auffälligkeiten bei den herstellerseitigen Verbrauchsangaben zu suchen. Besonders große Abweichung zwischen Modellprädiktion und Herstellerangabe wäre ein mögliches Indiz auf unlautere Zahlenschönung.</p>
+<p><br></p>
+<p><strong>Aufbereitung der Daten:</strong></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="2-ch:RegML.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Auswahl und Aufbereitung der Variablen </span></span>
+<span id="cb6-2"><a href="2-ch:RegML.html#cb6-2" aria-hidden="true" tabindex="-1"></a>Auto_df <span class="ot">&lt;-</span> Auto <span class="sc">%&gt;%</span> </span>
+<span id="cb6-3"><a href="2-ch:RegML.html#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Verbrauch =</span> mpg <span class="sc">*</span> (<span class="fl">1.60934</span><span class="sc">/</span><span class="fl">3.78541</span>), <span class="co"># Verbrauch (km/Liter)</span></span>
+<span id="cb6-4"><a href="2-ch:RegML.html#cb6-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">Gewicht   =</span> weight <span class="sc">*</span> <span class="fl">0.45359</span>,        <span class="co"># Gewicht (kg)</span></span>
+<span id="cb6-5"><a href="2-ch:RegML.html#cb6-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">PS        =</span> horsepower,              <span class="co"># Pferdestärken (PS)</span></span>
+<span id="cb6-6"><a href="2-ch:RegML.html#cb6-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">Hubraum   =</span> displacement <span class="sc">*</span> <span class="fl">2.54</span><span class="sc">^</span><span class="dv">3</span>    <span class="co"># Hubraum (ccm)</span></span>
+<span id="cb6-7"><a href="2-ch:RegML.html#cb6-7" aria-hidden="true" tabindex="-1"></a>         ) <span class="sc">%&gt;%</span>   </span>
+<span id="cb6-8"><a href="2-ch:RegML.html#cb6-8" aria-hidden="true" tabindex="-1"></a> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="st">&quot;Verbrauch&quot;</span>, <span class="st">&quot;Gewicht&quot;</span>, <span class="st">&quot;PS&quot;</span>, <span class="st">&quot;Hubraum&quot;</span>) </span>
+<span id="cb6-9"><a href="2-ch:RegML.html#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="2-ch:RegML.html#cb6-10" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(Auto_df) <span class="co"># Stichprobenumfang </span></span></code></pre></div>
+<p><br></p>
+Insgesamt enthält der betrachtete Datensatz also fünf Variablen zu <span class="math inline">\(n=392\)</span> verschiedenen Autos. Dies sind die ersten sechs Zeilen des Datensatzes:
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+Verbrauch (km/Liter)
+</th>
+<th style="text-align:right;">
+Gewicht (kg)
+</th>
+<th style="text-align:right;">
+Pferdestärken (PS)
+</th>
+<th style="text-align:right;">
+Hubraum (ccm)
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+7.65
+</td>
+<td style="text-align:right;">
+1589.38
+</td>
+<td style="text-align:right;">
+130
+</td>
+<td style="text-align:right;">
+5030.83
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6.38
+</td>
+<td style="text-align:right;">
+1675.11
+</td>
+<td style="text-align:right;">
+165
+</td>
+<td style="text-align:right;">
+5735.47
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7.65
+</td>
+<td style="text-align:right;">
+1558.54
+</td>
+<td style="text-align:right;">
+150
+</td>
+<td style="text-align:right;">
+5211.09
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6.80
+</td>
+<td style="text-align:right;">
+1557.17
+</td>
+<td style="text-align:right;">
+150
+</td>
+<td style="text-align:right;">
+4981.67
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7.23
+</td>
+<td style="text-align:right;">
+1564.43
+</td>
+<td style="text-align:right;">
+140
+</td>
+<td style="text-align:right;">
+4948.89
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6.38
+</td>
+<td style="text-align:right;">
+1969.03
+</td>
+<td style="text-align:right;">
+198
+</td>
+<td style="text-align:right;">
+7030.05
+</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>Um sich einen Überblick zu den Beziehungen zwischen den Variablen zu verschaffen, eignet sich ein <strong>Pairs-Plot</strong> sehr gut (siehe Abbildung <a href="2-ch:RegML.html#fig:pairsplot">2.2</a>):</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="2-ch:RegML.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(Auto_df,</span>
+<span id="cb7-2"><a href="2-ch:RegML.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="at">upper =</span> <span class="fu">list</span>(<span class="at">continuous =</span> <span class="st">&quot;density&quot;</span>, <span class="at">combo =</span> <span class="st">&quot;box_no_facet&quot;</span>),</span>
+<span id="cb7-3"><a href="2-ch:RegML.html#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="at">lower =</span> <span class="fu">list</span>(<span class="at">continuous =</span> <span class="st">&quot;points&quot;</span>, <span class="at">combo =</span> <span class="st">&quot;dot_no_facet&quot;</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:pairsplot"></span>
+<img src="Computational_Statistics_Script_files/figure-html/pairsplot-1.png" alt="Pairs-Plot zur Veranschaulichung der paarweisen Zusammenhänge zwischen den Variablen." width="100%" height="100%" />
+<p class="caption">
+Abbildung 2.2: Pairs-Plot zur Veranschaulichung der paarweisen Zusammenhänge zwischen den Variablen.
+</p>
+</div>
+<p>Der Pairs-Plot veranschaulicht alle paarweisen Zusammenhänge zwischen den Variablen im Datensatz <code>Auto_df</code>. Uns interessieren hierbei in erster Linie die Zusammenhänge zwischen der Zielvariable <strong>Verbrauch</strong> und den <strong>Prädiktorvariablen</strong>:</p>
+<ul>
+<li><span class="math inline">\(Y=\)</span><strong>Verbrauch</strong> und …
+<ul>
+<li><span class="math inline">\(G=\)</span> <strong>Gewicht</strong><span class="math inline">\(_i\)</span><strong>:</strong> haben einen nicht linearen, negativen Zusammenhang.</li>
+<li><span class="math inline">\(P=\)</span> <strong>PS:</strong> haben einen nicht linearen, negativen Zusammenhang.</li>
+<li><span class="math inline">\(H=\)</span> <strong>Hubraum:</strong> haben einen nicht linearen, negativen Zusammenhang.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<h3>Literatur</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-book_Bishop2006" class="csl-entry">
+Bishop, Christopher M. 2006. <em>Pattern Recognition and Machine Learning</em>. Springer Science &amp; Business Media.
+</div>
+<div id="ref-IntroEconometricsR2021" class="csl-entry">
+Hanck, Christoph, Martin Arnold, Alexander Gerber, und Martin Schmelzer. 2021. <em>Introduction to Econometrics with R</em>. www.econometrics-with-r.org.
+</div>
+<div id="ref-ISLR2021" class="csl-entry">
+James, Gareth, Daniela Witten, Trevor Hastie, und Robert Tibshirani. 2021. <em>An Introduction to Statistical Learning: With Applications in R</em>. Springer Science.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="1.4-das-große-ganze.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="2.1-das-allgemeine-regressionsmodell.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "serif",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/lidom/Computational_Statistics_Script/edit/main/03-Linear-Models-Regr.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Computational_Statistics_Script.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

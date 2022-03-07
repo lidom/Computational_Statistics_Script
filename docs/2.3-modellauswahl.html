@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="de" xml:lang="de">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2.3 Modellauswahl | Computational Statistics</title>
+  <meta name="description" content="2.3 Modellauswahl | Computational Statistics" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2.3 Modellauswahl | Computational Statistics" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="/images/Florence_Nightingale.jpg" />
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2.3 Modellauswahl | Computational Statistics" />
+  
+  
+  <meta name="twitter:image" content="/images/Florence_Nightingale.jpg" />
+
+<meta name="author" content="Prof. Dr. Dominik Liebl" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="2.2-das-multivariate-lineare-regressionsmodell.html"/>
+<link rel="next" href="2.4-anwendung-vorhersage-des-benzinverbrauchs.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="toc.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><center><a href="http://www.dliebl.com/Computational_Statistics_Script/"><img src="images/Florence_Nightingale.jpg" alt="logo" width="60%" height="60%"style="margin: 15px 0 0 0"></a></center></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Informationen</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#vorlesungszeiten"><i class="fa fa-check"></i>Vorlesungszeiten</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#rcodes"><i class="fa fa-check"></i>RCodes</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#leseecke"><i class="fa fa-check"></i>Leseecke</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#florence-nightingale"><i class="fa fa-check"></i>Florence Nightingale</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="1-der-expectation-maximization-em-algorithmus.html"><a href="1-der-expectation-maximization-em-algorithmus.html"><i class="fa fa-check"></i><b>1</b> Der Expectation Maximization (EM) Algorithmus</a>
+<ul>
+<li class="chapter" data-level="" data-path="1-der-expectation-maximization-em-algorithmus.html"><a href="1-der-expectation-maximization-em-algorithmus.html#lernziele-für-dieses-kapitel"><i class="fa fa-check"></i>Lernziele für dieses Kapitel</a></li>
+<li class="chapter" data-level="" data-path="1-der-expectation-maximization-em-algorithmus.html"><a href="1-der-expectation-maximization-em-algorithmus.html#begleitlektüren"><i class="fa fa-check"></i>Begleitlektüre(n)</a></li>
+<li class="chapter" data-level="" data-path="1-der-expectation-maximization-em-algorithmus.html"><a href="1-der-expectation-maximization-em-algorithmus.html#r-pakete-für-diese-kapitel"><i class="fa fa-check"></i>R-Pakete für diese Kapitel</a></li>
+<li class="chapter" data-level="1.1" data-path="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html"><a href="1.1-motivation-clusteranalyse-mit-hilfe-gaußscher-mischverteilungen.html"><i class="fa fa-check"></i><b>1.1</b> Motivation: Clusteranalyse mit Hilfe Gaußscher Mischverteilungen</a></li>
+<li class="chapter" data-level="1.2" data-path="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><i class="fa fa-check"></i><b>1.2</b> Der EM Algorithmus zur ML-Schätzung Gaußscher Mischverteilungen</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#gaußsche-mischmodelle-gmm"><i class="fa fa-check"></i><b>1.2.1</b> Gaußsche Mischmodelle (GMM)</a></li>
+<li class="chapter" data-level="1.2.2" data-path="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#maximum-likelihood-ml-schätzung"><i class="fa fa-check"></i><b>1.2.2</b> Maximum Likelihood (ML) Schätzung</a></li>
+<li class="chapter" data-level="1.2.3" data-path="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html"><a href="1.2-der-em-algorithmus-zur-ml-schätzung-gaußscher-mischverteilungen.html#ch:EM1"><i class="fa fa-check"></i><b>1.2.3</b> Der EM Algorithmus für GMMs</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><a href="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><i class="fa fa-check"></i><b>1.3</b> Der alternative (wahre) Blick auf den EM Algorithmus</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><a href="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html#vervollständigung-der-daten"><i class="fa fa-check"></i><b>1.3.1</b> Vervollständigung der Daten</a></li>
+<li class="chapter" data-level="1.3.2" data-path="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><a href="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html#a-priori-und-a-posteriori-wahrscheinlichkeiten-pi_g-und-p_ig"><i class="fa fa-check"></i><b>1.3.2</b> A-priori und A-posteriori Wahrscheinlichkeiten: <span class="math inline">\(\pi_g\)</span> und <span class="math inline">\(p_{ig}\)</span></a></li>
+<li class="chapter" data-level="1.3.3" data-path="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html"><a href="1.3-der-alternative-wahre-blick-auf-den-em-algorithmus.html#der-bedingte-mittelwert-p_ig"><i class="fa fa-check"></i><b>1.3.3</b> Der (bedingte) Mittelwert: <span class="math inline">\(p_{ig}\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="1.4-das-große-ganze.html"><a href="1.4-das-große-ganze.html"><i class="fa fa-check"></i><b>1.4</b> Das Große Ganze</a>
+<ul>
+<li class="chapter" data-level="1.4.1" data-path="1.4-das-große-ganze.html"><a href="1.4-das-große-ganze.html#ch:EM2"><i class="fa fa-check"></i><b>1.4.1</b> Der EM Algorithmus: <em>Die abstrakte Version</em></a></li>
+<li class="chapter" data-level="" data-path="1.4-das-große-ganze.html"><a href="1.4-das-große-ganze.html#ende"><i class="fa fa-check"></i>Ende</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="2-ch:RegML.html"><a href="2-ch:RegML.html"><i class="fa fa-check"></i><b>2</b> Regressionsmodelle im Kontext des Maschinellen Lernens</a>
+<ul>
+<li class="chapter" data-level="" data-path="2-ch:RegML.html"><a href="2-ch:RegML.html#lernziele-für-dieses-kapitel-1"><i class="fa fa-check"></i>Lernziele für dieses Kapitel</a></li>
+<li class="chapter" data-level="" data-path="2-ch:RegML.html"><a href="2-ch:RegML.html#begleitlektüren-1"><i class="fa fa-check"></i>Begleitlektüren</a></li>
+<li class="chapter" data-level="" data-path="2-ch:RegML.html"><a href="2-ch:RegML.html#r-pakete-und-datenbeispiel-für-dieses-kapitel"><i class="fa fa-check"></i>R-Pakete und Datenbeispiel für dieses Kapitel</a></li>
+<li class="chapter" data-level="2.1" data-path="2.1-das-allgemeine-regressionsmodell.html"><a href="2.1-das-allgemeine-regressionsmodell.html"><i class="fa fa-check"></i><b>2.1</b> Das allgemeine Regressionsmodell</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="2.1-das-allgemeine-regressionsmodell.html"><a href="2.1-das-allgemeine-regressionsmodell.html#der-prädiktionsfehler-zwischen-y-und-haty"><i class="fa fa-check"></i><b>2.1.1</b> Der Prädiktionsfehler (zwischen <span class="math inline">\(Y\)</span> und <span class="math inline">\(\hat{Y}\)</span>)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="2.2-das-multivariate-lineare-regressionsmodell.html"><a href="2.2-das-multivariate-lineare-regressionsmodell.html"><i class="fa fa-check"></i><b>2.2</b> Das multivariate lineare Regressionsmodell</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="2.2-das-multivariate-lineare-regressionsmodell.html"><a href="2.2-das-multivariate-lineare-regressionsmodell.html#schätzung"><i class="fa fa-check"></i><b>2.2.1</b> Schätzung</a></li>
+<li class="chapter" data-level="2.2.2" data-path="2.2-das-multivariate-lineare-regressionsmodell.html"><a href="2.2-das-multivariate-lineare-regressionsmodell.html#polynomregression"><i class="fa fa-check"></i><b>2.2.2</b> Polynomregression</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="2.3-modellauswahl.html"><a href="2.3-modellauswahl.html"><i class="fa fa-check"></i><b>2.3</b> Modellauswahl</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="2.3-modellauswahl.html"><a href="2.3-modellauswahl.html#die-validierungsdaten-methode"><i class="fa fa-check"></i><b>2.3.1</b> Die Validierungsdaten-Methode</a></li>
+<li class="chapter" data-level="2.3.2" data-path="2.3-modellauswahl.html"><a href="2.3-modellauswahl.html#k-fache-kreuzvalidierung"><i class="fa fa-check"></i><b>2.3.2</b> k-Fache Kreuzvalidierung</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="2.4-anwendung-vorhersage-des-benzinverbrauchs.html"><a href="2.4-anwendung-vorhersage-des-benzinverbrauchs.html"><i class="fa fa-check"></i><b>2.4</b> Anwendung: Vorhersage des Benzinverbrauchs</a></li>
+<li class="chapter" data-level="2.5" data-path="2.5-ende-1.html"><a href="2.5-ende-1.html"><i class="fa fa-check"></i><b>2.5</b> Ende</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="literatur.html"><a href="literatur.html"><i class="fa fa-check"></i>Literatur</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Computational Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="modellauswahl" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Modellauswahl</h2>
+<div id="maschinelles-lernen-versus-strukturelle-modelle" class="section level4 unnumbered">
+<h4>Maschinelles Lernen versus Strukturelle Modelle</h4>
+<p>Das oben veranschaulichte Problem der Überanpassung (Overfitting) ist eng damit verbunden, dass wir hier ein sehr flexibles Regressionsmodell (Polynomregression) betrachten. Viele der möglichen Polynomfunktionen sind unsinnig, da sie nicht die strukturellen Einschränkungen des betrachteten Datenproblems berücksichtigen. Falls ein gesichertes Wissen zu den zugrundeliegenden, strukturellen Zusammenhängen zwischen der Zielvariable <span class="math inline">\(Y\)</span> und den Prädiktorvariablen <span class="math inline">\(X\)</span> existiert, sollte man diese strukturellen Zusammenhängen auch im statistischen Modell berücksichtigen. (Immer mit den Expert*Innen des Faches sprechen!) Im besten Falle gibt es ein <strong>strukturelles Modell</strong> zu den systematischen Zusammenhängen <span class="math inline">\(f\)</span> zwischen <span class="math inline">\(Y\)</span> und <span class="math inline">\(X\)</span>, welches genügend Einschränkungen bietet, sodass alle unsinnigen Modellierungen vermieden werden können. In solchen Idealfällen führt die Minimierung der Trainingsdaten-RSS zu keinem Problem der Überanpassung.</p>
+<p>Falls jedoch kein (vertrauenswürdiges) strukturelles Modell vorliegt, ist die Verwendung von sehr flexiblen Regressionsmodellen wie der Polynomregression eine grundsätzlich sehr gute Idee, da wir so, ohne große Einschränkungen, nach den unbekannten richtigen Zusammenhängen <span class="math inline">\(f\)</span> suchen können. Dies ist der Ansatz des <strong>maschinellen Lernens</strong> und die <strong>Polynomregression mit unbekanntem Polynomgrad <span class="math inline">\(p\)</span></strong> ist lediglich eine von sehr vielen Methoden, welche im Kontext des maschinellen Lernens verwendet werden.</p>
+<blockquote>
+<p><strong>Fazit:</strong> Methoden des <strong>maschinellen Lernens</strong> sind typischerweise sehr flexibel und bauen nicht auf strukturellen Modellen auf. Daher benötigen diese Methoden spezielle Verfahren der <strong>Modellauswahl</strong>, um eine Überanpassung an die Trainingsdaten zu vermeiden. Richtig angewandt, können Methoden des maschinellen Lernens unbekannte Zusammenhänge richtig erkennen.</p>
+</blockquote>
+</div>
+<div id="die-validierungsdaten-methode" class="section level3" number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> Die Validierungsdaten-Methode</h3>
+<p>Da die Minimierung der Trainingsdaten-RSS schnell zu einem Problem der Überanpassung führt, benötigen wir eine alternative Methode, um die Güte des geschätzten Modells zu prüfen. Die einfachste Idee ist dabei die beobachteten Daten in einen Satz von Trainingsdaten
+<span class="math display">\[
+\text{Trainingsdaten}=\left\{(x_{1}^{Train},y_{1}^{Train}), (x_{2}^{Train},y_{2}^{Train}),\dots,(x_{n_{Train}}^{Train},y_{n_{Train}}^{Train})\right\}
+\]</span>
+und einen <strong>separaten</strong> (disjunkten) Satz von Validierungsdaten
+<span class="math display">\[
+\text{Validierungsdaten}=\left\{(x_{1}^{Valid},y_{1}^{Valid}), (x_{2}^{Valid},y_{2}^{Valid}),\dots,(x_{n_{Valid}}^{Valid},y_{n_{Valid}}^{Valid})\right\}
+\]</span>
+zu teilen mit</p>
+<ul>
+<li><span class="math inline">\(n=n_{Train} + n_{Valid}\)</span></li>
+<li><span class="math inline">\(\text{Trainingsdaten}\cap \text{Validierungsdaten} = \emptyset\)</span></li>
+</ul>
+<p>Folgender Code-Schnipsel ermöglicht solch eine (zufällige) Aufteilung der Daten in Trainings- und Validierungsdaten:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="2.3-modellauswahl.html#cb9-1" aria-hidden="true" tabindex="-1"></a>n        <span class="ot">&lt;-</span> <span class="fu">nrow</span>(Auto_df) <span class="co"># Stichprobenumfang</span></span>
+<span id="cb9-2"><a href="2.3-modellauswahl.html#cb9-2" aria-hidden="true" tabindex="-1"></a>n_Train  <span class="ot">&lt;-</span> <span class="dv">200</span>           <span class="co"># Stichprobenumfang der Trainingsdaten</span></span>
+<span id="cb9-3"><a href="2.3-modellauswahl.html#cb9-3" aria-hidden="true" tabindex="-1"></a>n_Valid  <span class="ot">&lt;-</span> n <span class="sc">-</span> n_Train   <span class="co"># Stichprobenumfang der Validierungsdaten</span></span>
+<span id="cb9-4"><a href="2.3-modellauswahl.html#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="2.3-modellauswahl.html#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Index-Mengen zur Auswahl der </span></span>
+<span id="cb9-6"><a href="2.3-modellauswahl.html#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Trainings- und Validierungsdaten</span></span>
+<span id="cb9-7"><a href="2.3-modellauswahl.html#cb9-7" aria-hidden="true" tabindex="-1"></a>I_Train  <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span>n, <span class="at">size =</span> n_Train, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-8"><a href="2.3-modellauswahl.html#cb9-8" aria-hidden="true" tabindex="-1"></a>I_Valid  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>n)[<span class="sc">-</span>I_Train]</span>
+<span id="cb9-9"><a href="2.3-modellauswahl.html#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="2.3-modellauswahl.html#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Trainingsdaten </span></span>
+<span id="cb9-11"><a href="2.3-modellauswahl.html#cb9-11" aria-hidden="true" tabindex="-1"></a>Auto_Train_df <span class="ot">&lt;-</span> Auto_df[I_Train, ]</span>
+<span id="cb9-12"><a href="2.3-modellauswahl.html#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Validierungsdaten </span></span>
+<span id="cb9-13"><a href="2.3-modellauswahl.html#cb9-13" aria-hidden="true" tabindex="-1"></a>Auto_Valid_df <span class="ot">&lt;-</span> Auto_df[I_Valid, ]</span></code></pre></div>
+<p><br></p>
+<p>Obschon die Validierungsdaten-Methode auf alle Regressionsmodelle angewandt werden kann, veranschaulichen wir im Folgenden die Methode anhand der Polynomregression.</p>
+<p><br></p>
+<p>Die Aufteilung der Daten in Trainings- und Validierungsdaten ermöglicht uns nun ein zweistufiges Verfahren:</p>
+<p><strong>Schritt 1:</strong> Mit Hilfe der <strong>Trainingsdaten</strong> wird das Polynomregressionsmodell <strong>geschätzt</strong>:
+<span class="math display">\[\begin{align*}
+y^{Train}_i
+%&amp;=\hat{f}^{Train}_p(x_i^{Train}) + e_i^{Train}\\
+&amp;=\hat{\beta}_0^{Train} + \hat{\beta}_1^{Train} x_{i}^{Train} + \hat{\beta}_2^{Train} (x_{i}^{Train})^2 + \dots + \hat{\beta}_p^{Train} (x_{i}^{Train})^p + e_i^{Train}
+\end{align*}\]</span>
+Code-Schnipsel Beispiel:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="2.3-modellauswahl.html#cb10-1" aria-hidden="true" tabindex="-1"></a>Train_polreg <span class="ot">&lt;-</span> <span class="fu">lm</span>(Verbrauch <span class="sc">~</span> <span class="fu">poly</span>(PS, <span class="at">degree =</span> p, <span class="at">raw=</span><span class="cn">TRUE</span>), <span class="at">data =</span> Auto_Train_df)</span></code></pre></div>
+<p><br></p>
+<p><strong>Schritt 2:</strong> Mit Hilfe der <strong>Validierungsdaten</strong> wird das geschätzte Polynomregressionsmodell <strong>validiert</strong>:
+<span class="math display">\[\begin{align*}
+\hat{y}^{Valid}_i
+%&amp;=\hat{f}_p^{Train}(x_i^{Valid})+ e_i^{Valid}\\
+&amp;=\hat{\beta}_0 + \hat{\beta}_1^{Train} x_{i}^{Valid} + \hat{\beta}_2^{Train} (x_{i}^{Valid})^2 + \dots + \hat{\beta}_p^{Train} (x_{i}^{Valid})^p,
+\end{align*}\]</span>
+indem man den <strong>mittleren quadratischen Prädiktionsfehler</strong> (Mean Squared Prediction Error <strong>MSPE</strong>) berechnet:
+<span class="math display">\[\begin{align*}
+\text{MSPE}
+&amp;=\frac{1}{n_{Valid}}\text{RSS}_{Valid}\\
+&amp;=\frac{1}{n_{Valid}}\left((y_1^{Valid} - \hat{y}_1^{Valid})^2 +\dots + (y_{n_{Valid}}^{Valid} - \hat{y}_{n_{Valid}}^{Valid})^2\right)
+\end{align*}\]</span>
+Code-Schnipsel Beispiel:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="2.3-modellauswahl.html#cb11-1" aria-hidden="true" tabindex="-1"></a>y_fit_Valid   <span class="ot">&lt;-</span> <span class="fu">predict</span>(Train_polreg, <span class="at">newdata =</span> Auto_Valid_df)</span>
+<span id="cb11-2"><a href="2.3-modellauswahl.html#cb11-2" aria-hidden="true" tabindex="-1"></a>RSS_Valid     <span class="ot">&lt;-</span> <span class="fu">sum</span>( (Auto_Valid_df<span class="sc">$</span>Verbrauch <span class="sc">-</span> y_fit_Valid)<span class="sc">^</span><span class="dv">2</span> )</span>
+<span id="cb11-3"><a href="2.3-modellauswahl.html#cb11-3" aria-hidden="true" tabindex="-1"></a>MSPE          <span class="ot">&lt;-</span> RSS_Valid <span class="sc">/</span> n_Valid</span></code></pre></div>
+<p><br></p>
+<p>Man wiederholt obige Schritte für eine Auswahl von verschiedenen Polynomgraden <span class="math inline">\(p=1,2,\dots,p_{\max}\)</span>, z.B. <span class="math inline">\(p_{\max}=10\)</span>, und berechnet für jeden dieser Fälle den <span class="math inline">\(\operatorname{MSPE}\)</span>, also:
+<span class="math display">\[
+\operatorname{MSPE}\equiv\operatorname{MSPE}(\hat{\beta}_0, \hat{\beta}_1, \dots, \hat{\beta}_p,p),\quad\text{für jedes}\quad p=1,2,\dots,p_{\max}
+\]</span>
+Der <span class="math inline">\(\operatorname{MSPE}\)</span> ist eine Schätzung des wahren, unbekannten mittleren quadratischen Prädiktionsfehlers <span class="math inline">\(E\left[(Y-\hat{Y})^2\right]\)</span>,<br />
+<span class="math display">\[
+\operatorname{MSPE}(\hat{\beta}_0, \hat{\beta}_1, \dots, \hat{\beta}_p,p)\approx E\left[(Y-\hat{Y})^2\right]. 
+\]</span>
+Die Minimierung des <span class="math inline">\(\operatorname{MSPE}\)</span> über verschiedene Werte des Polynomgrades <span class="math inline">\(p=1,2,\dots\)</span> erlaubt es uns den <strong>reduzierbaren Prädiktions-Fehler</strong> der Polynomregression zu minimieren.</p>
+<p><br></p>
+<p>Folgender R-Code verbindet nun alle Schritte und berechnet den <span class="math inline">\(\operatorname{MSPE}\)</span> für verschiedene Werte des Polynomgrades <span class="math inline">\(p\)</span>. Dasjenige Modell, welches den <span class="math inline">\(\operatorname{MSPE}\)</span> minimiert, ist laut der Daten das beste Prädiktionsmodell.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="2.3-modellauswahl.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">31</span>)</span>
+<span id="cb12-2"><a href="2.3-modellauswahl.html#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb12-3"><a href="2.3-modellauswahl.html#cb12-3" aria-hidden="true" tabindex="-1"></a>n        <span class="ot">&lt;-</span> <span class="fu">nrow</span>(Auto_df) <span class="co"># Stichprobenumfang</span></span>
+<span id="cb12-4"><a href="2.3-modellauswahl.html#cb12-4" aria-hidden="true" tabindex="-1"></a>n_Train  <span class="ot">&lt;-</span> <span class="dv">200</span>           <span class="co"># Stichprobenumfang der Trainingsdaten</span></span>
+<span id="cb12-5"><a href="2.3-modellauswahl.html#cb12-5" aria-hidden="true" tabindex="-1"></a>n_Valid  <span class="ot">&lt;-</span>n <span class="sc">-</span> n_Train    <span class="co"># Stichprobenumfang der Validierungsdaten</span></span>
+<span id="cb12-6"><a href="2.3-modellauswahl.html#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="2.3-modellauswahl.html#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Index-Mengen zur Auswahl der </span></span>
+<span id="cb12-8"><a href="2.3-modellauswahl.html#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Trainings- und Validierungsdaten</span></span>
+<span id="cb12-9"><a href="2.3-modellauswahl.html#cb12-9" aria-hidden="true" tabindex="-1"></a>I_Train  <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span>n, <span class="at">size =</span> n_Train, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb12-10"><a href="2.3-modellauswahl.html#cb12-10" aria-hidden="true" tabindex="-1"></a>I_Valid  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>n)[<span class="sc">-</span>I_Train]</span>
+<span id="cb12-11"><a href="2.3-modellauswahl.html#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="2.3-modellauswahl.html#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Trainingsdaten </span></span>
+<span id="cb12-13"><a href="2.3-modellauswahl.html#cb12-13" aria-hidden="true" tabindex="-1"></a>Auto_Train_df <span class="ot">&lt;-</span> Auto_df[I_Train, ]</span>
+<span id="cb12-14"><a href="2.3-modellauswahl.html#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Validierungsdaten </span></span>
+<span id="cb12-15"><a href="2.3-modellauswahl.html#cb12-15" aria-hidden="true" tabindex="-1"></a>Auto_Valid_df <span class="ot">&lt;-</span> Auto_df[I_Valid, ]</span>
+<span id="cb12-16"><a href="2.3-modellauswahl.html#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="2.3-modellauswahl.html#cb12-17" aria-hidden="true" tabindex="-1"></a>p_max         <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb12-18"><a href="2.3-modellauswahl.html#cb12-18" aria-hidden="true" tabindex="-1"></a>MSPE          <span class="ot">&lt;-</span> <span class="fu">numeric</span>(p_max)</span>
+<span id="cb12-19"><a href="2.3-modellauswahl.html#cb12-19" aria-hidden="true" tabindex="-1"></a>fit_plot      <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="dv">50</span>, p_max)</span>
+<span id="cb12-20"><a href="2.3-modellauswahl.html#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(p <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>p_max){</span>
+<span id="cb12-21"><a href="2.3-modellauswahl.html#cb12-21" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Schritt 1</span></span>
+<span id="cb12-22"><a href="2.3-modellauswahl.html#cb12-22" aria-hidden="true" tabindex="-1"></a>  Train_polreg <span class="ot">&lt;-</span> <span class="fu">lm</span>(Verbrauch <span class="sc">~</span> <span class="fu">poly</span>(PS, <span class="at">degree =</span> p, <span class="at">raw=</span><span class="cn">TRUE</span>), </span>
+<span id="cb12-23"><a href="2.3-modellauswahl.html#cb12-23" aria-hidden="true" tabindex="-1"></a>                     <span class="at">data =</span> Auto_Train_df)</span>
+<span id="cb12-24"><a href="2.3-modellauswahl.html#cb12-24" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Schritt 2</span></span>
+<span id="cb12-25"><a href="2.3-modellauswahl.html#cb12-25" aria-hidden="true" tabindex="-1"></a>  y_fit_Valid   <span class="ot">&lt;-</span> <span class="fu">predict</span>(Train_polreg, <span class="at">newdata =</span> Auto_Valid_df)</span>
+<span id="cb12-26"><a href="2.3-modellauswahl.html#cb12-26" aria-hidden="true" tabindex="-1"></a>  RSS_Valid     <span class="ot">&lt;-</span> <span class="fu">sum</span>( (Auto_Valid_df<span class="sc">$</span>Verbrauch <span class="sc">-</span> y_fit_Valid)<span class="sc">^</span><span class="dv">2</span> )</span>
+<span id="cb12-27"><a href="2.3-modellauswahl.html#cb12-27" aria-hidden="true" tabindex="-1"></a>  MSPE[p]       <span class="ot">&lt;-</span> RSS_Valid <span class="sc">/</span> n_Valid</span>
+<span id="cb12-28"><a href="2.3-modellauswahl.html#cb12-28" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Daten für&#39;s plotten</span></span>
+<span id="cb12-29"><a href="2.3-modellauswahl.html#cb12-29" aria-hidden="true" tabindex="-1"></a>  fit_plot[,p] <span class="ot">&lt;-</span> <span class="fu">predict</span>(Train_polreg, <span class="at">newdata =</span> plot_df)</span>
+<span id="cb12-30"><a href="2.3-modellauswahl.html#cb12-30" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:RSSPoly3"></span>
+<img src="Computational_Statistics_Script_files/figure-html/RSSPoly3-1.png" alt="Polynom Regression und die Wahl des Polynomgrades $p$ durch Minimierung des mittleren quadratischen Prädiktionsfehler MSPE." width="90%" />
+<p class="caption">
+Abbildung 2.7: Polynom Regression und die Wahl des Polynomgrades <span class="math inline">\(p\)</span> durch Minimierung des mittleren quadratischen Prädiktionsfehler MSPE.
+</p>
+</div>
+<p><br></p>
+<blockquote>
+<p><strong>Achtung:</strong> Auch eine Modellauswahl ist fehlerhaft und stellt lediglich eine Schätzung (mit Schätzfehlern) des besten Prädiktionsmodelles innerhalb der betrachteten Klasse von Prädiktionsmodellen (hier Polynomregressionen) dar.</p>
+</blockquote>
+Abbildung <a href="2.3-modellauswahl.html#fig:MSPE">2.8</a> zeigt jedoch ein Problem der Validierungsdaten-Methode. Die Trainingsdaten und die Validierungsdaten haben kleinere Stichprobenumfänge (<span class="math inline">\(n_{Train}&lt;n\)</span> und <span class="math inline">\(n_{Valid}&lt;n\)</span>) was zu einer <strong>erhöhten Schätzgenauigkeit in der MSPE-Schätzung</strong> führt.
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:MSPE"></span>
+<img src="Computational_Statistics_Script_files/figure-html/MSPE-1.png" alt="Zehn verschiedene MSPE-Berechnungen basierend auf zehn verschiedenen, zufälligen Aufteilungen der Daten in Trainings- und Validierungsdaten." width="90%" />
+<p class="caption">
+Abbildung 2.8: Zehn verschiedene MSPE-Berechnungen basierend auf zehn verschiedenen, zufälligen Aufteilungen der Daten in Trainings- und Validierungsdaten.
+</p>
+</div>
+</div>
+<div id="k-fache-kreuzvalidierung" class="section level3" number="2.3.2">
+<h3><span class="header-section-number">2.3.2</span> k-Fache Kreuzvalidierung</h3>
+<p>Die <span class="math inline">\(k\)</span>-fache (z.B. <span class="math inline">\(k=5\)</span> oder <span class="math inline">\(k=10\)</span>) Kreuzvalidierung ist eine Vorgehensweise zur Bewertung der Leistung einer Schätzprozedur (Algorithmus) im Kontext des maschinellen Lernens. Als Schätzprozedur verwenden wir wieder das Beispiel der Polynomregression mit unbekanntem Polynomgrad <span class="math inline">\(p\)</span>, welcher zusammen mit den Modellparametern <span class="math inline">\(\beta_0,\beta_1,\dots,\beta_p\)</span> aus den Daten erlernt werden muss.</p>
+<p>Die <span class="math inline">\(k\)</span>-fache Kreuzvalidierung stellt eine Verbesserung der Validierungsdaten-Methode dar, da sie faktisch die Stichprobenumfänge in den Trainingsdaten und Validierungsdaten erhöht. Wie bei der Validierungsdaten-Methode wird der Datensatz in Trainings- und Validierungsdaten aufgeteilt – jedoch <span class="math inline">\(k\)</span>-fach. Abbildung <a href="2.3-modellauswahl.html#fig:kfoldcv">2.9</a> zeigt ein Beispiel der Datenaufteilung bei der <span class="math inline">\(5\)</span>-fachen Kreuzvalidierung.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:kfoldcv"></span>
+<img src="images/5-fold_cross-validation.png" alt="Datenaufteilung in Trainings- und Validierungsdaten bei der $5$-fachen Kreuzvalidierung." width="70%" />
+<p class="caption">
+Abbildung 2.9: Datenaufteilung in Trainings- und Validierungsdaten bei der <span class="math inline">\(5\)</span>-fachen Kreuzvalidierung.
+</p>
+</div>
+<p><br></p>
+<p>Folgender Code-Schnipsel ermöglicht eine (zufällige) Aufteilung der Daten in <span class="math inline">\(k\)</span> verschiedene Trainings- und Validierungsdaten:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="2.3-modellauswahl.html#cb13-1" aria-hidden="true" tabindex="-1"></a>n      <span class="ot">&lt;-</span> <span class="fu">nrow</span>(Auto_df) <span class="co"># Stichprobenumfang</span></span>
+<span id="cb13-2"><a href="2.3-modellauswahl.html#cb13-2" aria-hidden="true" tabindex="-1"></a>k      <span class="ot">&lt;-</span> <span class="dv">5</span>             <span class="co"># 5-fache Kreuzvalidierung</span></span>
+<span id="cb13-3"><a href="2.3-modellauswahl.html#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="2.3-modellauswahl.html#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Index zur Auswahl k verschiedener  </span></span>
+<span id="cb13-5"><a href="2.3-modellauswahl.html#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Trainings- und Validierungsdaten:</span></span>
+<span id="cb13-6"><a href="2.3-modellauswahl.html#cb13-6" aria-hidden="true" tabindex="-1"></a>folds  <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span>k, <span class="at">size =</span> n, <span class="at">replace=</span><span class="cn">TRUE</span>)</span>
+<span id="cb13-7"><a href="2.3-modellauswahl.html#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="2.3-modellauswahl.html#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Trainingsdaten im j-ten (j=1,2,...,k) Durchgang</span></span>
+<span id="cb13-9"><a href="2.3-modellauswahl.html#cb13-9" aria-hidden="true" tabindex="-1"></a>Auto_df[folds <span class="sc">!=</span> j,]</span>
+<span id="cb13-10"><a href="2.3-modellauswahl.html#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Validierungsdaten im j-ten (j=1,2,...,k) Durchgang</span></span>
+<span id="cb13-11"><a href="2.3-modellauswahl.html#cb13-11" aria-hidden="true" tabindex="-1"></a>Auto_df[folds <span class="sc">==</span> j,]</span></code></pre></div>
+<p><br></p>
+<p>Für jede der <span class="math inline">\(k\)</span> Datenaufteilungen wird der <span class="math inline">\(\operatorname{MSPE}\)</span> berechnet. Der Mittelwert dieser MSPE-Werte wird häufig als <span class="math inline">\(\operatorname{CV}_{(k)}\)</span> Wert (crossvalidation score) bezeichnet
+<span class="math display">\[
+\operatorname{CV}_{(k)}=\frac{1}{k}\sum_{j=1}^k\operatorname{MSPE}_j
+\]</span></p>
+<p>Der <span class="math inline">\(\operatorname{CV}_{(k)}\)</span>-Wert stellt eine im Vergleich zur Validierungsdaten-Methode verbesserte Schätzung des unbekannten mittleren quadratischen Pädiktionsfehlers <span class="math inline">\(\operatorname{CV}_{(k)}\approx E[(Y-\hat{Y})^2]\)</span> dar. Die Modellauswahl folgt also auch hier mittels Minimierung des <span class="math inline">\(\operatorname{CV}_{(k)}\)</span>-Wertes über die verschiedene Werte des Polynomgrades <span class="math inline">\(p=1,2,\dots\)</span>.</p>
+<blockquote>
+<p><strong>Wahl von <span class="math inline">\(k\)</span>:</strong> In der Praxis haben sich die Werte <span class="math inline">\(k=5\)</span> und <span class="math inline">\(k=10\)</span> etabliert, da diese Größenordnunen einen guten Kompromiss zwischen der Varianz und der Verzerrung des Schätzers <span class="math inline">\(\operatorname{CV}_{(k)}\)</span> für <span class="math inline">\(E[(Y-\hat{Y})^2]\)</span> darstellen.</p>
+</blockquote>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="2.2-das-multivariate-lineare-regressionsmodell.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="2.4-anwendung-vorhersage-des-benzinverbrauchs.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "serif",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/lidom/Computational_Statistics_Script/edit/main/03-Linear-Models-Regr.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Computational_Statistics_Script.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

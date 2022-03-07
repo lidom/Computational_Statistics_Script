@@ -113,7 +113,7 @@ Auto_df <- Auto %>%
          PS        = horsepower,              # Pferdestärken (PS)
          Hubraum   = displacement * 2.54^3    # Hubraum (ccm)
          ) %>%   
- select(Verbrauch, Gewicht, PS, Hubraum) 
+ dplyr::select("Verbrauch", "Gewicht", "PS", "Hubraum") 
 
 n <- nrow(Auto_df) # Stichprobenumfang 
 ```

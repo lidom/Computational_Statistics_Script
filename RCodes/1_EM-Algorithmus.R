@@ -1,4 +1,4 @@
-## ----setup, include=FALSE------------------
+## ----setup, include=FALSE----------------------------------------------------------------------------------------------------------------------------
 knitr::opts_chunk$set(echo = FALSE)
 
 
@@ -9,7 +9,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ## }
 
 
-## ---- eval=FALSE, echo=TRUE----------------
+## ---- eval=FALSE, echo=TRUE--------------------------------------------------------------------------------------------------------------------------
 ## pkgs <- c("tidyverse",      # Die tidyverse-Pakete
 ##           "palmerpenguins", # Pinguin-Daten
 ##           "scales",         # Transparente Farben: alpha()
@@ -21,11 +21,11 @@ knitr::opts_chunk$set(echo = FALSE)
 ## install.packages(pkgs)
 
 
-## ----pinguine, include=knitr::is_html_output(), echo=FALSE, out.width='70%', fig.cap="Frecher Pinguin bei der Tat."----
+## ----pinguine, include=knitr::is_html_output(), echo=FALSE, out.width='70%', fig.cap="Frecher Pinguin bei der Tat."----------------------------------
 knitr::include_graphics("images/penguins.gif")
 
 
-## ---- fig.align='center', out.width="100%", echo=TRUE, eval=TRUE----
+## ---- fig.align='center', out.width="100%", echo=TRUE, eval=TRUE-------------------------------------------------------------------------------------
 library("palmerpenguins") # Pinguin-Daten
 library("RColorBrewer")   # Hübsche Farben
 library("scales")         # Für transparente Farben: alpha()
@@ -120,11 +120,11 @@ stripchart(Penguine_Flosse[class==2], method = "jitter", jitter = .0005, at = .0
            pch = 21, col=alpha(col_v[2],.5), bg=alpha(col_v[2],.5), cex=1.3, add = TRUE)
 
 
-## ---- eval=my_output == "html", results='asis', echo=FALSE----
+## ---- eval=my_output == "html", results='asis', echo=FALSE-------------------------------------------------------------------------------------------
 ## cat('<hr style="background-color:#3C6690;height:2px">')
 
 
-## ---- echo=TRUE, eval=FALSE----------------
+## ---- echo=TRUE, eval=FALSE--------------------------------------------------------------------------------------------------------------------------
 ## ## mclust R-Paket:
 ## ## Clusteranalyse mit Hilfe von Gaußschen Mischmodellen
 ## suppressMessages(library("mclust"))
@@ -207,7 +207,7 @@ for(i in 1:rep){
   lines(x=xxd, y=dnorm(xxd, 0, sd_v[rep]), type="l", ylim=c(0,max(dnorm(xxd, 0, sd_v[rep]))), xlim = c(-1.5,1.5), lwd=2, col=alpha("darkblue", 1))
 
 
-## ---- echo=TRUE----------------------------
+## ---- echo=TRUE--------------------------------------------------------------------------------------------------------------------------------------
 library("MASS")
 library("mclust")
 
@@ -359,7 +359,7 @@ while(check){
 }
 
 
-## ---- echo=TRUE, include=knitr::is_latex_output()----
+## ---- echo=TRUE, include=knitr::is_latex_output()----------------------------------------------------------------------------------------------------
 ## Auswerten der Gaußsche Mischungs-Dichtefunktion
 np      <- 100 # Anzahl der Auswertungspunkte
 xxd     <- seq(min(Penguine_Flosse)-3, max(Penguine_Flosse)+5, length.out = np)
@@ -383,6 +383,6 @@ stripchart(Penguine_Flosse[class==2], method = "jitter", jitter = .0005, at = .0
            pch = 21, col=alpha(col_v[2],.5), bg=alpha(col_v[2],.5), cex=1.3, add = TRUE)
 
 
-## ----pinguinattack, include=knitr::is_html_output(), echo=FALSE, fig.cap="Pinguinforschung am Limit."----
+## ----pinguinattack, include=knitr::is_html_output(), echo=FALSE, fig.cap="Pinguinforschung am Limit."------------------------------------------------
 knitr::include_graphics("images/penguin_attack.gif")
 
