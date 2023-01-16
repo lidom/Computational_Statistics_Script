@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.189">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Methoden des statistischen Lernens in den Wirtschaftswissenschaften - 2&nbsp; Resampling Methoden zum Erlenen von Regressionsfunktionen</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Resampling Methoden zum Erlenen von Regressionsfunktionen</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./" class="sidebar-logo-link">
+      <img src="./images/stat_learn_rob.jpeg" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Methoden des statistischen Lernens in den Wirtschaftswissenschaften</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Organization des Kurses</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-Linear-Models-Regr_shortend.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Resampling Methoden zum Erlenen von Regressionsfunktionen</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#das-allgemeine-regressionsmodell" id="toc-das-allgemeine-regressionsmodell" class="nav-link active" data-scroll-target="#das-allgemeine-regressionsmodell"><span class="toc-section-number">2.1</span>  Das allgemeine Regressionsmodell</a>
+  <ul class="collapse">
+  <li><a href="#der-prädiktionsfehler" id="toc-der-prädiktionsfehler" class="nav-link" data-scroll-target="#der-prädiktionsfehler"><span class="toc-section-number">2.1.1</span>  Der Prädiktionsfehler</a></li>
+  <li><a href="#sec-PolyReg" id="toc-sec-PolyReg" class="nav-link" data-scroll-target="#sec-PolyReg"><span class="toc-section-number">2.1.2</span>  Polynomregression</a></li>
+  </ul></li>
+  <li><a href="#resampling-methoden-zur-modellauswahl" id="toc-resampling-methoden-zur-modellauswahl" class="nav-link" data-scroll-target="#resampling-methoden-zur-modellauswahl"><span class="toc-section-number">2.2</span>  Resampling Methoden zur Modellauswahl</a>
+  <ul class="collapse">
+  <li><a href="#die-validierungsdaten-methode" id="toc-die-validierungsdaten-methode" class="nav-link" data-scroll-target="#die-validierungsdaten-methode"><span class="toc-section-number">2.2.1</span>  Die Validierungsdaten-Methode</a></li>
+  <li><a href="#k-fache-kreuzvalidierung" id="toc-k-fache-kreuzvalidierung" class="nav-link" data-scroll-target="#k-fache-kreuzvalidierung"><span class="toc-section-number">2.2.2</span>  k-Fache Kreuzvalidierung</a></li>
+  </ul></li>
+  <li><a href="#anwendung-vorhersage-des-benzinverbrauchs-fraud-detection" id="toc-anwendung-vorhersage-des-benzinverbrauchs-fraud-detection" class="nav-link" data-scroll-target="#anwendung-vorhersage-des-benzinverbrauchs-fraud-detection"><span class="toc-section-number">2.3</span>  Anwendung: Vorhersage des Benzinverbrauchs (Fraud Detection)</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-RegML" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Resampling Methoden zum Erlenen von Regressionsfunktionen</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="lernziele-für-dieses-kapitel" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="lernziele-für-dieses-kapitel">Lernziele für dieses Kapitel</h4>
+<p>Sie können …</p>
+<ul>
+<li>die <strong>Probleme</strong> der Auswahl eines geeigneten Prädiktionsmodells an einem Beispiel <strong>benennen und erläutern</strong>. <br></li>
+<li>die <strong>Grundidee</strong> der Validierungsdaten-Methode <strong>erläutern</strong>. <br></li>
+<li>die <strong>Grundidee</strong> der k-fachen Kreuzvalidierung <strong>erläutern</strong>. <br></li>
+</ul>
+</section>
+<section id="begleitlektüren" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="begleitlektüren">Begleitlektüren</h4>
+<p>Zur Vorbereitung der Klausur ist es grundsätzlich ausreichend dieses Kapitel durchzuarbeiten - aber Lesen hat ja noch nie geschadet. Empfehlenswerte weiterführende Literatur:</p>
+<ul>
+<li><p>Kapitel 3 in <a href="https://trevorhastie.github.io/ISLR/"><strong>An Introduction to Statistical Learning, with Applications in R</strong></a> <span class="citation" data-cites="ISLR2021">(<a href="#ref-ISLR2021" role="doc-biblioref">James et al. 2021</a>)</span><br> Die pdf-Version des Buches ist hier frei erhältlichen: <a href="https://www.statlearning.com/"><strong>www.statlearning.com</strong></a></p></li>
+<li><p>Kapitel 3 in <a href="https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf"><strong>Pattern Recognition and Machine Learning</strong></a> <span class="citation" data-cites="book_Bishop2006">(<a href="#ref-book_Bishop2006" role="doc-biblioref">Bishop 2006</a>)</span><br> Die pdf-Version des Buches ist frei erhältlichen: <a href="https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf"><strong>pdf-Version</strong></a></p></li>
+</ul>
+<!-- + Kapitel 6 in [**Introduction to Econometrics with R**](https://www.econometrics-with-r.org/) [@IntroEconometricsR2021]<br> 
+Freies Online-Buch: [**www.econometrics-with-r.org**](https://www.econometrics-with-r.org/) -->
+<!-- 
+
+
+
+::: {.cell}
+<style type="text/css">
+span {
+  display: inline-block;
+}
+</style>
+:::
+
+
+-->
+</section>
+<section id="r-pakete-und-datenbeispiel-für-dieses-kapitel" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="r-pakete-und-datenbeispiel-für-dieses-kapitel"><code>R</code>-Pakete und Datenbeispiel für dieses Kapitel</h4>
+<p>Folgende <code>R</code>-Pakete werden in diesem Kapitel benötigt.</p>
+<ul>
+<li><strong>tidyverse</strong>: Viele nützliche Pakete zur Datenverarbeitung.</li>
+<li><strong>GGally</strong>: Enthält die Funktion <code>ggpairs()</code> zur Erzeugung von Pairs-Plots</li>
+<li><strong>ISLR</strong>: Enthält die <code>Auto</code> Daten</li>
+</ul>
+<p>Falls noch nicht geschehen, müssen diese Pakete installiert und geladen werden:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Installieren</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>) </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"GGally"</span>)    </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ISLR2"</span>)      </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Laden</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"tidyverse"</span>) <span class="co"># Viele nützliche Pakete zur Datenverarbeitung</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"GGally"</span>)    <span class="co"># Pairs-Plot</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ISLR2"</span>)     <span class="co"># Enthält die Auto-Daten</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Auto)           <span class="co"># Macht die Auto-Daten abrufbar </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+
+</div>
+<p>Als Datenbeispiel für diese Kapitel betrachten wir den <code>Auto</code> Datensatz im R-Paket <code>ISLR2</code>. Wir betrachten folgende Auswahl der Variablen im Datensatz <code>Auto</code>:</p>
+<ul>
+<li><strong>Zielvariable:</strong>
+<ul>
+<li><strong>Verbrauch (km/Liter)</strong></li>
+</ul></li>
+<li><strong>Prädiktorvariablen:</strong>
+<ul>
+<li><strong>Gewicht (kg):</strong> Schwerere Autos verbrauchen wahrscheinlich mehr.</li>
+<li><strong>Leistung (PS):</strong> Höhere Leistung geht wohl auch mit höherem Verbrauch einher.</li>
+<li><strong>Hubraum (ccm):</strong> Großer Hubraum … höherer Verbrauch?</li>
+</ul></li>
+</ul>
+<p><strong>Achtung:</strong> Es gibt sicherlich noch weitere relevante Prädiktorvariablen. Obige Auswahl ist jedoch relativ einfach zu erheben und ermöglicht eventuell bereits eine <strong>gute Prädiktion des Verbrauches</strong> im Rahmen eines <strong>Regressionsmodells</strong>.</p>
+<p><strong>Ziel:</strong> Wir wollen ein Prädiktionsmodell <em>aus den Daten erlernen</em>, welches und erlaubt, nach Auffälligkeiten bei den herstellerseitigen Verbrauchsangaben zu suchen. Besonders große Abweichungen zwischen Modellprädiktion und Herstellerangabe sind ein Indiz für unlautere Zahlenschönungen.</p>
+<p><strong>Aufbereitung der Daten:</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Auswahl und Aufbereitung der Variablen </span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Auto_df <span class="ot">&lt;-</span> Auto <span class="sc">%&gt;%</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Verbrauch =</span> mpg <span class="sc">*</span> (<span class="fl">1.60934</span><span class="sc">/</span><span class="fl">3.78541</span>), <span class="co"># Verbrauch (km/Liter)</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">Gewicht   =</span> weight <span class="sc">*</span> <span class="fl">0.45359</span>,        <span class="co"># Gewicht (kg)</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">PS        =</span> horsepower,              <span class="co"># Pferdestärken (PS)</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">Hubraum   =</span> displacement <span class="sc">*</span> <span class="fl">2.54</span><span class="sc">^</span><span class="dv">3</span>    <span class="co"># Hubraum (ccm)</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>         ) <span class="sc">%&gt;%</span>   </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="st">"Verbrauch"</span>, <span class="st">"Gewicht"</span>, <span class="st">"PS"</span>, <span class="st">"Hubraum"</span>) </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(Auto_df) <span class="co"># Stichprobenumfang </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Insgesamt enthält der betrachtete Datensatz also fünf Variablen zu <span class="math inline">\(n=392\)</span> verschiedenen Autos. Dies sind die ersten sechs Zeilen des Datensatzes:</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Verbrauch (km/Liter)</th>
+<th style="text-align: right;">Gewicht (kg)</th>
+<th style="text-align: right;">Pferdestärken (PS)</th>
+<th style="text-align: right;">Hubraum (ccm)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">7.65</td>
+<td style="text-align: right;">1589.38</td>
+<td style="text-align: right;">130</td>
+<td style="text-align: right;">5030.83</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6.38</td>
+<td style="text-align: right;">1675.11</td>
+<td style="text-align: right;">165</td>
+<td style="text-align: right;">5735.47</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7.65</td>
+<td style="text-align: right;">1558.54</td>
+<td style="text-align: right;">150</td>
+<td style="text-align: right;">5211.09</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6.80</td>
+<td style="text-align: right;">1557.17</td>
+<td style="text-align: right;">150</td>
+<td style="text-align: right;">4981.67</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7.23</td>
+<td style="text-align: right;">1564.43</td>
+<td style="text-align: right;">140</td>
+<td style="text-align: right;">4948.89</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6.38</td>
+<td style="text-align: right;">1969.03</td>
+<td style="text-align: right;">198</td>
+<td style="text-align: right;">7030.05</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Um sich einen Überblick zu den Beziehungen zwischen den Variablen zu verschaffen, eignet sich ein <strong>Pairs-Plot</strong> sehr gut (siehe Abbildung <a href="#fig-pairsplot">Figure&nbsp;<span>2.1</span></a>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(Auto_df,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="at">upper =</span> <span class="fu">list</span>(<span class="at">continuous =</span> <span class="st">"density"</span>, <span class="at">combo =</span> <span class="st">"box_no_facet"</span>),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="at">lower =</span> <span class="fu">list</span>(<span class="at">continuous =</span> <span class="st">"points"</span>, <span class="at">combo =</span> <span class="st">"dot_no_facet"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-pairsplot" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="01-Linear-Models-Regr_shortend_files/figure-html/fig-pairsplot-1.png" style="width:100.0%;height:100.0%" class="figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;2.1: Pairs-Plot zur Veranschaulichung der paarweisen Zusammenhänge zwischen den Variablen.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Der Pairs-Plot veranschaulicht alle paarweisen Zusammenhänge zwischen den Variablen im Datensatz <code>Auto_df</code>. Uns interessieren hierbei in erster Linie die Zusammenhänge zwischen der Zielvariable <strong>Verbrauch</strong> und den <strong>Prädiktorvariablen</strong>:</p>
+<ul>
+<li><span class="math inline">\(Y=\)</span><strong>Verbrauch</strong> und …
+<ul>
+<li><span class="math inline">\(G=\)</span> <strong>Gewicht</strong><span class="math inline">\(_i\)</span><strong>:</strong> haben einen nicht linearen, negativen Zusammenhang.</li>
+<li><span class="math inline">\(P=\)</span> <strong>PS:</strong> haben einen nicht linearen, negativen Zusammenhang.</li>
+<li><span class="math inline">\(H=\)</span> <strong>Hubraum:</strong> haben einen nicht linearen, negativen Zusammenhang.</li>
+</ul></li>
+</ul>
+</section>
+<section id="das-allgemeine-regressionsmodell" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="das-allgemeine-regressionsmodell"><span class="header-section-number">2.1</span> Das allgemeine Regressionsmodell</h2>
+<p>Die einzelnen Prädiktorvariablen werden gerne kompakt zu einer multivariaten Prädiktorvariablen <span class="math inline">\(X=(X_1,X_2,\dots,X_p)\)</span> zusammengefasst; in unserem Benzinverbrauchsbeispiel also <span class="math inline">\(X=(G,P,H,B).\)</span> So lässt sich das <strong>allgemeines Regressionsmodell</strong> schreiben als <span class="math display">\[
+Y=f(X)+\varepsilon,
+\]</span> wobei</p>
+<ul>
+<li><span class="math inline">\(f\)</span> den <strong>systematischen Zusammenhang</strong> zwischen der Zielvariable <span class="math inline">\(Y\)</span> und den Prädiktorvariablen <span class="math inline">\(X\)</span> beschreibt und</li>
+<li><span class="math inline">\(\varepsilon\)</span> ein <strong>Fehlerterm</strong> ist, dessen bedingter Mittelwert gegeben <span class="math inline">\(X\)</span> gleich null ist, <span class="math display">\[
+E(\varepsilon|X)=0.
+\]</span></li>
+</ul>
+<p>Daraus ergibt sich folgender Zusammenhang zwischen der <strong>allgemeinen Regressionsfunktion</strong> <span class="math inline">\(f\)</span> und dem bedingten Mittelwert von <span class="math inline">\(Y\)</span> gegeben <span class="math inline">\(X\)</span>: <span class="math display">\[
+E(Y|X)=E(f(X)+\varepsilon|X)=f(X)
+\]</span> Die Funktion <span class="math inline">\(f\)</span> beschreibt also den bedingten Mittelwert von <span class="math inline">\(Y\)</span> gegeben <span class="math inline">\(X\)</span>. Ziel ist es nun, die Regressionsfunktion <span class="math inline">\(f\)</span> aus den Daten zu erlernen.</p>
+<!-- > **Achtung:** Die Annahme der Unabhängigkeit zwischen $\varepsilon$ und $X$ kann in der Praxis verletzt sein. Die Verletzung dieser Unabhängigkeitsannahme erlaubt insbesondere keine kausale Interpretation der Ergebnisse, daher betrachtet die Literatur zur Kausalinferenz viele Möglichkeiten diese Unabhängigkeitsannahme durch eine weniger strikte Annahmen zu ersetzen. In der Literatur zur prädiktiven Inferenzen wird eine Verletzung der Unabhängigkeitsannahme weniger kritisch gesehen, da eine Prädiktion trotz verletzter Unabhängigkeitsannahme sehr gut sein kann. Eine schöne und gut lesbare Übersicht zu den Unterschieden zwischen der Kausalinferenz und der prädiktiven Inferenzen findet man, z.B., im Artikel [To Explain or To Predict?](https://projecteuclid.org/journals/statistical-science/volume-25/issue-3/To-Explain-or-to-Predict/10.1214/10-STS330.full) [@Shmueli_2010].   -->
+<p>Abbildung <a href="#fig-fakedata">Figure&nbsp;<span>2.2</span></a> zeigt ein Beispiel von <span class="math inline">\(50\)</span> simulierten Daten (künstlich erzeugte Fake-Daten). Der Plot legt nahe, dass man das Einkommen mit Hilfe der Ausbildungsjahre vorhersagen kann. Normalerweise ist die wahre Funktion <span class="math inline">\(f\)</span>, welche die Verbindung zwischen <span class="math inline">\(Y\)</span> und <span class="math inline">\(X\)</span> beschreibt, unbekannt und muss aus den Daten geschätzt werden. Da es sich hier um simulierte Daten handelt, können wir den Graph der Funktion <span class="math inline">\(f\)</span> als blaue Linie plotten. Einige der <span class="math inline">\(50\)</span> Beobachtungspunkte <span class="math inline">\((X,Y)\)</span> liegen über der Regressionsfunktion <span class="math inline">\(f(X)\)</span>, andere darunter. Im Großen und Ganzen haben die Fehlerterme einen Mittelwert von Null.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-fakedata" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="01-Linear-Models-Regr_shortend_files/figure-html/fig-fakedata-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;2.2: Simulierte (künstlich erzeugte) Daten zur Veranschaulichung einer allgemeinen, univariaten Regressionsbeziehung.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Abbildung <a href="#fig-plot3d">Figure&nbsp;<span>2.3</span></a> zeigt ein simuliertes Beispiel einer allgemeinen, bivariaten Regressionsbeziehung <span class="math display">\[
+Y=f(X)+\varepsilon\quad\text{mit}\quad X=(X_1,X_2).
+\]</span></p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-plot3d" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="01-Linear-Models-Regr_shortend_files/figure-html/fig-plot3d-1.png" style="width:100.0%;height:100.0%" class="figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;2.3: Veranschaulichung einer allgemeinen, bivariaten Regressionsbeziehung.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="der-prädiktionsfehler" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="der-prädiktionsfehler"><span class="header-section-number">2.1.1</span> Der Prädiktionsfehler</h3>
+<!-- (zwischen  $Y$ und $\hat{Y}$) -->
+<p>Sei <span class="math inline">\(\hat{f}\)</span> eine Schätzung der unbekannten Regressionsfunktion <span class="math inline">\(f,\)</span> geschätzt z.B. mit Hilfe der Polynomregression in <a href="#sec-PolyReg"><span>Section&nbsp;2.1.2</span></a>. Gegeben der Schätzung <span class="math inline">\(\hat{f}\)</span> und gegeben bestimmter Prädiktorvariablen <span class="math display">\[
+X=(X_1,X_2,\dots,X_p)
+\]</span> (z.B. Gewicht, PS und Hubraum eines neuen Autos), können wir die dazugehörige, abhängige Variable <span class="math inline">\(Y\)</span> vorhersagen:<br>
+<!-- In vielen Datenproblemen sind zwar die , aber die dazugehörige Zielvariable $Y$ ist unbekannt. Da sich der Fehlerterm zu Null mittelt, lässt sich in solch einem Fall das unbekannte $Y$ durch  --> <span class="math display">\[
+Y\approx \hat{Y}=\hat{f}(X).
+\]</span> <!-- wobei 
+* $\hat{f}$ für unsere Schätzung von $f$ steht und 
+* $\hat{Y}$ die Vorhersage von $Y$ für gegebene Prädiktorvariablen $X$ ist.  --></p>
+<p>Die Genauigkeit der Vorhersage von <span class="math inline">\(\hat{Y}\)</span> für <span class="math inline">\(Y\)</span> hängt von zwei verschiedenen Prädiktionsfehlergrößen ab:</p>
+<ul>
+<li><strong>Reduzierbarer Prädiktionsfehler</strong> aufgrund des Schätzfehlers in <span class="math inline">\(\hat{f}\)</span>. Eine genauere Schätzung kann diesen Fehler reduzieren.</li>
+<li><strong>Nicht reduzierbarer Prädiktionsfehler</strong> aufgrund des Fehlerterms <span class="math inline">\(\varepsilon\)</span>. Das ist der Fehler, den wir selbst bei perfekter Schätzung von <span class="math inline">\(f\)</span> nicht reduzieren können.</li>
+</ul>
+<p>Der <strong>nicht reduzierbare Fehler</strong> <span class="math inline">\(\varepsilon\)</span> enthält alle nicht messbaren und nicht gemessenen Variablen, die ebenfalls einen Einfluss auf <span class="math inline">\(Y\)</span> haben. Und da wir diese Variablen nicht messen können, können wir sie auch nicht verwenden, um <span class="math inline">\(f\)</span> zu schätzen.</p>
+<!-- Sei nun $\hat{f}$ ein gegebener Schätzer von $f$, und sei $X_{Neu}$ ein *neuer* Prädiktorwert (nicht verwendet zur Berechnung von $\hat{f}$) mit dem wir $Y_{Neu}$ vorhersagen wollen, d.h. $Y_{Neu}\approx \hat{Y}_{Neu}=\hat{f}(X_{Neu}).$ Unter  -->
+<p>Sei nun <span class="math inline">\(\hat{f}\)</span> eine gegebene Schätzung von <span class="math inline">\(f\)</span> und seien <span class="math inline">\(X\)</span> gegeben Werte der Prädiktorvariablen welche die Vorhersage <span class="math inline">\(\hat{Y}=\hat{f}(X)\)</span> ergeben. Nehmen wir nun für einen Moment an, dass <span class="math inline">\(\hat{f}\)</span> und <span class="math inline">\(X\)</span> gegeben und fest (also nicht zufällig) sind, dann <span class="math display">\[
+\begin{align*}
+E\left[(Y-\hat{Y})^2\right]
+&amp;=E\Big[(\overbrace{f(X)+\varepsilon}^{=Y} - \overbrace{\hat{f}(X)}^{=\hat{Y}})^2\Big]\\
+&amp;=E\left[\left((f(X)-\hat{f}(X)\right)^2+2\left((f(X)-\hat{f}(X)\right)\varepsilon+\varepsilon^2\right]\\
+&amp;=\underbrace{\left((f(X)-\hat{f}(X)\right)^2}_{\text{reduzierbar}}+\underbrace{\operatorname{Var}(\varepsilon)}_{\text{nicht reduzierbar}}
+\end{align*}
+\]</span></p>
+<!-- Sei nun $\hat{f}$ eine gegebene Schätzung von $f$ berechnet auf basis von i.i.d. Trainingsdaten. Seien $X$ gegeben Werte der Prädiktorvariablen welche die Vorhersage $\hat{Y}=\hat{f}(X)$ ergeben. Nehmen wir nun für einen Moment an, dass $\hat{f}$ und $X$ gegeben und fest (also nicht zufällig) sind, dann
+$$
+\begin{align*}
+E\left[(Y-\hat{Y})^2|X=x\right]
+&=E\Big[(\overbrace{f(X)+\varepsilon}^{=Y} - \overbrace{\hat{f}(x)}^{=\hat{Y}})^2|X=x\Big]\\
+\end{align*}
+$$ -->
+<p>Der mittlere quadratische Prädiktionsfehler <span class="math inline">\(E\left[(Y-\hat{Y})^2\right]\)</span> lässt sich also in eine reduzierbare und eine nicht reduzierbare Fehlerkomponente zerlegen.</p>
+<!-- ## Das multivariate lineare Regressionsmodell -->
+<!-- **Lineare Regressionsmodelle** gehören zu den erfolgreichsten statistischen Modellen, da sie 
+
+* vergleichsweise **einfach zu interpretieren** sind und 
+* zugleich **äußerst flexibel** sind. 
+
+In diesem Kapitel betrachten wir das multivariate (oder multiple) lineare Regressionsmodell als **Prädiktionsmodell** im Kontext des maschinellen Lernens.  -->
+<!-- Um die allgemeine Regressionsfunktion 
+$$
+f(X)=E(Y|X)
+$$ 
+mit Hilfe der Daten zu schätzen (lernen), gibt es sehr viele verschiedenen Möglichkeiten. Eine der erfolgreichsten und am häufigsten verwendete Möglichkeit ist das **multivariaten linear Regressionsmodell**. Dieses Modell ist die **strukturelle Modellannahme**, dass sich die unbekannte Regressionsfunktion $f$ als lineare Funktion (linear in den Modellparametern $\beta_0, \beta_1, \dots, \beta_p$) schreiben lässt:
+$$
+f(X)=\beta_0+\beta_1X_1+\dots+\beta_pX_p.
+$$
+
+
+Unter dieser Modellannahme wird das allgemeine Regressionsmodell  $Y=f(X)+\varepsilon$ zum multivariaten (multiplen) linearen Regressionsmodell
+$$
+\begin{align*}
+Y=\beta_0+\beta_1X_1+\dots+\beta_pX_p+\varepsilon.
+\end{align*}
+$$
+Zusammen mit der Annahme, dass $\varepsilon$ unabhängig von $X$ ist, und dass $E(\varepsilon)=0$, können wir mit dieser Modellannahme den unbekannten bedingten Mittelwert $E(Y|X)=f(X)$ vereinfacht schreiben als
+$$
+\begin{align*}
+E(Y|X)=\beta_0+\beta_1X_1+\dots+\beta_pX_p.
+\end{align*}
+$$
+Vorteile des **multivariaten linearen Regressionsmodells:**
+
+* Anstatt eine gänzlich unbekannte Funktion $f$ schätzen (lernen) zu müssen, muss man lediglich die unbekannten Parameterwerte $\beta_0, \beta_1, \dots, \beta_p$ schätzen. 
+* Die Modellstruktur ist **keine Black Box**, sondern gibt Aufschluss über die **assoziativen Zusammenhänge** zwischen den Prädiktorvariablen und der Zielvariablen.
+* Die lineare Modellstruktur ist **extrem flexibel**, da Transformationen der Prädiktorvariablen grundsätzlich erlaubt sind. 
+
+
+> Gerade die große Flexibilität linearer Modelle werden wir nutzten müssen, um die **nicht linearen Zusammenhänge** zwischen den Prädiktorvariablen und der Zielvariablen in unserem Benzinverbrauchsbeispiel berücksichtigen zu können (siehe Abbildung @fig-pairsplot). 
+
+
+### Schätzung 
+
+
+Wir wollen nun diejenige Funktion 
+$$
+\hat{f}(X)=\hat{\beta}_0 + \hat{\beta}_1 X_1 + \dots + \hat{\beta}_p X_p
+$$
+finden, sodass $Y\approx \hat{f}(X)$ für alle Datenpunkte $(Y,X)$. 
+
+
+Zur Berechnung von $\hat{f}$ können wir die **beobachteten Daten** als **Trainingsdaten** verwenden: 
+$$
+\left\{(x_1,y_1),(x_2,y_2),\dots,(x_n,y_n)\right\}\quad\text{wobei}\quad x_i=(x_{i1},x_{i2},\dots,x_{ip})^T.
+$$
+Im Folgenden werden wir oft die Notation 
+$$x_{ij},\quad i=1,\dots,n,\quad j=1,\dots,p$$
+verwenden, um die $j$te Prädiktorvariable der $i$ten Beobachtung zu bezeichnen. Der Laufindex $j=1,\dots,p$ repräsentiert die einzelnen Prädiktorvariablen (z.B. Verbrauch, Gewicht, Pferdestärken, und Hubraum im `Auto_df` Datensatz) und der Laufindex $i=1,\dots,n$ repräsentiert die einzelnen Beobachtungen (z.B. gespeichert als Zeilen im `Auto_df` Datensatz).
+
+> **Idee:** Die Trainingsdaten $\left\{(x_1,y_1),(x_2,y_2),\dots,(x_n,y_n)\right\}$ enthalten Information zum unbekannten Regressionsmodell $f$, da (so die Grundidee) die Daten von eben diesem Modell erzeugt wurden. Ziel ist also die unbekannte Regressionsfunktion $f$ mit Hilfe der Trainingsdaten zu schätzen (erlernen). 
+
+Für jede mögliche Schätzung $\hat{f}$ von $f$ können wir die beobachteten Werte der Zielvariablen $y_i$ mit den vorhergesagten Werten 
+$$
+\hat{y}_i=\hat{f}(x_i)=\hat{\beta}_0 + \hat{\beta}_1 x_{i1} +  \hat{\beta}_2 x_{i2} + \dots + \hat{\beta}_p x_{ip}
+$$
+vergleichen, indem wir die **Residuen**
+$$
+e_i = y_i-\hat{y}_i\quad i=1,\dots,n
+$$
+betrachten. 
+
+
+Die gängigste Methode zur Schätzung der unbekannten Modellparameter $\beta_0,\beta_1,\dots,\beta_p$ ist die **Methode der kleinsten Quadrate**. Wir definieren die **Residuenquadratsumme** RSS (Residual Sum of Squares) als:
+$$
+\operatorname{RSS}=e_1^2+e_2^2+\dots +e_n^2
+$$
+oder äquivalent als
+$$
+\operatorname{RSS}=\sum_{i=1}^n
+(y_i-\hat{\beta}_0 + \hat{\beta}_1 x_{i1} +  \dots + \hat{\beta}_p x_{ip})^2
+$$
+Die Methode der kleinsten Quadrate bestimmt die Parameterschätzungen $\hat{\beta}=(\hat{\beta}_0,\hat{\beta}_1,\dots,\hat{\beta}_p)^T$ durch **Minimierung der Residuenquadratsumme RSS**. Nach ein paar Rechnungen (siehe "Einführung in die Ökonometrie") kann man zeigen, dass
+$$
+\hat\beta = (X'X)^{-1}X'Y
+$$  
+wobei
+$$
+\begin{align*}
+\hat\beta=\left(
+  \begin{matrix}
+  \hat{\beta}_0\\
+  \hat{\beta}_1\\
+  \vdots\\
+  \hat{\beta}_p
+  \end{matrix}
+\right),
+\quad
+X=\left(\begin{matrix}
+  1&x_{11}&\dots & x_{1p}\\
+  \vdots&\vdots&\ddots & \vdots\\
+  1&x_{n1}&\dots & x_{np}\\
+  \end{matrix}\right)
+\quad
+\text{und}
+\quad
+Y=\left(
+  \begin{matrix}
+  Y_1\\
+  \vdots\\
+  Y_n
+  \end{matrix}
+\right).
+\end{align*}
+$$ -->
+<!-- $$
+\begin{align*}
+\left(
+  \begin{matrix}
+  \hat{\beta}_0\\
+  \hat{\beta}_1\\
+  \vdots\\
+  \hat{\beta}_p
+  \end{matrix}
+\right)=
+\left(
+  \left(\begin{matrix}
+  1&x_{11}&\dots & x_{1p}\\
+  \vdots&&\ddots & \vdots\\
+  1&x_{n1}&\dots & x_{np}\\
+  \end{matrix}\right)^T
+  \left(\begin{matrix}
+  1&x_{11}&\dots & x_{1p}\\
+  \vdots&&\ddots & \vdots\\
+  1&x_{n1}&\dots & x_{np}\\
+  \end{matrix}\right)
+\right)^{-1}
+\left(\begin{matrix}
+  1&x_{11}&\dots & x_{1p}\\
+  \vdots&&\ddots & \vdots\\
+  1&x_{n1}&\dots & x_{np}\\
+  \end{matrix}\right)^T
+\left(
+  \begin{matrix}
+  Y_1\\
+  \vdots\\
+  Y_n
+  \end{matrix}
+\right)
+\end{align*}
+$$ -->
+</section>
+<section id="sec-PolyReg" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="sec-PolyReg"><span class="header-section-number">2.1.2</span> Polynomregression</h3>
+<p>Das <strong>Polynomregressionsmodell</strong> <span class="math display">\[
+f_p(X) = \beta_0 + \beta_1 X_1 + \beta_2 X_1^2 + \dots + \beta_p X_1^p  
+\]</span> ist eine Möglichkeit, die allgemeine Regressionsfunktion <span class="math inline">\(f(X)=E(Y|X)\)</span> zu schätzen (lernen).</p>
+<p>Die Polynomstruktur erlaubt es, die nicht linearen Beziehungen zwischen der Zielvariablen und den Prädiktorvariablen in unserem Benzinverbrauchsproblem (siehe Abbildung <a href="#fig-pairsplot">Figure&nbsp;<span>2.1</span></a>) zu berücksichtigen.</p>
+<p>So kann, zum Beispiel, der nicht lineare Zusammenhang zwischen <code>Verbrauch</code> und Leistung <code>PS</code> sehr flexibel als Polynomfunktion modelliert werden: <span class="math display">\[
+\texttt{Verbrauch}(\texttt{PS}) = \beta_0 + \beta_1 \texttt{PS} + \beta_2 \texttt{PS}^2 + \dots + \beta_p \texttt{PS}^p
+\]</span> Je höher der Grad <span class="math inline">\(p\)</span> des Polynoms, desto flexibler ist ein Polynomregressionsmodell.</p>
+<p>Das Polynomregressionsmodell ist jedoch für alle Polynomgrade <span class="math inline">\(p\)</span> ein <strong><em>lineares</em> Regressionsmodell</strong>, denn es ist linear bezüglich der Modellparameter <span class="math inline">\(\beta_0, \beta_1, \dots, \beta_p\)</span>.</p>
+<p>Für einen gegebenen Polynomgrad <span class="math inline">\(p\)</span>, lassen sich die unbekannten Modelparameter einfach mit Hilfe der Methode der kleinsten Quadrate schätzen: <span class="math display">\[
+\hat{f}_p(X) = \hat\beta_0 + \hat\beta_1 X_1 + \hat\beta_2 X_1^2 + \dots + \hat\beta_p X_1^p  
+\]</span> mit <span class="math display">\[
+\hat\beta = (X'X)^{-1}X'Y,
+\]</span><br>
+wobei <span class="math display">\[
+\begin{align*}
+\hat\beta=\left(
+  \begin{matrix}
+  \hat{\beta}_0\\
+  \hat{\beta}_1\\
+  \vdots\\
+  \hat{\beta}_p
+  \end{matrix}
+\right),
+\quad
+X=\left(\begin{matrix}
+  1     &amp;x_{11}&amp;x_{11}^2&amp;\dots   &amp; x_{11}^p\\
+  \vdots&amp;\vdots&amp;\vdots  &amp; \ddots &amp; \vdots  \\
+  1     &amp;x_{n1}&amp;x_{n1}^2&amp;\dots   &amp; x_{n1}^p\\
+  \end{matrix}\right)
+\quad
+\text{und}
+\quad
+Y=\left(
+  \begin{matrix}
+  y_1\\
+  \vdots\\
+  y_n
+  \end{matrix}
+\right).
+\end{align*}
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Polynom Regressionen</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>polreg_1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Verbrauch <span class="sc">~</span> <span class="fu">poly</span>(PS, <span class="at">degree =</span> <span class="dv">1</span>, <span class="at">raw=</span><span class="cn">TRUE</span>), <span class="at">data =</span> Auto_df)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>polreg_2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Verbrauch <span class="sc">~</span> <span class="fu">poly</span>(PS, <span class="at">degree =</span> <span class="dv">2</span>, <span class="at">raw=</span><span class="cn">TRUE</span>), <span class="at">data =</span> Auto_df)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>polreg_5 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Verbrauch <span class="sc">~</span> <span class="fu">poly</span>(PS, <span class="at">degree =</span> <span class="dv">5</span>, <span class="at">raw=</span><span class="cn">TRUE</span>), <span class="at">data =</span> Auto_df)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Data-Frame zum Abspeichern der Prädiktionen</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>plot_df       <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="st">"PS"</span> <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">45</span>, <span class="dv">250</span>, <span class="at">len=</span><span class="dv">50</span>))</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Abspeichern der Prädiktionen</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>plot_df<span class="sc">$</span>fit_1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(polreg_1, <span class="at">newdata =</span> plot_df)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>plot_df<span class="sc">$</span>fit_2 <span class="ot">&lt;-</span> <span class="fu">predict</span>(polreg_2, <span class="at">newdata =</span> plot_df)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>plot_df<span class="sc">$</span>fit_5 <span class="ot">&lt;-</span> <span class="fu">predict</span>(polreg_5, <span class="at">newdata =</span> plot_df)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Ploten</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Verbrauch <span class="sc">~</span> PS, <span class="at">data =</span> Auto_df, <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">20</span>),</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">"Leistung (PS)"</span>, <span class="at">pch=</span><span class="dv">21</span>, <span class="at">col=</span><span class="st">"gray"</span>, <span class="at">bg=</span><span class="st">"gray"</span>, <span class="at">cex=</span><span class="fl">1.5</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(plot_df, <span class="fu">lines</span>(<span class="at">x =</span> PS, <span class="at">y =</span> fit_1, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">col=</span><span class="st">"orange"</span>))</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(plot_df, <span class="fu">lines</span>(<span class="at">x =</span> PS, <span class="at">y =</span> fit_2, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">col=</span><span class="st">"blue"</span>))</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(plot_df, <span class="fu">lines</span>(<span class="at">x =</span> PS, <span class="at">y =</span> fit_5, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">col=</span><span class="st">"darkgreen"</span>))</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="at">lty=</span><span class="fu">c</span>(<span class="cn">NA</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">pch=</span><span class="fu">c</span>(<span class="dv">21</span>,<span class="cn">NA</span>,<span class="cn">NA</span>,<span class="cn">NA</span>), </span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">col=</span><span class="fu">c</span>(<span class="st">"gray"</span>,<span class="st">"orange"</span>,<span class="st">"blue"</span>,<span class="st">"darkgreen"</span>), <span class="at">pt.bg=</span><span class="st">"gray"</span>, <span class="at">pt.cex=</span><span class="fl">1.5</span>,</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">"Datenpunkte"</span>, <span class="st">"Grad 1"</span>, <span class="st">"Grad 2"</span>, <span class="st">"Grad 5"</span>), <span class="at">bty=</span><span class="st">"n"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="01-Linear-Models-Regr_shortend_files/figure-html/polynom-1.png" style="width:100.0%;height:100.0%" class="figure-img"></p>
+<p></p><figcaption class="figure-caption">Polynom Regression bei verschiedenen Polynomgraden <span class="math inline">\(p\)</span>.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="überanpassung" class="level4" data-number="2.1.2.1">
+<h4 data-number="2.1.2.1" class="anchored" data-anchor-id="überanpassung"><span class="header-section-number">2.1.2.1</span> Überanpassung</h4>
+<p>Zusätzlich zur Wahl der Modellparameter <span class="math inline">\(\hat{\beta}_0, \hat{\beta}_1, \dots, \hat{\beta}_p\)</span> besteht hier nun das Problem der Wahl des Grades <span class="math inline">\(p\)</span> des Polynoms als weiteren Modellparameter <span class="math display">\[
+y_i=\hat{\beta}_0 + \hat{\beta}_1 x_{i1} + \hat{\beta}_2 x_{i2}^2 + \dots + \hat{\beta}_p x_{ip}^p + e_i
+\]</span> Wenn man jedoch versucht, alle Modellparameter (also <span class="math inline">\(\hat{\beta}_0, \hat{\beta}_1, \dots, \hat{\beta}_p\)</span> <strong>und</strong> <span class="math inline">\(p\)</span>) durch Minimieren der Trainingsdaten-RSS <span class="math display">\[
+\operatorname{RSS}\equiv\operatorname{RSS}(\hat{\beta}_0, \hat{\beta}_1, \dots, \hat{\beta}_p,p)=e_1^2 + e_2^2 + \dots + e_n^2
+\]</span> zu schätzen, so ergibt sich ein Problem das als <strong>Überanpassung</strong> (<strong>Overfitting</strong>) bekannt ist (siehe Abbildung <a href="#fig-RSSPoly2">Figure&nbsp;<span>2.4</span></a>). Das Polynomregressionsmodell ist so flexibel, dass es den einzelnen Trainingsdaten <span class="math inline">\((x_i,y_i)\)</span> folgen kann. Eine Überangepassung an die Trainingsdaten führt jedoch notwendigerweise zu einer Verschlechterung der Vorhersagegüte bezüglich <em>neuer</em> Daten.</p>
+<div class="cell">
+
+</div>
+<div class="cell" data-layout-align="center" data-animation.hook="gifski">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="01-Linear-Models-Regr_shortend_files/figure-html/RSSPoly1-.gif" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-RSSPoly2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="01-Linear-Models-Regr_shortend_files/figure-html/fig-RSSPoly2-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;2.4: Polynom Regression und die Wahl des Polynomgrades <span class="math inline">\(p\)</span> durch Minimierung der Trainingsdaten-RSS. (Eine schlechte Idee).</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="problem-der-methode-der-kleinsten-quadrate" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="problem-der-methode-der-kleinsten-quadrate">Problem der Methode der kleinsten Quadrate</h4>
+<!-- Die Methode der kleinsten Quadrate ergibt hier keine vernüftige Schätzung des Polynomgrades $p$. Aber was ist das Problem?  -->
+<p>Das Minimieren der Residuen-Quadratsumme (Residual Sum of Squares, RSS) is äquivalent zum minimieren des mittleren quadratischen Fehlers bzgl. der Trainingsdaten <span class="math display">\[
+\frac{1}{n}\operatorname{RSS}_p=\frac{1}{n}\sum_{i=1}^n\left(y_i - \hat{f}_p(x_i)\right)^2,
+\]</span> wobei <span class="math inline">\((y_i,x_i),\)</span> <span class="math inline">\(i=1,\dots,n\)</span> hier die beobachteten Trainingsdaten bezeichnet.</p>
+<p>Für hohe Polynomgrade <span class="math inline">\(p\)</span> wird <span class="math inline">\(\hat{f}_p(x_i)\)</span> <em>sehr</em> flexibel, sodass <span class="math display">\[
+y_i \approx \hat{f}_p(x_i).
+\]</span> Dies erklärt die Beobachtung, dass <span class="math inline">\(\operatorname{RSS}_p\)</span> monoton fallend ist in <span class="math inline">\(p,\)</span> also <span class="math display">\[
+\operatorname{RSS}_p\geq \operatorname{RSS}_{p'}\quad\text{für}\quad p &lt; p'.
+\]</span></p>
+<!-- \left(y_i - \hat{f}_p(x_i)\right)^2\approx 0. -->
+<p>Damit erlernt <span class="math inline">\(\hat{f}_p(x_i)\)</span> von <span class="math inline">\(y_i\)</span></p>
+<ul>
+<li>den erwünschten Teil <span class="math inline">\(f(x_i)\)</span></li>
+<li>aber auch den unerwünschten Fehlerterm <span class="math inline">\(\varepsilon_i\)</span> 😭</li>
+</ul>
+<p>Das erlernte Model <span class="math inline">\(\hat{f}_p(x_i)\)</span> ist fehlerbehaftet, d.h. <span class="math inline">\(\hat{f}_p(x_i)\not\approx f(x_i).\)</span></p>
+<!-- Obwohl die $\operatorname{RSS}$ minimal ist, ist das geschätzte Model $\hat{f}_p(x_i)$ fehlerbehaftet.  -->
+</section>
+<section id="mittlerer-quadratischer-fehlers-bzgl.-der-testdaten" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="mittlerer-quadratischer-fehlers-bzgl.-der-testdaten">Mittlerer quadratischer Fehlers bzgl. der Testdaten</h4>
+<p>Um eine Überanpassung an die Trainingsdaten zu verhindern, müss man die Prädiktionsgüte von <span class="math inline">\(\hat{f}_p(x_i)\)</span> mit Hilfe <strong>neuer Testdaten</strong> überprüfen.</p>
+<p>Eine häufig betrachtete Größe ist der mittlere quadrierte Prädiktionsfehler (mean squared prediction error, MSPE) <span class="math display">\[
+\operatorname{MSPE}_{Test}=\frac{1}{m}\sum_{i=1}^m\left(y^{Test}_i - \hat{f}_p(x^{Test}_i)\right)^2,
+\]</span> wobei</p>
+<ul>
+<li><span class="math inline">\((y^{Test}_i,x^{Test}_i),\)</span> <span class="math inline">\(i=1,\dots,m\)</span> die Testdaten bezeichnet,</li>
+<li><span class="math inline">\(\hat{f}_p\)</span> jedoch auf Basis der Trainingsdaten berechnet wurde.</li>
+</ul>
+<p>Die Trainings- und Testdaten müssen voneinander unabhängig sein, sodass <span class="math display">\[
+\begin{align*}
+&amp;\operatorname{MSPE}^{Test}_p
+=\frac{1}{m}\sum_{i=1}^m\left(y^{Test}_i - \hat{f}_p(x^{Test}_i)\right)^2\\
+&amp;=\frac{1}{m}\sum_{i=1}^m\left((f(x^{Test}_i)+\varepsilon^{Test}_i) - \hat{f}_p(x^{Test}_i)\right)^2\\
+&amp;=\underbrace{\frac{1}{m}\sum_{i=1}^m\left(f(x^{Test}_i)-\hat{f}_p(x^{Test}_i)\right)^2}_{\approx E\left(\left(f(X)-\hat{f}_p(X)\right)^2\right)}
++\underbrace{\frac{1}{m}\sum_{i=1}^m\left(\varepsilon_i^{Test}\right)^2}_{\approx \operatorname{Var}(\varepsilon)}
+-\underbrace{\frac{1}{m}\sum_{i=1}^m\varepsilon_i^{Test}\hat{f}_p(x^{Test}_i)}_{\approx 0}
+\end{align*}
+\]</span></p>
+<p>Die Minimierung von <span class="math inline">\(\operatorname{MSPE}^{Test}_p\)</span> bzgl <span class="math inline">\(p\)</span> entspricht also (approximativ for große <span class="math inline">\(m\)</span>) einer Minimierung von <span class="math display">\[
+E\left(\left(f(X)-\hat{f}_p(X)\right)^2\right).
+\]</span></p>
+<p><span class="math inline">\(\operatorname{MSPE}^{Test}_p\)</span> stellt damit ein korrigiertes kleinste Quadrate Kriterium dar, welches eine Anpassung an die Fehlerterm <span class="math inline">\(\varepsilon_i\)</span> verhindert.</p>
+</section>
+</section>
+</section>
+<section id="resampling-methoden-zur-modellauswahl" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="resampling-methoden-zur-modellauswahl"><span class="header-section-number">2.2</span> Resampling Methoden zur Modellauswahl</h2>
+<section id="maschinelles-lernen-versus-strukturelle-modelle" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="maschinelles-lernen-versus-strukturelle-modelle">Maschinelles Lernen versus Strukturelle Modelle</h4>
+<!-- Das oben veranschaulichte Problem der Überanpassung (Overfitting) ist eng damit verbunden, dass wir hier ein sehr flexibles Regressionsmodell (Polynomregression) betrachten. Viele der möglichen Polynomfunktionen sind unsinnig, da sie nicht die strukturellen Einschränkungen des betrachteten Datenproblems berücksichtigen. Falls ein gesichertes Wissen zu den zugrundeliegenden, strukturellen Zusammenhängen zwischen der Zielvariable $Y$ und den Prädiktorvariablen $X$ existiert, sollte man diese strukturellen Zusammenhängen auch im statistischen Modell berücksichtigen. (Immer mit den Expert\*Innen des Faches sprechen!) Im besten Falle gibt es ein **strukturelles Modell** zu den systematischen Zusammenhängen $f$ zwischen $Y$ und $X$, welches genügend Einschränkungen bietet, sodass alle unsinnigen Modellierungen vermieden werden können. In solchen Idealfällen führt die Minimierung der Trainingsdaten-RSS zu keinem Problem der Überanpassung.  -->
+<!-- Falls jedoch kein (vertrauenswürdiges) strukturelles Modell vorliegt, ist die Verwendung von sehr flexiblen Regressionsmodellen wie der Polynomregression eine grundsätzlich sehr gute Idee, da wir so, ohne große Einschränkungen, nach den unbekannten richtigen Zusammenhängen $f$ suchen können. Dies ist der Ansatz des **maschinellen Lernens** und die **Polynomregression mit unbekanntem Polynomgrad $p$** ist lediglich eine von sehr vielen Methoden, welche im Kontext des maschinellen Lernens verwendet werden.  -->
+<!-- Methoden des **maschinellen Lernens** sind typischerweise sehr flexibel und bauen nicht bzw. nur teilweise auf strukturellen Modellen auf. Daher benötigen diese Methoden spezielle Verfahren der **Modellauswahl**, um eine Überanpassung an die Trainingsdaten zu vermeiden. Richtig angewandt, können Methoden des maschinellen Lernens unbekannte Zusammenhänge richtig erkennen.  -->
+</section>
+<section id="die-validierungsdaten-methode" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="die-validierungsdaten-methode"><span class="header-section-number">2.2.1</span> Die Validierungsdaten-Methode</h3>
+<p>Da die Minimierung der Trainingsdaten-RSS schnell zu einem Problem der Überanpassung führt, benötigen wir eine alternative Methode, um die Güte des geschätzten Modells zu prüfen. Die einfachste Idee ist dabei die beobachteten Daten <span class="math display">\[
+(x_i,y_i),\quad i\in\mathcal{I}=\{1,2,\dots,n\}
+\]</span> in einen Satz von Trainingsdaten <span class="math display">\[
+\left\{(x_{1}^{Train},y_{1}^{Train}),\dots,(x_{n_{Train}}^{Train},y_{n_{Train}}^{Train})\right\}=\{(x_i,y_i):i\in\mathcal{I}^{Train}\}
+\]</span> und einen <strong>separaten</strong> (disjunkten) Satz von Validierungsdaten <span class="math display">\[
+\left\{(x_{1}^{Valid},y_{1}^{Valid}), \dots,(x_{n_{Valid}}^{Valid},y_{n_{Valid}}^{Valid})\right\}=\{(x_i,y_i):i\in\mathcal{I}^{Valid}\}
+\]</span> zu teilen mit <span class="math display">\[
+\overbrace{|\mathcal{I}|}^{=n}=\overbrace{|\mathcal{I}^{Train}|}^{=n_{Train}}+\overbrace{|\mathcal{I}^{Valid}|}^{=n_{Valid}},
+\]</span> sodass <span class="math inline">\(\mathcal{I}^{Train}\cap\mathcal{I}^{Valid} = \emptyset\)</span></p>
+<p>Folgender Code-Schnipsel ermöglicht solch eine (zufällige) Aufteilung der Daten in Trainings- und Validierungsdaten:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>n        <span class="ot">&lt;-</span> <span class="fu">nrow</span>(Auto_df) <span class="co"># Stichprobenumfang</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>n_Train  <span class="ot">&lt;-</span> <span class="dv">200</span>           <span class="co"># Stichprobenumfang der Trainingsdaten</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>n_Valid  <span class="ot">&lt;-</span> n <span class="sc">-</span> n_Train   <span class="co"># Stichprobenumfang der Validierungsdaten</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Index-Mengen zur Auswahl der </span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Trainings- und Validierungsdaten</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>I_Train  <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span>n, <span class="at">size =</span> n_Train, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>I_Valid  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>n)[<span class="sc">-</span>I_Train]</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Trainingsdaten </span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>Auto_Train_df <span class="ot">&lt;-</span> Auto_df[I_Train, ]</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Validierungsdaten </span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>Auto_Valid_df <span class="ot">&lt;-</span> Auto_df[I_Valid, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Obschon die Validierungsdaten-Methode auf alle Regressionsmodelle angewandt werden kann, veranschaulichen wir im Folgenden die Methode anhand der Polynomregression.</p>
+<p>Die Aufteilung der Daten in Trainings- und Validierungsdaten ermöglicht uns nun ein zweistufiges Verfahren:</p>
+<p><strong>Schritt 1:</strong> Mit Hilfe der <strong>Trainingsdaten</strong> wird das Polynomregressionsmodell <strong>geschätzt</strong>: <span class="math display">\[
+\begin{align*}
+y^{Train}_i
+%&amp;=\hat{f}^{Train}_p(x_i^{Train}) + e_i^{Train}\\
+&amp;=\hat{\beta}_0^{Train} + \hat{\beta}_1^{Train} x_{i}^{Train} + \hat{\beta}_2^{Train} (x_{i}^{Train})^2 + \dots + \hat{\beta}_p^{Train} (x_{i}^{Train})^p + e_i^{Train}
+\end{align*}
+\]</span> Code-Schnipsel Beispiel:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Train_polreg <span class="ot">&lt;-</span> <span class="fu">lm</span>(Verbrauch <span class="sc">~</span> <span class="fu">poly</span>(PS, <span class="at">degree =</span> p, <span class="at">raw=</span><span class="cn">TRUE</span>), <span class="at">data =</span> Auto_Train_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Schritt 2:</strong> Mit Hilfe der <strong>Validierungsdaten</strong> wird das geschätzte Polynomregressionsmodell <strong>validiert</strong>: <span class="math display">\[
+\begin{align*}
+\hat{y}^{Valid}_i
+%&amp;=\hat{f}_p^{Train}(x_i^{Valid})+ e_i^{Valid}\\
+&amp;=\hat{\beta}_0 + \hat{\beta}_1^{Train} x_{i}^{Valid} + \hat{\beta}_2^{Train} (x_{i}^{Valid})^2 + \dots + \hat{\beta}_p^{Train} (x_{i}^{Valid})^p,
+\end{align*}
+\]</span> indem man den <strong>mittleren quadratischen Prädiktionsfehler</strong> (Mean Squared Prediction Error <strong>MSPE</strong>) berechnet: <span class="math display">\[
+\begin{align*}
+\text{MSPE}
+&amp;=\frac{1}{n_{Valid}}\text{RSS}_{Valid}\\
+&amp;=\frac{1}{n_{Valid}}\left((y_1^{Valid} - \hat{y}_1^{Valid})^2 +\dots + (y_{n_{Valid}}^{Valid} - \hat{y}_{n_{Valid}}^{Valid})^2\right)
+\end{align*}
+\]</span> Code-Schnipsel Beispiel:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>y_fit_Valid   <span class="ot">&lt;-</span> <span class="fu">predict</span>(Train_polreg, <span class="at">newdata =</span> Auto_Valid_df)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>RSS_Valid     <span class="ot">&lt;-</span> <span class="fu">sum</span>( (Auto_Valid_df<span class="sc">$</span>Verbrauch <span class="sc">-</span> y_fit_Valid)<span class="sc">^</span><span class="dv">2</span> )</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>MSPE          <span class="ot">&lt;-</span> RSS_Valid <span class="sc">/</span> n_Valid</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Man wiederholt obige Schritte für eine Auswahl von verschiedenen Polynomgraden <span class="math inline">\(p=1,2,\dots,p_{\max}\)</span>, z.B. <span class="math inline">\(p_{\max}=10\)</span>, und berechnet für jeden dieser Fälle den <span class="math inline">\(\operatorname{MSPE}\)</span>, also: <span class="math display">\[
+\operatorname{MSPE}\equiv\operatorname{MSPE}(\hat{\beta}_0, \hat{\beta}_1, \dots, \hat{\beta}_p,p),\quad\text{für jedes}\quad p=1,2,\dots,p_{\max}
+\]</span> Der <span class="math inline">\(\operatorname{MSPE}\)</span> ist eine Schätzung des wahren, unbekannten mittleren quadratischen Prädiktionsfehlers <span class="math inline">\(E\left[(Y-\hat{Y})^2\right]\)</span>,<br>
+<span class="math display">\[
+\operatorname{MSPE}(\hat{\beta}_0, \hat{\beta}_1, \dots, \hat{\beta}_p,p)\approx E\left[(Y-\hat{Y})^2\right].
+\]</span> Die Minimierung des <span class="math inline">\(\operatorname{MSPE}\)</span> über verschiedene Werte des Polynomgrades <span class="math inline">\(p=1,2,\dots\)</span> erlaubt es uns den <strong>reduzierbaren Prädiktions-Fehler</strong> der Polynomregression zu minimieren.</p>
+<p>Folgender R-Code verbindet nun alle Schritte und berechnet den <span class="math inline">\(\operatorname{MSPE}\)</span> für verschiedene Werte des Polynomgrades <span class="math inline">\(p\)</span>. Dasjenige Modell, welches den <span class="math inline">\(\operatorname{MSPE}\)</span> minimiert, ist laut der Daten das beste Prädiktionsmodell.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">31</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>n        <span class="ot">&lt;-</span> <span class="fu">nrow</span>(Auto_df) <span class="co"># Stichprobenumfang</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>n_Train  <span class="ot">&lt;-</span> <span class="dv">200</span>           <span class="co"># Stichprobenumfang der Trainingsdaten</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>n_Valid  <span class="ot">&lt;-</span>n <span class="sc">-</span> n_Train    <span class="co"># Stichprobenumfang der Validierungsdaten</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Index-Mengen zur Auswahl der </span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Trainings- und Validierungsdaten</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>I_Train  <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span>n, <span class="at">size =</span> n_Train, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>I_Valid  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>n)[<span class="sc">-</span>I_Train]</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Trainingsdaten </span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>Auto_Train_df <span class="ot">&lt;-</span> Auto_df[I_Train, ]</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Validierungsdaten </span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>Auto_Valid_df <span class="ot">&lt;-</span> Auto_df[I_Valid, ]</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>p_max         <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>MSPE          <span class="ot">&lt;-</span> <span class="fu">numeric</span>(p_max)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>fit_plot      <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="dv">50</span>, p_max)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(p <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>p_max){</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Schritt 1</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  Train_polreg <span class="ot">&lt;-</span> <span class="fu">lm</span>(Verbrauch <span class="sc">~</span> <span class="fu">poly</span>(PS, <span class="at">degree =</span> p, <span class="at">raw=</span><span class="cn">TRUE</span>), </span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>                     <span class="at">data =</span> Auto_Train_df)</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Schritt 2</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  y_fit_Valid   <span class="ot">&lt;-</span> <span class="fu">predict</span>(Train_polreg, <span class="at">newdata =</span> Auto_Valid_df)</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>  RSS_Valid     <span class="ot">&lt;-</span> <span class="fu">sum</span>( (Auto_Valid_df<span class="sc">$</span>Verbrauch <span class="sc">-</span> y_fit_Valid)<span class="sc">^</span><span class="dv">2</span> )</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  MSPE[p]       <span class="ot">&lt;-</span> RSS_Valid <span class="sc">/</span> n_Valid</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Daten für's plotten</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  fit_plot[,p] <span class="ot">&lt;-</span> <span class="fu">predict</span>(Train_polreg, <span class="at">newdata =</span> plot_df)</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="01-Linear-Models-Regr_shortend_files/figure-html/RSSPoly3-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Polynom Regression und die Wahl des Polynomgrades <span class="math inline">\(p\)</span> durch Minimierung des mittleren quadratischen Prädiktionsfehler MSPE.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Achtung:</strong> Auch eine Modellauswahl ist fehlerhaft und stellt lediglich eine Schätzung (mit Schätzfehlern) des besten Prädiktionsmodelles innerhalb der betrachteten Klasse von Prädiktionsmodellen (hier Polynomregressionen) dar.</p>
+</blockquote>
+<p>Abbildung <a href="#fig-MSPE">Figure&nbsp;<span>2.5</span></a> zeigt jedoch ein Problem der Validierungsdaten-Methode. Die Trainingsdaten und die Validierungsdaten haben kleinere Stichprobenumfänge (<span class="math inline">\(n_{Train}&lt;n\)</span> und <span class="math inline">\(n_{Valid}&lt;n\)</span>) was zu einer <strong>erhöhten Schätzgenauigkeit in der MSPE-Schätzung</strong> führt.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-MSPE" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="01-Linear-Models-Regr_shortend_files/figure-html/fig-MSPE-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;2.5: Zehn verschiedene MSPE-Berechnungen basierend auf zehn verschiedenen, zufälligen Aufteilungen der Daten in Trainings- und Validierungsdaten.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="k-fache-kreuzvalidierung" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="k-fache-kreuzvalidierung"><span class="header-section-number">2.2.2</span> k-Fache Kreuzvalidierung</h3>
+<p>Die <span class="math inline">\(k\)</span>-fache (z.B. <span class="math inline">\(k=5\)</span> oder <span class="math inline">\(k=10\)</span>) Kreuzvalidierung ist eine Vorgehensweise zur Bewertung der Leistung einer Schätzprozedur (Algorithmus) im Kontext des maschinellen Lernens. Als Schätzprozedur verwenden wir wieder das Beispiel der Polynomregression mit unbekanntem Polynomgrad <span class="math inline">\(p\)</span>, welcher zusammen mit den Modellparametern <span class="math inline">\(\beta_0,\beta_1,\dots,\beta_p\)</span> aus den Daten erlernt werden muss.</p>
+<p>Die <span class="math inline">\(k\)</span>-fache Kreuzvalidierung stellt eine Verbesserung der Validierungsdaten-Methode dar, da sie faktisch die Stichprobenumfänge in den Trainingsdaten und Validierungsdaten erhöht. Wie bei der Validierungsdaten-Methode wird der Datensatz in Trainings- und Validierungsdaten aufgeteilt – jedoch <span class="math inline">\(k\)</span>-fach. Abbildung <a href="#fig-kfoldcv">Figure&nbsp;<span>2.6</span></a> zeigt ein Beispiel der Datenaufteilung bei der <span class="math inline">\(5\)</span>-fachen Kreuzvalidierung.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-kfoldcv" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/5-fold_cross-validation.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;2.6: Datenaufteilung in Trainings- und Validierungsdaten bei der <span class="math inline">\(5\)</span>-fachen Kreuzvalidierung.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>Folgender Code-Schnipsel ermöglicht eine (zufällige) Aufteilung der Daten in <span class="math inline">\(k\)</span> verschiedene Trainings- und Validierungsdaten:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>n      <span class="ot">&lt;-</span> <span class="fu">nrow</span>(Auto_df) <span class="co"># Stichprobenumfang</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>k      <span class="ot">&lt;-</span> <span class="dv">5</span>             <span class="co"># 5-fache Kreuzvalidierung</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Index zur Auswahl k verschiedener  </span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Trainings- und Validierungsdaten:</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>folds  <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span>k, <span class="at">size =</span> n, <span class="at">replace=</span><span class="cn">TRUE</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Trainingsdaten im j-ten (j=1,2,...,k) Durchgang</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>Auto_df[folds <span class="sc">!=</span> j,]</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Validierungsdaten im j-ten (j=1,2,...,k) Durchgang</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>Auto_df[folds <span class="sc">==</span> j,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>Für jede der <span class="math inline">\(k\)</span> Datenaufteilungen wird der <span class="math inline">\(\operatorname{MSPE}\)</span> berechnet. Der Mittelwert dieser MSPE-Werte wird häufig als <span class="math inline">\(\operatorname{CV}_{(k)}\)</span> Wert (crossvalidation score) bezeichnet <span class="math display">\[
+\operatorname{CV}_{(k)}=\frac{1}{k}\sum_{j=1}^k\operatorname{MSPE}_j
+\]</span></p>
+<p>Der <span class="math inline">\(\operatorname{CV}_{(k)}\)</span>-Wert stellt eine im Vergleich zur Validierungsdaten-Methode verbesserte Schätzung des unbekannten mittleren quadratischen Pädiktionsfehlers <span class="math inline">\(\operatorname{CV}_{(k)}\approx E[(Y-\hat{Y})^2]\)</span> dar. Die Modellauswahl folgt also auch hier mittels Minimierung des <span class="math inline">\(\operatorname{CV}_{(k)}\)</span>-Wertes über die verschiedene Werte des Polynomgrades <span class="math inline">\(p=1,2,\dots\)</span>.</p>
+<blockquote class="blockquote">
+<p><strong>Wahl von <span class="math inline">\(k\)</span>:</strong> In der Praxis haben sich die Werte <span class="math inline">\(k=5\)</span> und <span class="math inline">\(k=10\)</span> etabliert, da diese Größenordnunen einen guten Kompromiss zwischen der Varianz und der Verzerrung des Schätzers <span class="math inline">\(\operatorname{CV}_{(k)}\)</span> für <span class="math inline">\(E[(Y-\hat{Y})^2]\)</span> darstellen.</p>
+</blockquote>
+</section>
+</section>
+<section id="anwendung-vorhersage-des-benzinverbrauchs-fraud-detection" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="anwendung-vorhersage-des-benzinverbrauchs-fraud-detection"><span class="header-section-number">2.3</span> Anwendung: Vorhersage des Benzinverbrauchs (Fraud Detection)</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-pollution" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/Car_Pollution.jpg" class="img-fluid figure-img" style="width:70.0%"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;2.7: Hauptursache für die hohe, gesundheitsgefährdende NO2-Belastung der Stadtluft sind Diesel-Fahrzeuge (<a href="https://unsplash.com/photos/RhVqPKp4va4">Foto von David Lee</a>).</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Nun haben wir das Werkzeug, um die nicht linearen Zusammenhänge zwischen der <strong>Zielvariable</strong> <span class="math inline">\(Y=\)</span><code>Verbrauch</code> und den <strong>Prädiktorvariablen</strong> <span class="math inline">\(G=\)</span><code>Gewicht</code>, <span class="math inline">\(P=\)</span><code>PS</code> und <span class="math inline">\(H=\)</span><code>Hubraum</code> im Datensatz <code>Auto_df</code> zu berücksichtigen (siehe Abbildung <a href="#fig-pairsplot">Figure&nbsp;<span>2.1</span></a>) und allein mit Hilfe der Daten zu erlernen. Wir folgen hier der Herangehensweise des <strong>maschinellen Lernens</strong> und lassen die <strong>Daten für sich selbst sprechen</strong>.</p>
+<p>Da Abbildung <a href="#fig-pairsplot">Figure&nbsp;<span>2.1</span></a> sehr ähnliche Zusammenhänge zwischen der Zielvariable <span class="math inline">\(Y=\)</span><code>Verbrauch</code> und den Prädiktorvariablen <span class="math inline">\(G=\)</span><code>Gewicht</code>, <span class="math inline">\(P=\)</span><code>PS</code> und <span class="math inline">\(H=\)</span><code>Hubraum</code> vermuten lässt, betrachten wir zunächst ein vereinfachtest Polynomregressionsmodell, bei dem für alle Prädiktorvariablen der gleiche Polynomgrad <span class="math inline">\(p\)</span> verwendet wird.<br>
+<span class="math display">\[
+\begin{align*}
+Y_i = \beta_0 + \notag
+&amp; \beta^G_{1} G_i + \beta^G_{2} G_i^2 + \dots + \beta^G_{p} G_i^p + \\
+&amp; \beta^P_{1} P_i + \beta^P_{2} P_i^2 + \dots + \beta^P_{p} P_i^p +  \\
+&amp; \beta^H_{1} H_i + \beta^H_{2} H_i^2 + \dots + \beta^H_{p} H_i^p +  \varepsilon_i
+\end{align*}
+\]</span></p>
+<p>Folgender R-Code (Algorithmus) erlernt aus den Daten, mit Hilfe der <span class="math inline">\(5\)</span>-fachen Kreuzvalidierung <span class="math inline">\(\operatorname{CV}_{(5)}\approx E[(Y-\hat{Y})^2]\)</span>, den optimalen Polynomgrad <span class="math inline">\(p\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">8</span>)             <span class="co"># Seed für den Zufallsgenerator</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>n      <span class="ot">&lt;-</span> <span class="fu">nrow</span>(Auto_df) <span class="co"># Stichprobenumfang</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>k      <span class="ot">&lt;-</span> <span class="dv">5</span>             <span class="co"># 5-fache Kreuzvalidierung</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>p_max  <span class="ot">&lt;-</span> <span class="dv">5</span>             <span class="co"># Maximaler Polynomgrad</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>folds     <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span>k, <span class="at">size =</span> n, <span class="at">replace=</span><span class="cn">TRUE</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Container für die MSPE-Werte </span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="do">## für alle j=1,...,k Kreuzvalidierungen und </span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="do">## für alle p=1,...,p_max Polynomgrade</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>MSPE <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">nrow =</span> k, <span class="at">ncol =</span> p_max,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">dimnames=</span><span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">paste0</span>(<span class="st">"p="</span>,<span class="dv">1</span><span class="sc">:</span>p_max)))</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(p <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>p_max){</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>k){</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Modelschätzung auf Basis j-ten Traininsdaten Auto_df[folds != j,]</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  poly_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(Verbrauch <span class="sc">~</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">poly</span>(Gewicht,        <span class="at">degree =</span> p, <span class="at">raw =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">poly</span>(PS,             <span class="at">degree =</span> p, <span class="at">raw =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">poly</span>(Hubraum,        <span class="at">degree =</span> p, <span class="at">raw =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data=</span>Auto_df[folds <span class="sc">!=</span> j,])</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="do">## Prädiktion  auf Basis j-ten Validierungsdaten Auto_df[folds == j,]</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    pred          <span class="ot">&lt;-</span> <span class="fu">predict</span>(poly_fit, <span class="at">newdata =</span> Auto_df[folds <span class="sc">==</span> j,])</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    <span class="do">## </span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    MSPE[j,p] <span class="ot">&lt;-</span> <span class="fu">mean</span>( (Auto_df<span class="sc">$</span>Verbrauch[folds<span class="sc">==</span>j] <span class="sc">-</span> pred)<span class="sc">^</span><span class="dv">2</span> )</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a><span class="do">## CV-Wert für alle p=1,...,p_max Polynomgrade </span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>CV_k <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(MSPE)</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a><span class="do">## Plotten</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">y =</span> CV_k, <span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(CV_k), <span class="at">pch=</span><span class="dv">21</span>, <span class="at">col=</span><span class="st">"black"</span>, <span class="at">bg=</span><span class="st">"black"</span>, </span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>     <span class="at">type=</span><span class="st">'b'</span>, <span class="at">xlab=</span><span class="st">"Polynomgrad p"</span>, <span class="at">ylab=</span><span class="fu">expression</span>(CV[(<span class="dv">5</span>)]), <span class="at">log=</span><span class="st">"y"</span>)</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(<span class="at">y =</span> CV_k[<span class="fu">which.min</span>(CV_k)],</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(CV_k))[<span class="fu">which.min</span>(CV_k)],</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">bg =</span> <span class="st">"red"</span>, <span class="at">pch =</span> <span class="dv">21</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="01-Linear-Models-Regr_shortend_files/figure-html/AutoCV-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Auch der <span class="math inline">\(5\)</span>-fache Kreuzvalidierungswert <span class="math inline">\(\operatorname{CV}_{(5)}\)</span> ist lediglich eine zufallsbehaftete Schätzung des unbekannten mittleren quadratischen Prädiktionsfehlers <span class="math inline">\(E[(Y-\hat{Y})^2]\)</span>. Um eine Idee von der Präzision und Stabilität der Modellauswahl mittels der Minimierung von <span class="math inline">\(\operatorname{CV}_{(5)}\)</span> zu bekommen, können wir die zufälligen, <span class="math inline">\(5\)</span>-fachen Aufteilungen der Daten in Trainins- und Validierungsdaten wiederholen und den Effekt alternativer Datenaufteilungen betrachten. Abbildung <a href="#fig-AutoCV2">Figure&nbsp;<span>2.8</span></a> zeigt, dass die Minimierung des Kreuzvalidierungswertes <span class="math inline">\(\operatorname{CV}_{(5)}\)</span> auch in Wiederholungen häufig das Modell mit Polynomgrad <span class="math inline">\(p=2\)</span> auswählt. Der Polynomgrad <span class="math inline">\(p=2\)</span> scheint also eine vertauenswürde Modellauswahl darzustellen.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-AutoCV2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="01-Linear-Models-Regr_shortend_files/figure-html/fig-AutoCV2-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;2.8: Zehn verschiedene <span class="math inline">\(\operatorname{CV}_{(k)}\)</span>-Berechnungen basierend auf zehn verschiedenen, zufälligen Wiederholungen der <span class="math inline">\(5\)</span>-fachen Kreuzvalidierung.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Das Polynomregressionsmodell mit <span class="math inline">\(p=2\)</span> stellt also ein gutes Prädiktionsmodell dar. Wir verwenden nun dieses Modell, um nach auffälligen Unterschiedenen in den herstellerseitigen Verbrauchsangaben <span class="math inline">\(y_i\)</span> und unseren Prädiktionen zu suchen. Gerade <strong>stark negative Residuen</strong> <span class="math inline">\(y_i-\hat{y}_i\)</span> sind verdächtig, da es auf eine Schönung der Verbrauchsangaben hindeuten könnte.</p>
+<p>Folgender R-Code schätzt zunächst das Polynomregressionsmodell mit <span class="math inline">\(p=2\)</span>, berechnet dann die Residuen <span class="math inline">\(y_i-\hat{y}_i\)</span> und veranschaulicht die größte negative Abweichung in Abbildung <a href="#fig-mazda">Figure&nbsp;<span>2.9</span></a>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>poly_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(Verbrauch <span class="sc">~</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">poly</span>(Gewicht,  <span class="at">degree =</span> p, <span class="at">raw =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">poly</span>(PS,       <span class="at">degree =</span> p, <span class="at">raw =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">poly</span>(Hubraum,  <span class="at">degree =</span> p, <span class="at">raw =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data=</span>Auto_df)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Position des größten negativen Residuums:</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>slct  <span class="ot">&lt;-</span> <span class="fu">order</span>(<span class="fu">resid</span>(poly_fit))[<span class="dv">1</span>]</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Gehört zum Mazda RX-3 (Bj. 1973)</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Auto[slct, ]</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="fl">5.1</span>, <span class="fl">5.1</span>, <span class="fl">4.1</span>, <span class="fl">2.1</span>))</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">y =</span> <span class="fu">resid</span>(poly_fit), <span class="at">x =</span> <span class="fu">fitted</span>(poly_fit), </span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="fu">expression</span>(<span class="st">"Residuen:"</span><span class="sc">~</span>y[i] <span class="sc">-</span> <span class="fu">hat</span>(y)[i]), </span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="fu">expression</span>(<span class="st">"Prädiktionen:"</span><span class="sc">~</span><span class="fu">hat</span>(y)[i]),</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">main=</span><span class="st">"Größte negative Abweichung der Verbrauchsangabe"</span>)</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(<span class="at">y =</span> <span class="fu">resid</span>(poly_fit)[slct], <span class="at">x =</span> <span class="fu">fitted</span>(poly_fit)[slct], </span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">bg =</span> <span class="st">"red"</span>, <span class="at">pch =</span> <span class="dv">21</span>)</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">y =</span> <span class="fu">resid</span>(poly_fit)[slct], <span class="at">x =</span> <span class="fu">fitted</span>(poly_fit)[slct], </span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>     <span class="at">labels =</span> <span class="st">"Mazda RX-3 (1973)"</span>, <span class="at">pos =</span> <span class="dv">2</span>)</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="fl">5.1</span>, <span class="fl">4.1</span>, <span class="fl">4.1</span>, <span class="fl">2.1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-mazda" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="01-Linear-Models-Regr_shortend_files/figure-html/fig-mazda-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;2.9: Polynomregression im Anwendungsbeispiel zum Benzinverbrauch. Die größte negative Abweichung der Verbrauchsangabe vom zu erwartenden Verbrauch zeigt ein Mazda RX-3 von 1973.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Wir haben hier tatsächlich einen besonderen Fall gefunden. Der Mazda RX-3 (1973) (Abbildung <a href="#fig-mazda2">Figure&nbsp;<span>2.10</span></a>) lief mit einem sehr sparsamen <a href="https://de.wikipedia.org/wiki/Wankelmotor">Wankelmotor</a>. Dieser Motor war sogar so außergewöhnlich sparsam, dass es vielerlei <a href="https://nepis.epa.gov/Exe/ZyNET.exe/9100X47O.txt?ZyActionD=ZyDocument&amp;Client=EPA&amp;Index=Prior%20to%201976&amp;Docs=&amp;Query=&amp;Time=&amp;EndTime=&amp;SearchMethod=1&amp;TocRestrict=n&amp;Toc=&amp;TocEntry=&amp;QField=&amp;QFieldYear=&amp;QFieldMonth=&amp;QFieldDay=&amp;UseQField=&amp;IntQFieldOp=0&amp;ExtQFieldOp=0&amp;XmlQuery=&amp;File=D%3A%5CZYFILES%5CINDEX%20DATA%5C70THRU75%5CTXT%5C00000016%5C9100X47O.txt&amp;User=ANONYMOUS&amp;Password=anonymous&amp;SortMethod=h%7C-&amp;MaximumDocuments=1&amp;FuzzyDegree=0&amp;ImageQuality=r75g8/r75g8/x150y150g16/i425&amp;Display=hpfr&amp;DefSeekPage=x&amp;SearchBack=ZyActionL&amp;Back=ZyActionS&amp;BackDesc=Results%20page&amp;MaximumPages=1&amp;ZyEntry=2#">Streitigkeiten</a> um die vermeintlich zu niedrigen Verbrauchsangaben gab.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-mazda2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/mazda_rx3.jpg" class="img-fluid figure-img" style="width:70.0%"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;2.10: Mazda RX-3 hatte einen Wankelmotor. Wankelmotoren waren besonders effizient und dadurch außergewöhnlich sparsam.</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<!-- 
+## Ende 
+
+::: {.cell}
+::: {.cell-output-display}
+![Curve-Fitting Methoden [xkcd](https://xkcd.com/2048/).](images/curve_fitting.png){#fig-ENDE width=70%}
+:::
+:::
+
+ -->
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-book_Bishop2006" class="csl-entry" role="doc-biblioentry">
+Bishop, Christopher M. 2006. <em>Pattern Recognition and Machine Learning</em>. Springer Science &amp; Business Media.
+</div>
+<div id="ref-ISLR2021" class="csl-entry" role="doc-biblioentry">
+James, Gareth, Daniela Witten, Trevor Hastie, and Robert Tibshirani. 2021. <em>An Introduction to Statistical Learning: With Applications in r</em>. Springer Science.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Organization des Kurses</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

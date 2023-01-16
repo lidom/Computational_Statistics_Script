@@ -1,0 +1,51 @@
+# Organization des Kurses
+
+### Timetable {-}
+
+```{r, echo=FALSE}
+suppressPackageStartupMessages(library("kableExtra"))
+suppressPackageStartupMessages(library("tidyverse"))
+
+timetable <- tibble("Tag"     =c("Dienstag", "Mittwoch")[1],
+                    "Zeit"    =c("09:45-10:00", "16:15-17:45")[1],
+                    "Hörsaal" =c("Raum 109", "	Jur / Hörsaal K")[1])
+           
+timetable %>% kbl() %>%  kable_styling()
+```
+
+
+<!-- ### Lecture Material and Literature {-}
+
+
+* Course Textbook (`ISLR`): 
+  * [An Introduction to Statistical Learning (2nd Edition)](https://www.statlearning.com/), by Gareth James, Daniela Witten, Trevor Hastie, and Robert Tibshirani
+  * The pdf-Version of the textbook `ISLR` can be downloaded for free: [Free Book](https://hastie.su.domains/ISLR2/ISLRv2_website.pdf)  
+
+* Online resources (datasets, etc.) for the book can be found [HERE](https://www.statlearning.com/resources-second-edition).
+* [eWhiteboard](https://uni-bonn.sciebo.de/s/qdGFYfqMno0QfzX) for the lecture notes.
+* [This online script](https://www.dliebl.com/Script-ISLR/)
+
+The above links to the lecture materials can also be found at [eCampus](https://ecampus.uni-bonn.de/goto_ecampus_crs_2700628.html) 
+-->
+
+
+### Kommunikation {-}
+
+* Wer will, darf sich gerne im [Zulip-Chat Statistisches Lernen](https://zulip.com/) austauschen und Fragen posten. 
+
+<!-- Happy sharing and discussing!  -->
+
+
+
+<!-- ### Further Material
+
+The following resources are not directly used in our course, but you may find them useful nevertheless:
+
+* [`R` Labs using `Tidymodels`](https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/index.html)
+
+* [Slides, Datasets, R-Scripts, etc](https://www.statlearning.com/resources-second-edition)
+
+* [Slides and Videos (1st edition of the course textbook)](https://www.dataschool.io/15-hours-of-expert-machine-learning-videos/)
+ -->
+
+

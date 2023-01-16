@@ -1,0 +1,934 @@
+# Resampling Methoden zum Erlenen von Regressionsfunktionen {#sec-RegML}
+
+
+#### Lernziele für dieses Kapitel {-}
+
+Sie können ...
+
++ die **Probleme** der Auswahl eines geeigneten Prädiktionsmodells an einem Beispiel **benennen und erläutern**.
+<br>
++ die **Grundidee** der Validierungsdaten-Methode **erläutern**.
+<br>
++ die **Grundidee** der k-fachen Kreuzvalidierung **erläutern**.
+<br>
+
+
+
+#### Begleitlektüren {-}
+
+Zur Vorbereitung der Klausur ist es grundsätzlich ausreichend dieses Kapitel durchzuarbeiten - aber Lesen hat ja noch nie geschadet. Empfehlenswerte weiterführende Literatur:
+
++ Kapitel 3 in [**An Introduction to Statistical Learning, with Applications in R**](https://trevorhastie.github.io/ISLR/) [@ISLR2021]<br> 
+Die pdf-Version des Buches ist hier frei erhältlichen:
+[**www.statlearning.com**](https://www.statlearning.com/)
+
++ Kapitel 3 in [**Pattern Recognition and Machine Learning**](https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf) [@book_Bishop2006]<br> 
+Die pdf-Version des Buches ist frei erhältlichen: [**pdf-Version**](https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf)
+
+<!-- + Kapitel 6 in [**Introduction to Econometrics with R**](https://www.econometrics-with-r.org/) [@IntroEconometricsR2021]<br> 
+Freies Online-Buch: [**www.econometrics-with-r.org**](https://www.econometrics-with-r.org/) -->
+
+
+<!-- 
+```{r setup-lin-reg, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+```{css, echo=FALSE}
+span {
+  display: inline-block;
+}
+``` 
+
+-->
+
+
+
+
+#### `R`-Pakete und Datenbeispiel für dieses Kapitel {-}
+
+Folgende `R`-Pakete werden in diesem Kapitel benötigt. 
+
+* **tidyverse**: Viele nützliche Pakete zur Datenverarbeitung. 
+* **GGally**: Enthält die Funktion `ggpairs()` zur Erzeugung von Pairs-Plots
+* **ISLR**: Enthält die `Auto` Daten
+
+Falls noch nicht geschehen, müssen diese Pakete installiert und geladen werden:
+```{r, eval=FALSE, echo=TRUE}
+## Installieren
+install.packages("tidyverse") 
+install.packages("GGally")    
+install.packages("ISLR2")      
+## Laden
+library("tidyverse") # Viele nützliche Pakete zur Datenverarbeitung
+library("GGally")    # Pairs-Plot
+library("ISLR2")     # Enthält die Auto-Daten
+data(Auto)           # Macht die Auto-Daten abrufbar 
+```
+
+
+```{r, echo=FALSE}
+## Laden
+library("ISLR2")      # Enthält die Auto-Daten
+suppressPackageStartupMessages(library("tidyverse")) # Viele nützliche Pakete zur Datenverarbeitung
+suppressPackageStartupMessages(library("GGally"))    # Pairs-Plot
+data(Auto)           # Daten abrufbar machen
+```
+
+
+Als Datenbeispiel für diese Kapitel betrachten wir den `Auto` Datensatz im R-Paket `ISLR2`. Wir betrachten folgende Auswahl der Variablen im Datensatz `Auto`:
+
+* **Zielvariable:**
+    * **Verbrauch (km/Liter)** 
+* **Prädiktorvariablen:**
+    * **Gewicht (kg):** Schwerere Autos verbrauchen wahrscheinlich mehr.
+    * **Leistung (PS):** Höhere Leistung geht wohl auch mit höherem Verbrauch einher.
+    * **Hubraum (ccm):** Großer Hubraum ... höherer Verbrauch?
+
+
+**Achtung:** Es gibt sicherlich noch weitere relevante Prädiktorvariablen. Obige Auswahl ist jedoch relativ einfach zu erheben und ermöglicht eventuell bereits eine **gute Prädiktion des Verbrauches** im Rahmen eines **Regressionsmodells**. 
+
+
+**Ziel:** Wir wollen ein Prädiktionsmodell *aus den Daten erlernen*, welches und erlaubt, nach Auffälligkeiten bei den herstellerseitigen Verbrauchsangaben zu suchen. Besonders große Abweichungen zwischen Modellprädiktion und Herstellerangabe sind ein Indiz für unlautere Zahlenschönungen. 
+
+
+**Aufbereitung der Daten:**
+```{r, echo=TRUE}
+## Auswahl und Aufbereitung der Variablen 
+Auto_df <- Auto %>% 
+  mutate(Verbrauch = mpg * (1.60934/3.78541), # Verbrauch (km/Liter)
+         Gewicht   = weight * 0.45359,        # Gewicht (kg)
+         PS        = horsepower,              # Pferdestärken (PS)
+         Hubraum   = displacement * 2.54^3    # Hubraum (ccm)
+         ) %>%   
+ dplyr::select("Verbrauch", "Gewicht", "PS", "Hubraum") 
+
+n <- nrow(Auto_df) # Stichprobenumfang 
+```
+
+
+
+Insgesamt enthält der betrachtete Datensatz also fünf Variablen zu $n=392$ verschiedenen Autos. Dies sind die ersten sechs Zeilen des Datensatzes:
+```{r, eval=TRUE}
+knitr::kable(head(Auto_df), digits = 2, 
+             col.names = c("Verbrauch (km/Liter)",
+                           "Gewicht (kg)",
+                           "Pferdestärken (PS)",
+                           "Hubraum (ccm)"))
+```
+
+
+
+Um sich einen Überblick zu den Beziehungen zwischen den Variablen zu verschaffen, eignet sich ein **Pairs-Plot** sehr gut (siehe Abbildung @fig-pairsplot: 
+```{r pairsplot, echo=TRUE, out.width="100%", out.height="100%"}
+#| label: fig-pairsplot
+#| fig-cap: Pairs-Plot zur Veranschaulichung der paarweisen Zusammenhänge zwischen den Variablen.
+ggpairs(Auto_df,
+upper = list(continuous = "density", combo = "box_no_facet"),
+lower = list(continuous = "points", combo = "dot_no_facet"))
+```
+
+Der Pairs-Plot veranschaulicht alle paarweisen Zusammenhänge zwischen den Variablen im Datensatz `Auto_df`. Uns interessieren hierbei in erster Linie die Zusammenhänge zwischen der Zielvariable **Verbrauch** und den **Prädiktorvariablen**: 
+
+* $Y=$**Verbrauch** und ...
+    * $G=$ **Gewicht**$_i$**:** haben einen nicht linearen, negativen Zusammenhang.
+    * $P=$ **PS:** haben einen nicht linearen, negativen Zusammenhang.
+    * $H=$ **Hubraum:** haben einen nicht linearen, negativen Zusammenhang.
+    
+
+
+## Das allgemeine Regressionsmodell
+
+Die einzelnen Prädiktorvariablen werden gerne kompakt zu einer multivariaten Prädiktorvariablen $X=(X_1,X_2,\dots,X_p)$ zusammengefasst; in unserem Benzinverbrauchsbeispiel also $X=(G,P,H,B).$ So lässt sich das **allgemeines Regressionsmodell** schreiben als
+$$
+Y=f(X)+\varepsilon,
+$$
+wobei
+
+* $f$ den **systematischen Zusammenhang** zwischen der Zielvariable $Y$ und den Prädiktorvariablen $X$ beschreibt und
+* $\varepsilon$ ein **Fehlerterm** ist, dessen bedingter Mittelwert gegeben $X$ gleich null ist, 
+$$
+E(\varepsilon|X)=0.
+$$ 
+
+
+Daraus ergibt sich folgender Zusammenhang zwischen der **allgemeinen Regressionsfunktion** $f$ und dem bedingten Mittelwert von $Y$ gegeben $X$:
+$$
+E(Y|X)=E(f(X)+\varepsilon|X)=f(X)
+$$
+Die Funktion $f$ beschreibt also den bedingten Mittelwert von $Y$ gegeben $X$. Ziel ist es nun, die Regressionsfunktion $f$ aus den Daten zu erlernen.
+
+<!-- > **Achtung:** Die Annahme der Unabhängigkeit zwischen $\varepsilon$ und $X$ kann in der Praxis verletzt sein. Die Verletzung dieser Unabhängigkeitsannahme erlaubt insbesondere keine kausale Interpretation der Ergebnisse, daher betrachtet die Literatur zur Kausalinferenz viele Möglichkeiten diese Unabhängigkeitsannahme durch eine weniger strikte Annahmen zu ersetzen. In der Literatur zur prädiktiven Inferenzen wird eine Verletzung der Unabhängigkeitsannahme weniger kritisch gesehen, da eine Prädiktion trotz verletzter Unabhängigkeitsannahme sehr gut sein kann. Eine schöne und gut lesbare Übersicht zu den Unterschieden zwischen der Kausalinferenz und der prädiktiven Inferenzen findet man, z.B., im Artikel [To Explain or To Predict?](https://projecteuclid.org/journals/statistical-science/volume-25/issue-3/To-Explain-or-to-Predict/10.1214/10-STS330.full) [@Shmueli_2010].   -->
+
+
+Abbildung @fig-fakedata zeigt ein Beispiel von $50$ simulierten Daten (künstlich erzeugte Fake-Daten). Der Plot legt nahe, dass man das Einkommen mit Hilfe der Ausbildungsjahre vorhersagen kann. Normalerweise ist die wahre Funktion $f$, welche die Verbindung zwischen $Y$ und $X$ beschreibt, unbekannt und muss aus den Daten geschätzt werden. Da es sich hier um simulierte Daten handelt, können wir den Graph der Funktion $f$ als blaue Linie plotten. Einige der $50$ Beobachtungspunkte $(X,Y)$ liegen über der Regressionsfunktion $f(X)$, andere darunter. Im Großen und Ganzen haben die Fehlerterme einen Mittelwert von Null. 
+```{r fakedata}
+#| label: fig-fakedata
+#| fig-cap: Simulierte (künstlich erzeugte) Daten zur Veranschaulichung einer allgemeinen, univariaten Regressionsbeziehung.
+## Erzeugung von "Fake-Daten":
+set.seed(1234)
+n   <- 50
+X   <- runif(n = n, min = 10, max = 25)
+f   <- function(x){20 + 60 * pnorm(((x-10)/15)*4-2)}
+eps <- rnorm(n, mean = 1, sd = 4)
+Y   <- f(X) + eps
+fake_data <- tibble("Y"=Y, "X"=X)
+
+## Plot
+plot(x = X, y = Y, pch=21, bg="red", col="red",
+     xlab="Jahre in Ausbildung (Faked X)",
+     ylab="Einkommen (Faked Y)", xlim = c(10,25))
+curve(f, 10, 25, col="darkblue", add = TRUE)
+with(fake_data, segments(X, Y, X, f(X), lty=2))
+legend("topleft", legend = c("Datenpunkte (X,Y)", "f(X)", "Fehlerterme"), 
+       lty=c(NA,1,2), pch=c(21,NA,NA), pt.bg="red", 
+       col=c("red", "darkblue","black"), bty="n")
+```
+
+
+
+Abbildung @fig-plot3d zeigt ein simuliertes Beispiel einer allgemeinen, bivariaten Regressionsbeziehung 
+$$
+Y=f(X)+\varepsilon\quad\text{mit}\quad X=(X_1,X_2).
+$$  
+```{r plot3d, out.width="100%", out.height="100%"}
+#| label: fig-plot3d
+#| fig-cap: Veranschaulichung einer allgemeinen, bivariaten Regressionsbeziehung.
+# create sample dataset - you have this already,,,
+Auto %>% lm(mpg ~ weight + I(weight^3) + displacement + I(displacement^3), data = .) -> fit
+
+grid.lines = 26 #vis parameter
+
+x.pred = seq(min(Auto$weight), 
+             max(Auto$weight), length.out= grid.lines)
+y.pred = seq(min(Auto$displacement), 
+             max(Auto$displacement), length.out = grid.lines)
+xy = expand.grid(weight = x.pred, 
+                 displacement = y.pred)
+
+z.pred = matrix(predict(fit, 
+                        newdata = data.frame("weight"=xy$weight, 
+                                             "I(weight^3)"=xy$weight^2,
+                                             "displacement"=xy$displacement,
+                                             "I(displacement^3)"=xy$displacement^2)), 
+                nrow = grid.lines, ncol = grid.lines)
+
+fitpoints = predict(fit)
+library("scatterplot3d") 
+library("plot3D")
+scatter3D(Auto$weight, Auto$displacement, Auto$mpg, pch = 21, cex = .9,
+          zlab="Y", xlab="X1", ylab="X2", col="gray",
+                     theta = 30, phi = 20, #ticktype = "detailed",
+                     surf = list(x = x.pred, y = y.pred, z = z.pred,
+                                 facets = NA, fit = fitpoints,
+                                 NAcol = "grey", shade = 0.1))
+```
+
+
+### Der Prädiktionsfehler 
+
+<!-- (zwischen  $Y$ und $\hat{Y}$) -->
+
+Sei $\hat{f}$ eine Schätzung der unbekannten Regressionsfunktion $f,$ geschätzt z.B. mit Hilfe der Polynomregression in @sec-PolyReg. Gegeben der Schätzung $\hat{f}$ und gegeben bestimmter Prädiktorvariablen 
+$$
+X=(X_1,X_2,\dots,X_p)
+$$ 
+(z.B. Gewicht, PS und Hubraum eines neuen Autos), können wir die dazugehörige, abhängige Variable $Y$ vorhersagen:  
+<!-- In vielen Datenproblemen sind zwar die , aber die dazugehörige Zielvariable $Y$ ist unbekannt. Da sich der Fehlerterm zu Null mittelt, lässt sich in solch einem Fall das unbekannte $Y$ durch  -->
+$$
+Y\approx \hat{Y}=\hat{f}(X).
+$$
+<!-- wobei 
+* $\hat{f}$ für unsere Schätzung von $f$ steht und 
+* $\hat{Y}$ die Vorhersage von $Y$ für gegebene Prädiktorvariablen $X$ ist.  -->
+
+Die Genauigkeit der Vorhersage von $\hat{Y}$ für $Y$ hängt von zwei verschiedenen Prädiktionsfehlergrößen ab: 
+
+* **Reduzierbarer Prädiktionsfehler** aufgrund des Schätzfehlers in $\hat{f}$.  Eine genauere Schätzung kann diesen Fehler reduzieren.
+* **Nicht reduzierbarer Prädiktionsfehler** aufgrund des Fehlerterms $\varepsilon$.  Das ist der Fehler, den wir selbst bei perfekter Schätzung von $f$ nicht reduzieren können. 
+
+
+Der **nicht reduzierbare Fehler** $\varepsilon$ enthält alle nicht messbaren und nicht gemessenen Variablen, die ebenfalls einen Einfluss auf $Y$ haben. Und da wir diese Variablen nicht messen können, können wir sie auch nicht verwenden, um $f$ zu schätzen. 
+
+
+<!-- Sei nun $\hat{f}$ ein gegebener Schätzer von $f$, und sei $X_{Neu}$ ein *neuer* Prädiktorwert (nicht verwendet zur Berechnung von $\hat{f}$) mit dem wir $Y_{Neu}$ vorhersagen wollen, d.h. $Y_{Neu}\approx \hat{Y}_{Neu}=\hat{f}(X_{Neu}).$ Unter  -->
+
+Sei nun $\hat{f}$ eine gegebene Schätzung von $f$ und seien $X$ gegeben Werte der Prädiktorvariablen welche die Vorhersage $\hat{Y}=\hat{f}(X)$ ergeben. Nehmen wir nun für einen Moment an, dass $\hat{f}$ und $X$ gegeben und fest (also nicht zufällig) sind, dann
+$$ 
+\begin{align*}
+E\left[(Y-\hat{Y})^2\right]
+&=E\Big[(\overbrace{f(X)+\varepsilon}^{=Y} - \overbrace{\hat{f}(X)}^{=\hat{Y}})^2\Big]\\
+&=E\left[\left((f(X)-\hat{f}(X)\right)^2+2\left((f(X)-\hat{f}(X)\right)\varepsilon+\varepsilon^2\right]\\
+&=\underbrace{\left((f(X)-\hat{f}(X)\right)^2}_{\text{reduzierbar}}+\underbrace{\operatorname{Var}(\varepsilon)}_{\text{nicht reduzierbar}}
+\end{align*}
+$$
+Der mittlere quadratische Prädiktionsfehler $E\left[(Y-\hat{Y})^2\right]$ lässt sich also in eine reduzierbare und eine nicht reduzierbare Fehlerkomponente zerlegen. 
+
+
+## Das multivariate lineare Regressionsmodell
+
+<!-- **Lineare Regressionsmodelle** gehören zu den erfolgreichsten statistischen Modellen, da sie 
+
+* vergleichsweise **einfach zu interpretieren** sind und 
+* zugleich **äußerst flexibel** sind. 
+
+In diesem Kapitel betrachten wir das multivariate (oder multiple) lineare Regressionsmodell als **Prädiktionsmodell** im Kontext des maschinellen Lernens.  -->
+
+
+Um die allgemeine Regressionsfunktion 
+$$
+f(X)=E(Y|X)
+$$ 
+mit Hilfe der Daten zu schätzen (lernen), gibt es sehr viele verschiedenen Möglichkeiten. Eine der erfolgreichsten und am häufigsten verwendete Möglichkeit ist das **multivariaten linear Regressionsmodell**. Dieses Modell ist die **strukturelle Modellannahme**, dass sich die unbekannte Regressionsfunktion $f$ als lineare Funktion (linear in den Modellparametern $\beta_0, \beta_1, \dots, \beta_p$) schreiben lässt:
+$$
+f(X)=\beta_0+\beta_1X_1+\dots+\beta_pX_p.
+$$
+
+
+Unter dieser Modellannahme wird das allgemeine Regressionsmodell  $Y=f(X)+\varepsilon$ zum multivariaten (multiplen) linearen Regressionsmodell
+$$
+\begin{align*}
+Y=\beta_0+\beta_1X_1+\dots+\beta_pX_p+\varepsilon.
+\end{align*}
+$$
+Zusammen mit der Annahme, dass $\varepsilon$ unabhängig von $X$ ist, und dass $E(\varepsilon)=0$, können wir mit dieser Modellannahme den unbekannten bedingten Mittelwert $E(Y|X)=f(X)$ vereinfacht schreiben als
+$$
+\begin{align*}
+E(Y|X)=\beta_0+\beta_1X_1+\dots+\beta_pX_p.
+\end{align*}
+$$
+Vorteile des **multivariaten linearen Regressionsmodells:**
+
+* Anstatt eine gänzlich unbekannte Funktion $f$ schätzen (lernen) zu müssen, muss man lediglich die unbekannten Parameterwerte $\beta_0, \beta_1, \dots, \beta_p$ schätzen. 
+* Die Modellstruktur ist **keine Black Box**, sondern gibt Aufschluss über die **assoziativen Zusammenhänge** zwischen den Prädiktorvariablen und der Zielvariablen.
+* Die lineare Modellstruktur ist **extrem flexibel**, da Transformationen der Prädiktorvariablen grundsätzlich erlaubt sind. 
+
+
+> Gerade die große Flexibilität linearer Modelle werden wir nutzten müssen, um die **nicht linearen Zusammenhänge** zwischen den Prädiktorvariablen und der Zielvariablen in unserem Benzinverbrauchsbeispiel berücksichtigen zu können (siehe Abbildung @fig-pairsplot). 
+
+
+### Schätzung 
+
+
+Wir wollen nun diejenige Funktion 
+$$
+\hat{f}(X)=\hat{\beta}_0 + \hat{\beta}_1 X_1 + \dots + \hat{\beta}_p X_p
+$$
+finden, sodass $Y\approx \hat{f}(X)$ für alle Datenpunkte $(Y,X)$. 
+
+
+Zur Berechnung von $\hat{f}$ können wir die **beobachteten Daten** als **Trainingsdaten** verwenden: 
+$$
+\left\{(x_1,y_1),(x_2,y_2),\dots,(x_n,y_n)\right\}\quad\text{wobei}\quad x_i=(x_{i1},x_{i2},\dots,x_{ip})^T.
+$$
+Im Folgenden werden wir oft die Notation 
+$$x_{ij},\quad i=1,\dots,n,\quad j=1,\dots,p$$
+verwenden, um die $j$te Prädiktorvariable der $i$ten Beobachtung zu bezeichnen. Der Laufindex $j=1,\dots,p$ repräsentiert die einzelnen Prädiktorvariablen (z.B. Verbrauch, Gewicht, Pferdestärken, und Hubraum im `Auto_df` Datensatz) und der Laufindex $i=1,\dots,n$ repräsentiert die einzelnen Beobachtungen (z.B. gespeichert als Zeilen im `Auto_df` Datensatz).
+
+> **Idee:** Die Trainingsdaten $\left\{(x_1,y_1),(x_2,y_2),\dots,(x_n,y_n)\right\}$ enthalten Information zum unbekannten Regressionsmodell $f$, da (so die Grundidee) die Daten von eben diesem Modell erzeugt wurden. Ziel ist also die unbekannte Regressionsfunktion $f$ mit Hilfe der Trainingsdaten zu schätzen (erlernen). 
+
+Für jede mögliche Schätzung $\hat{f}$ von $f$ können wir die beobachteten Werte der Zielvariablen $y_i$ mit den vorhergesagten Werten 
+$$
+\hat{y}_i=\hat{f}(x_i)=\hat{\beta}_0 + \hat{\beta}_1 x_{i1} +  \hat{\beta}_2 x_{i2} + \dots + \hat{\beta}_p x_{ip}
+$$
+vergleichen, indem wir die **Residuen**
+$$
+e_i = y_i-\hat{y}_i\quad i=1,\dots,n
+$$
+betrachten. 
+
+
+Die gängigste Methode zur Schätzung der unbekannten Modellparameter $\beta_0,\beta_1,\dots,\beta_p$ ist die **Methode der kleinsten Quadrate**. Wir definieren die **Residuenquadratsumme** RSS (Residual Sum of Squares) als:
+$$
+\operatorname{RSS}=e_1^2+e_2^2+\dots +e_n^2
+$$
+oder äquivalent als
+$$
+\operatorname{RSS}=\sum_{i=1}^n
+(y_i-\hat{\beta}_0 + \hat{\beta}_1 x_{i1} +  \dots + \hat{\beta}_p x_{ip})^2
+$$
+Die Methode der kleinsten Quadrate bestimmt die Parameterschätzungen $\hat{\beta}=(\hat{\beta}_0,\hat{\beta}_1,\dots,\hat{\beta}_p)^T$ durch **Minimierung der Residuenquadratsumme RSS**. Nach ein paar Rechnungen (siehe "Einführung in die Ökonometrie") kann man zeigen, dass
+$$
+\hat\beta = (X'X)^{-1}X'Y
+$$  
+wobei
+$$
+\begin{align*}
+\hat\beta=\left(
+  \begin{matrix}
+  \hat{\beta}_0\\
+  \hat{\beta}_1\\
+  \vdots\\
+  \hat{\beta}_p
+  \end{matrix}
+\right),
+\quad
+X=\left(\begin{matrix}
+  1&x_{11}&\dots & x_{1p}\\
+  \vdots&\vdots&\ddots & \vdots\\
+  1&x_{n1}&\dots & x_{np}\\
+  \end{matrix}\right)
+\quad
+\text{und}
+\quad
+Y=\left(
+  \begin{matrix}
+  Y_1\\
+  \vdots\\
+  Y_n
+  \end{matrix}
+\right).
+\end{align*}
+$$
+
+<!-- $$
+\begin{align*}
+\left(
+  \begin{matrix}
+  \hat{\beta}_0\\
+  \hat{\beta}_1\\
+  \vdots\\
+  \hat{\beta}_p
+  \end{matrix}
+\right)=
+\left(
+  \left(\begin{matrix}
+  1&x_{11}&\dots & x_{1p}\\
+  \vdots&&\ddots & \vdots\\
+  1&x_{n1}&\dots & x_{np}\\
+  \end{matrix}\right)^T
+  \left(\begin{matrix}
+  1&x_{11}&\dots & x_{1p}\\
+  \vdots&&\ddots & \vdots\\
+  1&x_{n1}&\dots & x_{np}\\
+  \end{matrix}\right)
+\right)^{-1}
+\left(\begin{matrix}
+  1&x_{11}&\dots & x_{1p}\\
+  \vdots&&\ddots & \vdots\\
+  1&x_{n1}&\dots & x_{np}\\
+  \end{matrix}\right)^T
+\left(
+  \begin{matrix}
+  Y_1\\
+  \vdots\\
+  Y_n
+  \end{matrix}
+\right)
+\end{align*}
+$$ -->
+
+### Polynomregression {#sec-PolyReg}
+
+Die **Polynomregression** ist eine Möglichkeit, die nicht linearen Beziehungen zwischen der Zielvariablen und den Prädiktorvariablen in unserem Benzinverbrauchsproblem (siehe Abbildung @fig-pairsplot) berücksichtigen zu können. So kann, zum Beispiel, der nicht lineare Zusammenhang zwischen `Verbrauch` und Leistung `PS` sehr flexibel als Polynomfunktion modelliert werden:
+$$
+\texttt{Verbrauch}=\beta_0 + \beta_1 \texttt{PS} + \beta_2 \texttt{PS}^2 + \dots + \beta_p \texttt{PS}^p
+$$
+Je höher der Grad $p$ des Polynoms, desto flexibler ist ein Polynomregressionsmodell und ermöglicht so auch die Modellierung nicht linearen Zusammenhänge. Das Polynomregressionsmodell ist jedoch für alle Polynomgrade $p$ ein **(multivariates) lineares Regressionsmodell**, denn es ist linear bezüglich der Modellparameter $\beta_0, \beta_1, \dots, \beta_p$. 
+```{r polynom, echo=TRUE, fig.cap="Polynom Regression bei verschiedenen Polynomgraden $p$.", out.width="100%", out.height="100%"}
+## Polynom Regressionen
+polreg_1 <- lm(Verbrauch ~ poly(PS, degree = 1, raw=TRUE), data = Auto_df)
+polreg_2 <- lm(Verbrauch ~ poly(PS, degree = 2, raw=TRUE), data = Auto_df)
+polreg_5 <- lm(Verbrauch ~ poly(PS, degree = 5, raw=TRUE), data = Auto_df)
+## Data-Frame zum Abspeichern der Prädiktionen
+plot_df       <- tibble("PS" = seq(45, 250, len=50))
+## Abspeichern der Prädiktionen
+plot_df$fit_1 <- predict(polreg_1, newdata = plot_df)
+plot_df$fit_2 <- predict(polreg_2, newdata = plot_df)
+plot_df$fit_5 <- predict(polreg_5, newdata = plot_df)
+## Ploten
+plot(Verbrauch ~ PS, data = Auto_df, ylim=c(2,20),
+     xlab="Leistung (PS)", pch=21, col="gray", bg="gray", cex=1.5)
+with(plot_df, lines(x = PS, y = fit_1, lwd=2, col="orange"))
+with(plot_df, lines(x = PS, y = fit_2, lwd=2, col="blue"))
+with(plot_df, lines(x = PS, y = fit_5, lwd=2, col="darkgreen"))
+legend("topright", lty=c(NA,1,1,1), pch=c(21,NA,NA,NA), 
+       col=c("gray","orange","blue","darkgreen"), pt.bg="gray", pt.cex=1.5,
+       legend=c("Datenpunkte", "Grad 1", "Grad 2", "Grad 5"), bty="n")
+```
+
+
+#### Überanpassung 
+
+Zusätzlich zur Wahl der Modellparameter $\hat{\beta}_0, \hat{\beta}_1, \dots, \hat{\beta}_p$ besteht hier nun das Problem 
+der Wahl des Grades $p$ des Polynoms als weiteren Modellparameter 
+$$
+y_i=\hat{\beta}_0 + \hat{\beta}_1 x_{i1} + \hat{\beta}_2 x_{i2}^2 + \dots + \hat{\beta}_p x_{ip}^p + e_i
+$$
+Wenn man jedoch versucht, alle Modellparameter (also $\hat{\beta}_0, \hat{\beta}_1, \dots, \hat{\beta}_p$ **und** $p$) durch Minimieren der Trainingsdaten-RSS
+$$
+\operatorname{RSS}\equiv\operatorname{RSS}(\hat{\beta}_0, \hat{\beta}_1, \dots, \hat{\beta}_p,p)=e_1^2 + e_2^2 + \dots + e_n^2
+$$
+zu schätzen, so ergibt sich ein Problem das als **Überanpassung**  (**Overfitting**) bekannt ist (siehe Abbildung @fig-RSSPoly2). Das Polynomregressionsmodell ist so flexibel, dass es den einzelnen Trainingsdaten $(x_i,y_i)$ folgen kann. Eine Überangepassung an die Trainingsdaten führt jedoch notwendigerweise zu einer Verschlechterung der Vorhersagegüte bezüglich *neuer* Daten. 
+```{r}
+## Polynom Regressionen
+p_m    <- 100
+RSS_v    <- numeric(p_m)
+polreg_p <- vector("list", p_m)
+fitted_m <- matrix(NA, 50, p_m)
+for(p in 1:p_m){
+ polreg_p[[p]] <- lm(Verbrauch ~ poly(PS, degree = p, raw=TRUE), data = Auto_df)
+ RSS_v[p]      <- sum(resid(polreg_p[[p]])^2)
+ plot_df       <- tibble("PS" = seq(min(Auto_df$PS), max(Auto_df$PS), len=50))
+ suppressWarnings(fitted_m[,p]  <- predict(polreg_p[[p]], newdata = plot_df))
+}
+```
+
+
+```{r RSSPoly1, include=knitr::is_html_output(), animation.hook="gifski", interval=0.1, fig.align="center", echo=FALSE}
+pal    <- colorRampPalette(c("blue", "red"))
+cols_v <- pal(p_m)
+for(p in 2:p_m){
+par(mfrow=c(1,2))
+  plot(Verbrauch ~ PS, data = Auto_df, ylim=c(2,20),
+     xlab="Leistung (PS)", pch=21, col="gray", bg="gray", cex=1.5)
+  lines(x = plot_df$PS, y = fitted_m[,p], lwd=2, col=cols_v[p])
+  ##
+  plot(2:p_m, RSS_v[-1], log="y", type="b", ylab = "RSS", xlab="Polynomgrad p", col="gray")
+  points(x=p, y=RSS_v[p], pch=21, col=cols_v[p], bg=cols_v[p], cex=1.3)
+par(mfrow=c(1,1))
+}
+```
+
+```{r RSSPoly2, fig.align="center", echo=FALSE}
+#| label: fig-RSSPoly2
+#| fig-cap: Polynom Regression und die Wahl des Polynomgrades $p$ durch Minimierung der Trainingsdaten-RSS. (Eine schlechte Idee).
+pal    <- colorRampPalette(c("blue", "red"))
+cols_v <- pal(p_m)
+par(mfrow=c(1,2))
+  plot(Verbrauch ~ PS, data = Auto_df, ylim=c(2,20),
+     xlab="Leistung (PS)", pch=21, col="gray", bg="gray", cex=1.5)
+for(p in 2:p_m){
+    lines(x = plot_df$PS, y = fitted_m[,p], lwd=2, col=cols_v[p])
+}
+    plot(2:p_m, RSS_v[-1], log="y", type="b", ylab = "RSS", xlab="Polynomgrad p", pch=21, col="black", bg="black")
+  for(p in 2:p_m){
+  points(x=p, y=RSS_v[p], pch=21, col=cols_v[p], bg=cols_v[p], cex=1)
+  }
+par(mfrow=c(1,1))
+```
+
+
+## Resampling Methoden zur Modellauswahl
+
+#### Maschinelles Lernen versus Strukturelle Modelle {-}
+
+<!-- Das oben veranschaulichte Problem der Überanpassung (Overfitting) ist eng damit verbunden, dass wir hier ein sehr flexibles Regressionsmodell (Polynomregression) betrachten. Viele der möglichen Polynomfunktionen sind unsinnig, da sie nicht die strukturellen Einschränkungen des betrachteten Datenproblems berücksichtigen. Falls ein gesichertes Wissen zu den zugrundeliegenden, strukturellen Zusammenhängen zwischen der Zielvariable $Y$ und den Prädiktorvariablen $X$ existiert, sollte man diese strukturellen Zusammenhängen auch im statistischen Modell berücksichtigen. (Immer mit den Expert\*Innen des Faches sprechen!) Im besten Falle gibt es ein **strukturelles Modell** zu den systematischen Zusammenhängen $f$ zwischen $Y$ und $X$, welches genügend Einschränkungen bietet, sodass alle unsinnigen Modellierungen vermieden werden können. In solchen Idealfällen führt die Minimierung der Trainingsdaten-RSS zu keinem Problem der Überanpassung.  -->
+
+
+<!-- Falls jedoch kein (vertrauenswürdiges) strukturelles Modell vorliegt, ist die Verwendung von sehr flexiblen Regressionsmodellen wie der Polynomregression eine grundsätzlich sehr gute Idee, da wir so, ohne große Einschränkungen, nach den unbekannten richtigen Zusammenhängen $f$ suchen können. Dies ist der Ansatz des **maschinellen Lernens** und die **Polynomregression mit unbekanntem Polynomgrad $p$** ist lediglich eine von sehr vielen Methoden, welche im Kontext des maschinellen Lernens verwendet werden.  -->
+
+Methoden des **maschinellen Lernens** sind typischerweise sehr flexibel und bauen nicht bzw. nur teilweise auf strukturellen Modellen auf. Daher benötigen diese Methoden spezielle Verfahren der **Modellauswahl**, um eine Überanpassung an die Trainingsdaten zu vermeiden. Richtig angewandt, können Methoden des maschinellen Lernens unbekannte Zusammenhänge richtig erkennen. 
+
+
+### Die Validierungsdaten-Methode
+
+Da die Minimierung der Trainingsdaten-RSS schnell zu einem Problem der Überanpassung führt, benötigen wir eine alternative Methode, um die Güte des geschätzten Modells zu prüfen. Die einfachste Idee ist dabei die beobachteten Daten
+$$
+(x_i,y_i),\quad i\in\mathcal{I}=\{1,2,\dots,n\}
+$$
+in einen Satz von Trainingsdaten 
+$$
+\left\{(x_{1}^{Train},y_{1}^{Train}),\dots,(x_{n_{Train}}^{Train},y_{n_{Train}}^{Train})\right\}=\{(x_i,y_i):i\in\mathcal{I}^{Train}\}
+$$
+und einen **separaten** (disjunkten) Satz von Validierungsdaten
+$$
+\left\{(x_{1}^{Valid},y_{1}^{Valid}), \dots,(x_{n_{Valid}}^{Valid},y_{n_{Valid}}^{Valid})\right\}=\{(x_i,y_i):i\in\mathcal{I}^{Valid}\}
+$$
+zu teilen mit 
+$$
+\overbrace{|\mathcal{I}|}^{=n}=\overbrace{|\mathcal{I}^{Train}|}^{=n_{Train}}+\overbrace{|\mathcal{I}^{Valid}|}^{=n_{Valid}},
+$$
+sodass $\mathcal{I}^{Train}\cap\mathcal{I}^{Valid} = \emptyset$
+
+Folgender Code-Schnipsel ermöglicht solch eine (zufällige) Aufteilung der Daten in Trainings- und Validierungsdaten:
+```{r, eval=FALSE, echo=TRUE}
+n        <- nrow(Auto_df) # Stichprobenumfang
+n_Train  <- 200           # Stichprobenumfang der Trainingsdaten
+n_Valid  <- n - n_Train   # Stichprobenumfang der Validierungsdaten
+
+## Index-Mengen zur Auswahl der 
+## Trainings- und Validierungsdaten
+I_Train  <- sample(x = 1:n, size = n_Train, replace = FALSE)
+I_Valid  <- c(1:n)[-I_Train]
+
+## Trainingsdaten 
+Auto_Train_df <- Auto_df[I_Train, ]
+## Validierungsdaten 
+Auto_Valid_df <- Auto_df[I_Valid, ]
+```
+
+
+Obschon die Validierungsdaten-Methode auf alle Regressionsmodelle angewandt werden kann, veranschaulichen wir im Folgenden die Methode anhand der Polynomregression. 
+
+
+Die Aufteilung der Daten in Trainings- und Validierungsdaten ermöglicht uns nun ein zweistufiges Verfahren:
+
+**Schritt 1:** Mit Hilfe der **Trainingsdaten** wird das Polynomregressionsmodell **geschätzt**:
+$$
+\begin{align*}
+y^{Train}_i
+%&=\hat{f}^{Train}_p(x_i^{Train}) + e_i^{Train}\\
+&=\hat{\beta}_0^{Train} + \hat{\beta}_1^{Train} x_{i}^{Train} + \hat{\beta}_2^{Train} (x_{i}^{Train})^2 + \dots + \hat{\beta}_p^{Train} (x_{i}^{Train})^p + e_i^{Train}
+\end{align*}
+$$
+Code-Schnipsel Beispiel:
+```{r, eval=FALSE, echo=TRUE}
+Train_polreg <- lm(Verbrauch ~ poly(PS, degree = p, raw=TRUE), data = Auto_Train_df)
+```
+
+
+
+
+**Schritt 2:** Mit Hilfe der **Validierungsdaten** wird das geschätzte Polynomregressionsmodell **validiert**:
+$$
+\begin{align*}
+\hat{y}^{Valid}_i
+%&=\hat{f}_p^{Train}(x_i^{Valid})+ e_i^{Valid}\\
+&=\hat{\beta}_0 + \hat{\beta}_1^{Train} x_{i}^{Valid} + \hat{\beta}_2^{Train} (x_{i}^{Valid})^2 + \dots + \hat{\beta}_p^{Train} (x_{i}^{Valid})^p,
+\end{align*}
+$$
+indem man den **mittleren quadratischen Prädiktionsfehler** (Mean Squared Prediction Error **MSPE**) berechnet:
+$$
+\begin{align*}
+\text{MSPE}
+&=\frac{1}{n_{Valid}}\text{RSS}_{Valid}\\
+&=\frac{1}{n_{Valid}}\left((y_1^{Valid} - \hat{y}_1^{Valid})^2 +\dots + (y_{n_{Valid}}^{Valid} - \hat{y}_{n_{Valid}}^{Valid})^2\right)
+\end{align*}
+$$
+Code-Schnipsel Beispiel:
+```{r, eval=FALSE, echo=TRUE}
+y_fit_Valid   <- predict(Train_polreg, newdata = Auto_Valid_df)
+RSS_Valid     <- sum( (Auto_Valid_df$Verbrauch - y_fit_Valid)^2 )
+MSPE          <- RSS_Valid / n_Valid
+```
+
+
+
+Man wiederholt obige Schritte für eine Auswahl von verschiedenen Polynomgraden $p=1,2,\dots,p_{\max}$, z.B. $p_{\max}=10$, und berechnet für jeden dieser Fälle den $\operatorname{MSPE}$, also:
+$$
+\operatorname{MSPE}\equiv\operatorname{MSPE}(\hat{\beta}_0, \hat{\beta}_1, \dots, \hat{\beta}_p,p),\quad\text{für jedes}\quad p=1,2,\dots,p_{\max}
+$$
+Der $\operatorname{MSPE}$ ist eine Schätzung des wahren, unbekannten mittleren quadratischen Prädiktionsfehlers $E\left[(Y-\hat{Y})^2\right]$,  
+$$
+\operatorname{MSPE}(\hat{\beta}_0, \hat{\beta}_1, \dots, \hat{\beta}_p,p)\approx E\left[(Y-\hat{Y})^2\right]. 
+$$
+Die Minimierung des $\operatorname{MSPE}$ über verschiedene Werte des Polynomgrades $p=1,2,\dots$ erlaubt es uns den **reduzierbaren Prädiktions-Fehler** der Polynomregression zu minimieren.  
+
+
+
+Folgender R-Code verbindet nun alle Schritte und berechnet den $\operatorname{MSPE}$ für verschiedene Werte des Polynomgrades $p$. Dasjenige Modell, welches den $\operatorname{MSPE}$ minimiert, ist laut der Daten das beste Prädiktionsmodell.  
+```{r, echo=TRUE}
+set.seed(31)
+##
+n        <- nrow(Auto_df) # Stichprobenumfang
+n_Train  <- 200           # Stichprobenumfang der Trainingsdaten
+n_Valid  <-n - n_Train    # Stichprobenumfang der Validierungsdaten
+
+## Index-Mengen zur Auswahl der 
+## Trainings- und Validierungsdaten
+I_Train  <- sample(x = 1:n, size = n_Train, replace = FALSE)
+I_Valid  <- c(1:n)[-I_Train]
+
+## Trainingsdaten 
+Auto_Train_df <- Auto_df[I_Train, ]
+## Validierungsdaten 
+Auto_Valid_df <- Auto_df[I_Valid, ]
+
+p_max         <- 6
+MSPE          <- numeric(p_max)
+fit_plot      <- matrix(NA, 50, p_max)
+for(p in 1:p_max){
+  ## Schritt 1
+  Train_polreg <- lm(Verbrauch ~ poly(PS, degree = p, raw=TRUE), 
+                     data = Auto_Train_df)
+  ## Schritt 2
+  y_fit_Valid   <- predict(Train_polreg, newdata = Auto_Valid_df)
+  RSS_Valid     <- sum( (Auto_Valid_df$Verbrauch - y_fit_Valid)^2 )
+  MSPE[p]       <- RSS_Valid / n_Valid
+  ## Daten für's plotten
+  fit_plot[,p] <- predict(Train_polreg, newdata = plot_df)
+}
+```
+
+
+```{r RSSPoly3, fig.align="center", echo=FALSE, fig.cap="Polynom Regression und die Wahl des Polynomgrades $p$ durch Minimierung des mittleren quadratischen Prädiktionsfehler MSPE."}
+par(mfrow=c(1,2))
+  plot(Verbrauch ~ PS, data = Auto_df, ylim=c(2,20), ylab = "Verbrauch (km/Liter)",
+     xlab="Leistung (PS)", pch=21, col="gray", bg="gray", cex=1.5)
+for(p in 2:p_max){lines(x = plot_df$PS, y = fit_plot[,p], lwd=2, col="black")}
+  lines(x = plot_df$PS, y = fit_plot[,which.min(MSPE)], lwd=2, col="red")
+plot(1:p_max, MSPE,  log="y", type="b", ylab = "MSPE", xlab="Polynomgrad p", pch=21, col="black", bg="black",  
+     ylim = c(min(MSPE),quantile(MSPE,p=1)))
+points(y = MSPE[which.min(MSPE)], 
+       x = c(1:p_max)[which.min(MSPE)], 
+       col = "red", bg = "red", pch = 21)
+par(mfrow=c(1,1))
+```
+
+
+
+> **Achtung:** Auch eine Modellauswahl ist fehlerhaft und stellt lediglich eine Schätzung (mit Schätzfehlern) des besten Prädiktionsmodelles innerhalb der betrachteten Klasse von Prädiktionsmodellen (hier Polynomregressionen) dar. 
+
+
+Abbildung @fig-MSPE zeigt jedoch ein Problem der Validierungsdaten-Methode. Die Trainingsdaten und die Validierungsdaten haben kleinere Stichprobenumfänge ($n_{Train}<n$ und $n_{Valid}<n$) was zu einer **erhöhten Schätzgenauigkeit in der MSPE-Schätzung** führt. 
+```{r MSPE, fig.align="center", echo=FALSE}
+#| label: fig-MSPE
+#| fig-cap: Zehn verschiedene MSPE-Berechnungen basierend auf zehn verschiedenen, zufälligen Aufteilungen der Daten in Trainings- und Validierungsdaten.
+set.seed(3)
+n        <- nrow(Auto_df) # Stichprobenumfang
+n_Train  <- 200           # Stichprobenumfang der Trainingsdaten
+n_Valid  <-n - n_Train    # Stichprobenumfang der Validierungsdaten
+##
+p_max         <- 6
+R             <- 10
+MSPE          <- matrix(NA, R, p_max)
+
+for(r in 1:R){
+## Index-Mengen zur Auswahl der 
+## Trainings- und Validierungsdaten
+I_Train  <- sample(x = 1:n, size = n_Train, replace = FALSE)
+I_Valid  <- c(1:n)[-I_Train]
+
+## Trainingsdaten 
+Auto_Train_df <- Auto_df[I_Train, ]
+## Validierungsdaten 
+Auto_Valid_df <- Auto_df[I_Valid, ]
+
+for(p in 1:p_max){
+  ## Schritt 1
+  Train_polreg <- lm(Verbrauch ~ poly(PS, degree = p, raw=TRUE), 
+                     data = Auto_Train_df)
+  ## Schritt 2
+  y_fit_Valid   <- predict(Train_polreg, newdata = Auto_Valid_df)
+  RSS_Valid     <- sum( (Auto_Valid_df$Verbrauch - y_fit_Valid)^2 )
+  MSPE[r,p]       <- RSS_Valid / n_Valid
+}
+}
+
+matplot(t(MSPE), type="b", lty=1, ylab="MSPE", xlab="Polynomgrad p", pch=21, col="black", bg="black",
+        main="")
+for(r in 1:R){
+  points(y = MSPE[r,][which.min(MSPE[r,])], 
+       x = c(1:p_max)[which.min(MSPE[r,])], 
+       col = "red", bg = "red", pch = 21)
+}
+```
+
+
+
+### k-Fache Kreuzvalidierung 
+
+
+Die $k$-fache (z.B. $k=5$ oder $k=10$) Kreuzvalidierung ist eine Vorgehensweise zur Bewertung der Leistung einer Schätzprozedur (Algorithmus) im Kontext des maschinellen Lernens. Als Schätzprozedur verwenden wir wieder das Beispiel der Polynomregression mit unbekanntem Polynomgrad $p$, welcher zusammen mit den Modellparametern $\beta_0,\beta_1,\dots,\beta_p$ aus den Daten erlernt werden muss. 
+
+Die $k$-fache Kreuzvalidierung stellt eine Verbesserung der Validierungsdaten-Methode dar, da sie faktisch die Stichprobenumfänge in den Trainingsdaten und Validierungsdaten erhöht. Wie bei der Validierungsdaten-Methode wird der Datensatz in Trainings- und Validierungsdaten aufgeteilt -- jedoch $k$-fach. Abbildung  @fig-kfoldcv zeigt ein Beispiel der Datenaufteilung bei der $5$-fachen Kreuzvalidierung. 
+
+```{r fig-kfoldcv, include=knitr::is_html_output(), echo=FALSE, out.width='70%', fig.cap="Datenaufteilung in Trainings- und Validierungsdaten bei der $5$-fachen Kreuzvalidierung."}
+knitr::include_graphics("images/5-fold_cross-validation.png")
+```
+
+<br>
+
+Folgender Code-Schnipsel ermöglicht eine (zufällige) Aufteilung der Daten in $k$ verschiedene Trainings- und Validierungsdaten:
+```{r, echo=TRUE, eval=FALSE}
+n      <- nrow(Auto_df) # Stichprobenumfang
+k      <- 5             # 5-fache Kreuzvalidierung
+
+## Index zur Auswahl k verschiedener  
+## Trainings- und Validierungsdaten:
+folds  <- sample(x = 1:k, size = n, replace=TRUE)
+
+## Trainingsdaten im j-ten (j=1,2,...,k) Durchgang
+Auto_df[folds != j,]
+## Validierungsdaten im j-ten (j=1,2,...,k) Durchgang
+Auto_df[folds == j,]
+```
+
+<br>
+
+Für jede der $k$ Datenaufteilungen wird der $\operatorname{MSPE}$ berechnet. Der Mittelwert dieser MSPE-Werte wird häufig als $\operatorname{CV}_{(k)}$ Wert (crossvalidation score) bezeichnet
+$$
+\operatorname{CV}_{(k)}=\frac{1}{k}\sum_{j=1}^k\operatorname{MSPE}_j
+$$
+
+Der $\operatorname{CV}_{(k)}$-Wert stellt eine im Vergleich zur Validierungsdaten-Methode verbesserte Schätzung des unbekannten mittleren quadratischen Pädiktionsfehlers $\operatorname{CV}_{(k)}\approx E[(Y-\hat{Y})^2]$ dar. Die Modellauswahl folgt also auch hier mittels Minimierung des $\operatorname{CV}_{(k)}$-Wertes über die verschiedene Werte des Polynomgrades $p=1,2,\dots$.  
+
+
+> **Wahl von $k$:** In der Praxis haben sich die Werte $k=5$ und $k=10$ etabliert, da diese Größenordnunen einen guten Kompromiss zwischen der Varianz und der Verzerrung des Schätzers $\operatorname{CV}_{(k)}$ für $E[(Y-\hat{Y})^2]$ darstellen. 
+
+
+## Anwendung: Vorhersage des Benzinverbrauchs (Fraud Detection)
+
+```{r pollution, include=knitr::is_html_output(), echo=FALSE, out.width='70%'}
+#| label: fig-pollution
+#| fig-cap: Hauptursache für die hohe, gesundheitsgefährdende NO2-Belastung der Stadtluft sind Diesel-Fahrzeuge ([Foto von David Lee](https://unsplash.com/photos/RhVqPKp4va4)).
+knitr::include_graphics("images/Car_Pollution.jpg")
+# https://unsplash.com/photos/RhVqPKp4va4 # free pic adress
+```
+
+
+Nun haben wir das Werkzeug, um die nicht linearen Zusammenhänge zwischen der **Zielvariable** $Y=$`Verbrauch` und den **Prädiktorvariablen** $G=$`Gewicht`, $P=$`PS` und $H=$`Hubraum` im Datensatz `Auto_df` zu berücksichtigen (siehe Abbildung @fig-pairsplot) und allein mit Hilfe der Daten zu erlernen. Wir folgen hier der Herangehensweise des **maschinellen Lernens** und lassen die **Daten für sich selbst sprechen**.   
+
+
+Da Abbildung @fig-pairsplot sehr ähnliche Zusammenhänge zwischen der Zielvariable $Y=$`Verbrauch` und den Prädiktorvariablen $G=$`Gewicht`, $P=$`PS` und $H=$`Hubraum` vermuten lässt, betrachten wir zunächst ein vereinfachtest Polynomregressionsmodell, bei dem für alle Prädiktorvariablen der gleiche Polynomgrad $p$ verwendet wird.  
+$$
+\begin{align*}
+Y_i = \beta_0 + \notag
+& \beta^G_{1} G_i + \beta^G_{2} G_i^2 + \dots + \beta^G_{p} G_i^p + \\
+& \beta^P_{1} P_i + \beta^P_{2} P_i^2 + \dots + \beta^P_{p} P_i^p +  \\
+& \beta^H_{1} H_i + \beta^H_{2} H_i^2 + \dots + \beta^H_{p} H_i^p +  \varepsilon_i 
+\end{align*}
+$$
+
+Folgender R-Code (Algorithmus) erlernt aus den Daten, mit Hilfe der $5$-fachen Kreuzvalidierung $\operatorname{CV}_{(5)}\approx E[(Y-\hat{Y})^2]$, den optimalen Polynomgrad $p$.   
+```{r AutoCV, echo=TRUE, eval=TRUE}
+set.seed(8)             # Seed für den Zufallsgenerator
+
+n      <- nrow(Auto_df) # Stichprobenumfang
+k      <- 5             # 5-fache Kreuzvalidierung
+p_max  <- 5             # Maximaler Polynomgrad
+
+folds     <- sample(x = 1:k, size = n, replace=TRUE)
+
+## Container für die MSPE-Werte 
+## für alle j=1,...,k Kreuzvalidierungen und 
+## für alle p=1,...,p_max Polynomgrade
+MSPE <- matrix(NA, nrow = k, ncol = p_max,
+                    dimnames=list(NULL, paste0("p=",1:p_max)))
+
+for(p in 1:p_max){
+  for(j in 1:k){
+  ## Modelschätzung auf Basis j-ten Traininsdaten Auto_df[folds != j,]
+  poly_fit <- lm(Verbrauch ~
+                   poly(Gewicht,        degree = p, raw = TRUE) +
+                   poly(PS,             degree = p, raw = TRUE) +
+                   poly(Hubraum,        degree = p, raw = TRUE),
+                 data=Auto_df[folds != j,])
+    ## Prädiktion  auf Basis j-ten Validierungsdaten Auto_df[folds == j,]
+    pred          <- predict(poly_fit, newdata = Auto_df[folds == j,])
+    ## 
+    MSPE[j,p] <- mean( (Auto_df$Verbrauch[folds==j] - pred)^2 )
+  }
+}
+
+## CV-Wert für alle p=1,...,p_max Polynomgrade 
+CV_k <- colMeans(MSPE)
+
+## Plotten
+plot(y = CV_k, x = 1:length(CV_k), pch=21, col="black", bg="black", 
+     type='b', xlab="Polynomgrad p", ylab=expression(CV[(5)]), log="y")
+points(y = CV_k[which.min(CV_k)],
+       x = c(1:length(CV_k))[which.min(CV_k)],
+       col = "red", bg = "red", pch = 21)
+```
+
+
+
+Auch der $5$-fache Kreuzvalidierungswert $\operatorname{CV}_{(5)}$ ist lediglich eine zufallsbehaftete Schätzung des unbekannten mittleren quadratischen Prädiktionsfehlers $E[(Y-\hat{Y})^2]$. Um eine Idee von der Präzision und Stabilität der Modellauswahl mittels der Minimierung von $\operatorname{CV}_{(5)}$ zu bekommen, können wir die zufälligen, $5$-fachen Aufteilungen der Daten in Trainins- und Validierungsdaten wiederholen und den Effekt alternativer Datenaufteilungen betrachten. Abbildung @fig-AutoCV2 zeigt, dass die Minimierung des Kreuzvalidierungswertes $\operatorname{CV}_{(5)}$ auch in Wiederholungen häufig das Modell mit Polynomgrad $p=2$ auswählt. Der Polynomgrad $p=2$ scheint also eine vertauenswürde Modellauswahl darzustellen.  
+```{r AutoCV2, fig.align="center", echo=FALSE}
+#| label: fig-AutoCV2
+#| fig-cap: Zehn verschiedene $\operatorname{CV}_{(k)}$-Berechnungen basierend auf zehn verschiedenen, zufälligen Wiederholungen der $5$-fachen Kreuzvalidierung.
+set.seed(8)             # Seed für den Zufallsgenerator
+
+n      <- nrow(Auto_df) # Stichprobenumfang
+k      <- 5             # 5-fache Kreuzvalidierung
+p_max  <- 5             # Maximaler Polynomgrad
+
+R      <- 10
+CV_k   <- matrix(NA, R, p_max)
+
+for(r in 1:R){
+
+folds     <- sample(x = 1:k, size = n, replace=TRUE)
+
+## Container für die MSPE-Werte 
+## für alle j=1,...,k Kreuzvalidierungen und 
+## für alle p=1,...,p_max Polynomgrade
+MSPE <- matrix(NA, nrow = k, ncol = p_max,
+                    dimnames=list(NULL, paste0("p=",1:p_max)))
+
+for(p in 1:p_max){
+  for(j in 1:k){
+  ## Modelschätzung auf Basis j-ten Traininsdaten Auto_df[folds != j,]
+  poly_fit <- lm(Verbrauch ~
+                   poly(Gewicht,   degree = p, raw = TRUE) +
+                   poly(PS,        degree = p, raw = TRUE) +
+                   poly(Hubraum,   degree = p, raw = TRUE),
+                 data=Auto_df[folds != j,])
+    ## Prädiktion  auf Basis j-ten Validierungsdaten Auto_df[folds == j,]
+    pred          <- predict(poly_fit, newdata = Auto_df[folds == j,])
+    ## 
+    MSPE[j,p] <- mean( (Auto_df$Verbrauch[folds==j] - pred)^2 )
+  }
+}
+
+## CV-Wert für alle p=1,...,p_max Polynomgrade 
+CV_k[r,] <- colMeans(MSPE)
+}
+
+## Plotten
+matplot(t(CV_k), type="b", lty=1, ylab=expression(CV[k]), xlab="Polynomgrad p", pch=21, col="black", bg="black",
+        main="")
+for(r in 1:R){
+  points(y = CV_k[r,][which.min(CV_k[r,])], 
+       x = c(1:p_max)[which.min(CV_k[r,])], 
+       col = "red", bg = "red", pch = 21)
+}
+```
+
+
+
+Das Polynomregressionsmodell mit $p=2$ stellt also ein gutes Prädiktionsmodell dar. Wir verwenden nun dieses Modell, um nach auffälligen Unterschiedenen in den herstellerseitigen  Verbrauchsangaben $y_i$ und unseren Prädiktionen zu suchen. Gerade **stark negative Residuen** $y_i-\hat{y}_i$ sind verdächtig, da es auf eine Schönung der Verbrauchsangaben hindeuten könnte. 
+
+
+Folgender R-Code schätzt zunächst das Polynomregressionsmodell mit $p=2$, berechnet dann die Residuen $y_i-\hat{y}_i$ und veranschaulicht die größte negative Abweichung in Abbildung @fig-mazda.
+```{r mazda, fig.align="center", echo=TRUE}
+#| label: fig-mazda
+#| fig-cap: Polynomregression im Anwendungsbeispiel zum Benzinverbrauch. Die größte negative Abweichung der Verbrauchsangabe vom zu erwartenden Verbrauch zeigt ein Mazda RX-3 von 1973.
+p <- 2
+poly_fit <- lm(Verbrauch ~
+                   poly(Gewicht,  degree = p, raw = TRUE) +
+                   poly(PS,       degree = p, raw = TRUE) +
+                   poly(Hubraum,  degree = p, raw = TRUE),
+                 data=Auto_df)
+
+## Position des größten negativen Residuums:
+slct  <- order(resid(poly_fit))[1]
+## Gehört zum Mazda RX-3 (Bj. 1973)
+## Auto[slct, ]
+
+par(mar=c(5.1, 5.1, 4.1, 2.1))
+plot(y = resid(poly_fit), x = fitted(poly_fit), 
+     ylab = expression("Residuen:"~y[i] - hat(y)[i]), 
+     xlab = expression("Prädiktionen:"~hat(y)[i]),
+     main="Größte negative Abweichung der Verbrauchsangabe")
+points(y = resid(poly_fit)[slct], x = fitted(poly_fit)[slct], 
+       col = "red", bg = "red", pch = 21)
+text(y = resid(poly_fit)[slct], x = fitted(poly_fit)[slct], 
+     labels = "Mazda RX-3 (1973)", pos = 2)
+par(mar=c(5.1, 4.1, 4.1, 2.1))
+```
+
+
+Wir haben hier tatsächlich einen besonderen Fall gefunden. Der Mazda RX-3 (1973) (Abbildung @fig-mazda2) lief mit einem sehr sparsamen [Wankelmotor](https://de.wikipedia.org/wiki/Wankelmotor). Dieser Motor war sogar so außergewöhnlich sparsam, dass es vielerlei [Streitigkeiten](https://nepis.epa.gov/Exe/ZyNET.exe/9100X47O.txt?ZyActionD=ZyDocument&Client=EPA&Index=Prior%20to%201976&Docs=&Query=&Time=&EndTime=&SearchMethod=1&TocRestrict=n&Toc=&TocEntry=&QField=&QFieldYear=&QFieldMonth=&QFieldDay=&UseQField=&IntQFieldOp=0&ExtQFieldOp=0&XmlQuery=&File=D%3A%5CZYFILES%5CINDEX%20DATA%5C70THRU75%5CTXT%5C00000016%5C9100X47O.txt&User=ANONYMOUS&Password=anonymous&SortMethod=h%7C-&MaximumDocuments=1&FuzzyDegree=0&ImageQuality=r75g8/r75g8/x150y150g16/i425&Display=hpfr&DefSeekPage=x&SearchBack=ZyActionL&Back=ZyActionS&BackDesc=Results%20page&MaximumPages=1&ZyEntry=2#) um die vermeintlich zu niedrigen Verbrauchsangaben gab. 
+
+
+```{r mazda2, include=knitr::is_html_output(), echo=FALSE, out.width='70%'}
+#| label: fig-mazda2
+#| fig-cap: Mazda RX-3 hatte einen Wankelmotor. Wankelmotoren waren besonders effizient und dadurch außergewöhnlich sparsam. 
+knitr::include_graphics("images/mazda_rx3.jpg")
+# https://unsplash.com/photos/RhVqPKp4va4 # free pic adress
+```
+
+<!-- 
+## Ende 
+```{r ENDE, include=knitr::is_html_output(), echo=FALSE, out.width='70%'}
+#| label: fig-ENDE
+#| fig-cap: Curve-Fitting Methoden [xkcd](https://xkcd.com/2048/).
+knitr::include_graphics("images/curve_fitting.png")
+# https://unsplash.com/photos/RhVqPKp4va4 # free pic adress
+```
+ -->
+

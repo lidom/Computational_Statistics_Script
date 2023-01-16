@@ -1,0 +1,22 @@
+project:
+  type: book
+  output-dir: docs
+  
+book:
+  title: Methoden des statistischen Lernens in den Wirtschaftswissenschaften
+  lang: de
+  author: Prof. Dr. Dominik Liebl 
+  search: true
+  logo: images/stat_learn_rob.jpeg
+  number-sections: TRUE
+  crossref:
+    chapters: true
+  chapters:
+    - index.qmd
+    - 01-Linear-Models-Regr_shortend.qmd 
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
