@@ -29,6 +29,18 @@ The above links to the lecture materials can also be found at [eCampus](https://
 -->
 
 
+### Begleitlektüren {-}
+
+Zur Vorbereitung der Klausur ist es grundsätzlich ausreichend dieses Kapitel durchzuarbeiten - aber Lesen hat ja noch nie geschadet. Empfehlenswerte weiterführende Literatur:
+
++ Kapitel 3 in [**An Introduction to Statistical Learning, with Applications in R**](https://trevorhastie.github.io/ISLR/) [@ISLR2021]<br> 
+Die pdf-Version des Buches ist hier frei erhältlichen:
+[**www.statlearning.com**](https://www.statlearning.com/)
+
++ Kapitel 3 in [**Pattern Recognition and Machine Learning**](https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf) [@book_Bishop2006]<br> 
+Die pdf-Version des Buches ist frei erhältlichen: [**pdf-Version**](https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf)
+
+
 ### Kommunikation {-}
 
 * Wer will, darf sich gerne im [Zulip-Chat Statistisches Lernen](https://zulip.com/) austauschen und Fragen posten. 

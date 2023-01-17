@@ -1,11 +1,11 @@
-# Resampling Methoden zum Erlenen von Regressionsfunktionen {#sec-RegML}
+# Polynomregression {#sec-RegML}
 
 
 #### Lernziele für dieses Kapitel {-}
 
 Sie können ...
 
-+ die **Probleme** der Auswahl eines geeigneten Prädiktionsmodells an einem Beispiel **benennen und erläutern**.
++ die **Probleme** der Auswahl eines geeigneten Polynomgrades  **erläutern**.
 <br>
 + die **Grundidee** der Validierungsdaten-Methode **erläutern**.
 <br>
@@ -14,16 +14,7 @@ Sie können ...
 
 
 
-#### Begleitlektüren {-}
 
-Zur Vorbereitung der Klausur ist es grundsätzlich ausreichend dieses Kapitel durchzuarbeiten - aber Lesen hat ja noch nie geschadet. Empfehlenswerte weiterführende Literatur:
-
-+ Kapitel 3 in [**An Introduction to Statistical Learning, with Applications in R**](https://trevorhastie.github.io/ISLR/) [@ISLR2021]<br> 
-Die pdf-Version des Buches ist hier frei erhältlichen:
-[**www.statlearning.com**](https://www.statlearning.com/)
-
-+ Kapitel 3 in [**Pattern Recognition and Machine Learning**](https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf) [@book_Bishop2006]<br> 
-Die pdf-Version des Buches ist frei erhältlichen: [**pdf-Version**](https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf)
 
 <!-- + Kapitel 6 in [**Introduction to Econometrics with R**](https://www.econometrics-with-r.org/) [@IntroEconometricsR2021]<br> 
 Freies Online-Buch: [**www.econometrics-with-r.org**](https://www.econometrics-with-r.org/) -->
@@ -120,7 +111,7 @@ knitr::kable(head(Auto_df), digits = 2,
 
 
 
-Um sich einen Überblick zu den Beziehungen zwischen den Variablen zu verschaffen, eignet sich ein **Pairs-Plot** sehr gut (siehe Abbildung @fig-pairsplot: 
+Um sich einen Überblick zu den Beziehungen zwischen den Variablen zu verschaffen, eignet sich ein **Pairs-Plot** sehr gut (siehe @fig-pairsplot: 
 ```{r pairsplot, echo=TRUE, out.width="100%", out.height="100%"}
 #| label: fig-pairsplot
 #| fig-cap: Pairs-Plot zur Veranschaulichung der paarweisen Zusammenhänge zwischen den Variablen.
@@ -155,17 +146,17 @@ $$
 
 Daraus ergibt sich folgender Zusammenhang zwischen der **allgemeinen Regressionsfunktion** $f$ und dem bedingten Mittelwert von $Y$ gegeben $X$:
 $$
-E(Y|X)=E(f(X)+\varepsilon|X)=f(X)
+E(Y|X)=E(\underbrace{f(X)+\varepsilon}_{=Y}|X)=f(X)
 $$
-Die Funktion $f$ beschreibt also den bedingten Mittelwert von $Y$ gegeben $X$. Ziel ist es nun, die Regressionsfunktion $f$ aus den Daten zu erlernen.
+Die Funktion $f(X)$ beschreibt also den bedingten Mittelwert von $Y$ gegeben $X$ (siehe @fig-fakedata und @fig-plot3d). 
 
 <!-- > **Achtung:** Die Annahme der Unabhängigkeit zwischen $\varepsilon$ und $X$ kann in der Praxis verletzt sein. Die Verletzung dieser Unabhängigkeitsannahme erlaubt insbesondere keine kausale Interpretation der Ergebnisse, daher betrachtet die Literatur zur Kausalinferenz viele Möglichkeiten diese Unabhängigkeitsannahme durch eine weniger strikte Annahmen zu ersetzen. In der Literatur zur prädiktiven Inferenzen wird eine Verletzung der Unabhängigkeitsannahme weniger kritisch gesehen, da eine Prädiktion trotz verletzter Unabhängigkeitsannahme sehr gut sein kann. Eine schöne und gut lesbare Übersicht zu den Unterschieden zwischen der Kausalinferenz und der prädiktiven Inferenzen findet man, z.B., im Artikel [To Explain or To Predict?](https://projecteuclid.org/journals/statistical-science/volume-25/issue-3/To-Explain-or-to-Predict/10.1214/10-STS330.full) [@Shmueli_2010].   -->
 
 
-Abbildung @fig-fakedata zeigt ein Beispiel von $50$ simulierten Daten (künstlich erzeugte Fake-Daten). Der Plot legt nahe, dass man das Einkommen mit Hilfe der Ausbildungsjahre vorhersagen kann. Normalerweise ist die wahre Funktion $f$, welche die Verbindung zwischen $Y$ und $X$ beschreibt, unbekannt und muss aus den Daten geschätzt werden. Da es sich hier um simulierte Daten handelt, können wir den Graph der Funktion $f$ als blaue Linie plotten. Einige der $50$ Beobachtungspunkte $(X,Y)$ liegen über der Regressionsfunktion $f(X)$, andere darunter. Im Großen und Ganzen haben die Fehlerterme einen Mittelwert von Null. 
+<!-- Abbildung @fig-fakedata zeigt ein Beispiel von $50$ simulierten Daten (künstlich erzeugte Fake-Daten). Normalerweise ist die wahre Funktion $f$ unbekannt und muss aus den Daten geschätzt werden. Da es sich hier um simulierte Daten handelt, können wir den Graph der Funktion $f$ als blaue Linie plotten. Einige der $50$ Beobachtungspunkte $(X,Y)$ liegen über der Regressionsfunktion $f(X)$, andere darunter. Im Großen und Ganzen haben die Fehlerterme einen Mittelwert von Null.  -->
 ```{r fakedata}
 #| label: fig-fakedata
-#| fig-cap: Simulierte (künstlich erzeugte) Daten zur Veranschaulichung einer allgemeinen, univariaten Regressionsbeziehung.
+#| fig-cap: Simulierte (künstlich erzeugte) Daten zur Veranschaulichung einer univariaten, nicht linearen Regressionsbeziehung zwischen $Y$ und $X$.
 ## Erzeugung von "Fake-Daten":
 set.seed(1234)
 n   <- 50
@@ -187,8 +178,7 @@ legend("topleft", legend = c("Datenpunkte (X,Y)", "f(X)", "Fehlerterme"),
 ```
 
 
-
-Abbildung @fig-plot3d zeigt ein simuliertes Beispiel einer allgemeinen, bivariaten Regressionsbeziehung 
+@fig-plot3d zeigt ein simuliertes Beispiel einer allgemeinen, bivariaten Regressionsbeziehung 
 $$
 Y=f(X)+\varepsilon\quad\text{mit}\quad X=(X_1,X_2).
 $$  
@@ -226,35 +216,37 @@ scatter3D(Auto$weight, Auto$displacement, Auto$mpg, pch = 21, cex = .9,
 ```
 
 
-### Der Prädiktionsfehler 
+Ziel ist es nun, die unbekannte Regressionsfunktion $f$ aus den Daten zu erlernen.
+
+<!-- ### Der Prädiktionsfehler  -->
 
 <!-- (zwischen  $Y$ und $\hat{Y}$) -->
 
-Sei $\hat{f}$ eine Schätzung der unbekannten Regressionsfunktion $f,$ geschätzt z.B. mit Hilfe der Polynomregression in @sec-PolyReg. Gegeben der Schätzung $\hat{f}$ und gegeben bestimmter Prädiktorvariablen 
+<!-- Sei $\hat{f}$ eine Schätzung der unbekannten Regressionsfunktion $f,$ geschätzt z.B. mit Hilfe der Polynomregression in @sec-PolyReg. Gegeben der Schätzung $\hat{f}$ und gegeben bestimmter Prädiktorvariablen 
 $$
 X=(X_1,X_2,\dots,X_p)
 $$ 
-(z.B. Gewicht, PS und Hubraum eines neuen Autos), können wir die dazugehörige, abhängige Variable $Y$ vorhersagen:  
+(z.B. Gewicht, PS und Hubraum eines neuen Autos), können wir die dazugehörige, abhängige Variable $Y$ vorhersagen:   -->
 <!-- In vielen Datenproblemen sind zwar die , aber die dazugehörige Zielvariable $Y$ ist unbekannt. Da sich der Fehlerterm zu Null mittelt, lässt sich in solch einem Fall das unbekannte $Y$ durch  -->
-$$
-Y\approx \hat{Y}=\hat{f}(X).
-$$
+<!-- $$ -->
+<!-- Y\approx \hat{Y}=\hat{f}(X). -->
+<!-- $$ -->
 <!-- wobei 
 * $\hat{f}$ für unsere Schätzung von $f$ steht und 
 * $\hat{Y}$ die Vorhersage von $Y$ für gegebene Prädiktorvariablen $X$ ist.  -->
 
-Die Genauigkeit der Vorhersage von $\hat{Y}$ für $Y$ hängt von zwei verschiedenen Prädiktionsfehlergrößen ab: 
+<!-- Die Genauigkeit der Vorhersage von $\hat{Y}$ für $Y$ hängt von zwei verschiedenen Prädiktionsfehlergrößen ab: 
 
 * **Reduzierbarer Prädiktionsfehler** aufgrund des Schätzfehlers in $\hat{f}$.  Eine genauere Schätzung kann diesen Fehler reduzieren.
 * **Nicht reduzierbarer Prädiktionsfehler** aufgrund des Fehlerterms $\varepsilon$.  Das ist der Fehler, den wir selbst bei perfekter Schätzung von $f$ nicht reduzieren können. 
 
 
-Der **nicht reduzierbare Fehler** $\varepsilon$ enthält alle nicht messbaren und nicht gemessenen Variablen, die ebenfalls einen Einfluss auf $Y$ haben. Und da wir diese Variablen nicht messen können, können wir sie auch nicht verwenden, um $f$ zu schätzen. 
+Der **nicht reduzierbare Fehler** $\varepsilon$ enthält alle nicht messbaren und nicht gemessenen Variablen, die ebenfalls einen Einfluss auf $Y$ haben. Und da wir diese Variablen nicht messen können, können wir sie auch nicht verwenden, um $f$ zu schätzen.  -->
 
 
 <!-- Sei nun $\hat{f}$ ein gegebener Schätzer von $f$, und sei $X_{Neu}$ ein *neuer* Prädiktorwert (nicht verwendet zur Berechnung von $\hat{f}$) mit dem wir $Y_{Neu}$ vorhersagen wollen, d.h. $Y_{Neu}\approx \hat{Y}_{Neu}=\hat{f}(X_{Neu}).$ Unter  -->
 
-Sei nun $\hat{f}$ eine gegebene Schätzung von $f$ und seien $X$ gegeben Werte der Prädiktorvariablen welche die Vorhersage $\hat{Y}=\hat{f}(X)$ ergeben. Nehmen wir nun für einen Moment an, dass $\hat{f}$ und $X$ gegeben und fest (also nicht zufällig) sind, dann 
+<!-- Sei nun $\hat{f}$ eine gegebene Schätzung von $f$ und seien $X$ gegeben Werte der Prädiktorvariablen welche die Vorhersage $\hat{Y}=\hat{f}(X)$ ergeben. Nehmen wir nun für einen Moment an, dass $\hat{f}$ und $X$ gegeben und fest (also nicht zufällig) sind, dann 
 $$ 
 \begin{align*}
 E\left[(Y-\hat{Y})^2\right]
@@ -262,7 +254,7 @@ E\left[(Y-\hat{Y})^2\right]
 &=E\left[\left((f(X)-\hat{f}(X)\right)^2+2\left((f(X)-\hat{f}(X)\right)\varepsilon+\varepsilon^2\right]\\
 &=\underbrace{\left((f(X)-\hat{f}(X)\right)^2}_{\text{reduzierbar}}+\underbrace{\operatorname{Var}(\varepsilon)}_{\text{nicht reduzierbar}}
 \end{align*}
-$$
+$$ -->
 
 <!-- Sei nun $\hat{f}$ eine gegebene Schätzung von $f$ berechnet auf basis von i.i.d. Trainingsdaten. Seien $X$ gegeben Werte der Prädiktorvariablen welche die Vorhersage $\hat{Y}=\hat{f}(X)$ ergeben. Nehmen wir nun für einen Moment an, dass $\hat{f}$ und $X$ gegeben und fest (also nicht zufällig) sind, dann
 $$
@@ -271,7 +263,8 @@ E\left[(Y-\hat{Y})^2|X=x\right]
 &=E\Big[(\overbrace{f(X)+\varepsilon}^{=Y} - \overbrace{\hat{f}(x)}^{=\hat{Y}})^2|X=x\Big]\\
 \end{align*}
 $$ -->
-Der mittlere quadratische Prädiktionsfehler $E\left[(Y-\hat{Y})^2\right]$ lässt sich also in eine reduzierbare und eine nicht reduzierbare Fehlerkomponente zerlegen. 
+
+<!-- Der mittlere quadratische Prädiktionsfehler $E\left[(Y-\hat{Y})^2\right]$ lässt sich also in eine reduzierbare und eine nicht reduzierbare Fehlerkomponente zerlegen.  -->
 
 
 <!-- ## Das multivariate lineare Regressionsmodell -->
@@ -427,25 +420,26 @@ $$ -->
 \end{align*}
 $$ -->
 
-### Polynomregression {#sec-PolyReg}
+## Das Polynomregressionsmodell {#sec-PolyReg}
 
 Das **Polynomregressionsmodell** 
 $$
 f_p(X) = \beta_0 + \beta_1 X_1 + \beta_2 X_1^2 + \dots + \beta_p X_1^p  
-$$
+$${#eq-PolRegMod}
 ist eine Möglichkeit, die allgemeine Regressionsfunktion $f(X)=E(Y|X)$ zu schätzen (lernen). 
 
-Die Polynomstruktur erlaubt es, die nicht linearen Beziehungen zwischen der Zielvariablen und den Prädiktorvariablen in unserem Benzinverbrauchsproblem (siehe Abbildung @fig-pairsplot) zu berücksichtigen. 
+Die Polynomstruktur erlaubt es, die nicht linearen Beziehungen zwischen der Zielvariable $Y$ und den Prädiktorvariablen $X$ in unserem Benzinverbrauchsproblem (siehe @fig-pairsplot) zu berücksichtigen. 
 
 So kann, zum Beispiel, der nicht lineare Zusammenhang zwischen `Verbrauch` und Leistung `PS` sehr flexibel als Polynomfunktion modelliert werden:
 $$
 \texttt{Verbrauch}(\texttt{PS}) = \beta_0 + \beta_1 \texttt{PS} + \beta_2 \texttt{PS}^2 + \dots + \beta_p \texttt{PS}^p
 $$
-Je höher der Grad $p$ des Polynoms, desto flexibler ist ein Polynomregressionsmodell. 
+Je höher der Grad $p$ des Polynoms, desto flexibler ist ein Polynomregressionsmodell (@fig-polynom). 
 
-Das Polynomregressionsmodell ist jedoch für alle Polynomgrade $p$ ein ***lineares* Regressionsmodell**, denn es ist linear bezüglich der Modellparameter $\beta_0, \beta_1, \dots, \beta_p$. 
+> Das Polynomregressionsmodell (@eq-PolRegMod) ist für alle Polynomgrade $p$ ein ***lineares* Regressionsmodell**, denn es ist linear bezüglich der Modellparameter $\beta_0, \beta_1, \dots, \beta_p$. 
 
-Für einen gegebenen Polynomgrad $p$, lassen sich die unbekannten Modelparameter einfach  mit Hilfe der Methode der kleinsten Quadrate schätzen: 
+
+Für einen gegebenen Polynomgrad $p$, lassen sich die unbekannten Modellparameter einfach  mit Hilfe der Methode der kleinsten Quadrate schätzen: 
 $$
 \hat{f}_p(X) = \hat\beta_0 + \hat\beta_1 X_1 + \hat\beta_2 X_1^2 + \dots + \hat\beta_p X_1^p  
 $$
@@ -484,7 +478,9 @@ Y=\left(
 $$
 
 
-```{r polynom, echo=TRUE, fig.cap="Polynom Regression bei verschiedenen Polynomgraden $p$.", out.width="100%", out.height="100%"}
+```{r polynom, echo=TRUE, out.width="100%", out.height="100%"}
+#| label: fig-polynom
+#| fig-cap: Polynom Regression bei verschiedenen Polynomgraden $p$.
 ## Polynom Regressionen
 polreg_1 <- lm(Verbrauch ~ poly(PS, degree = 1, raw=TRUE), data = Auto_df)
 polreg_2 <- lm(Verbrauch ~ poly(PS, degree = 2, raw=TRUE), data = Auto_df)
@@ -507,17 +503,24 @@ legend("topright", lty=c(NA,1,1,1), pch=c(21,NA,NA,NA),
 ```
 
 
-#### Überanpassung 
+## Überanpassung 
 
-Zusätzlich zur Wahl der Modellparameter $\hat{\beta}_0, \hat{\beta}_1, \dots, \hat{\beta}_p$ besteht hier nun das Problem der Wahl des Grades $p$ des Polynoms als weiteren Modellparameter 
+Zusätzlich zur Schätzung der Modellparameter besteht hier nun das Problem der Wahl des Grades $p$ des Polynoms als weiteren Modellparameter 
 $$
-y_i=\hat{\beta}_0 + \hat{\beta}_1 x_{i1} + \hat{\beta}_2 x_{i2}^2 + \dots + \hat{\beta}_p x_{ip}^p + e_i
+\begin{align*}
+y_i 
+%& =\hat{\beta}_0 + \hat{\beta}_1 x_{i1} + \hat{\beta}_2 x_{i1}^2 + \dots + \hat{\beta}_p x_{i1}^p + e_i
+& =\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i1}^2 + \dots + \beta_p x_{i1}^p + \varepsilon_i\\ 
+& =\sum_{j=1}^p\beta_j x_{i1}^j + \varepsilon_i 
+\end{align*}
 $$
-Wenn man jedoch versucht, alle Modellparameter (also $\hat{\beta}_0, \hat{\beta}_1, \dots, \hat{\beta}_p$ **und** $p$) durch Minimieren der Trainingsdaten-RSS
+Wenn man jedoch versucht, alle Modellparameter (also $\beta_0, \beta_1, \dots, \beta_p$ **und** $p$) durch Minimieren der Residuen-Quadratsumme (Residual Sum of Squares, RSS) 
 $$
-\operatorname{RSS}\equiv\operatorname{RSS}(\hat{\beta}_0, \hat{\beta}_1, \dots, \hat{\beta}_p,p)=e_1^2 + e_2^2 + \dots + e_n^2
+\operatorname{RSS}_p=\sum_{i=1}^n\left(y_i - \sum_{j=0}^p\hat{\beta}_jx_{i1}^j\right)^2
 $$
-zu schätzen, so ergibt sich ein Problem das als **Überanpassung**  (**Overfitting**) bekannt ist (siehe Abbildung @fig-RSSPoly2). Das Polynomregressionsmodell ist so flexibel, dass es den einzelnen Trainingsdaten $(x_i,y_i)$ folgen kann. Eine Überangepassung an die Trainingsdaten führt jedoch notwendigerweise zu einer Verschlechterung der Vorhersagegüte bezüglich *neuer* Daten. 
+zu schätzen, so ergibt sich ein Problem das als **Überanpassung**  (**Overfitting**) bekannt ist (@fig-RSSPoly2). Das Polynomregressionsmodell ist so flexibel, dass es den einzelnen Trainingsdaten $(x_i,y_i)$ folgen kann. 
+
+<!-- Eine Überangepassung an die Trainingsdaten führt jedoch notwendigerweise zu einer Verschlechterung der Vorhersagegüte bezüglich *neuer* Daten.  -->
 ```{r}
 ## Polynom Regressionen
 p_m      <- 100
@@ -572,21 +575,21 @@ par(mfrow=c(1,1))
 ```
 
 
-#### Problem der Methode der kleinsten Quadrate {-}
+### Problem der Methode der kleinsten Quadrate {-}
 
 <!-- Die Methode der kleinsten Quadrate ergibt hier keine vernüftige Schätzung des Polynomgrades $p$. Aber was ist das Problem?  -->
 
-Das Minimieren der Residuen-Quadratsumme (Residual Sum of Squares, RSS) is äquivalent zum minimieren des mittleren quadratischen Fehlers bzgl. der Trainingsdaten 
+Das Minimieren der RSS ist äquivalent zum Minimieren des mittleren quadratischen Fehlers bzgl. der Trainingsdaten 
 $$
 \frac{1}{n}\operatorname{RSS}_p=\frac{1}{n}\sum_{i=1}^n\left(y_i - \hat{f}_p(x_i)\right)^2,
 $$
-wobei $(y_i,x_i),$ $i=1,\dots,n$ hier die beobachteten Trainingsdaten bezeichnet. 
+wobei $(y_i,x_i),$ $i=1,\dots,n,$ hier die beobachteten Trainingsdaten bezeichnet. 
 
-Für hohe Polynomgrade $p$ wird $\hat{f}_p(x_i)$ *sehr* flexibel, sodass 
+Je hoher der Polynomgrad $p,$ desto flexibler wird $\hat{f}_p(x_i),$ sodass sich $\hat{f}_p(x_i)$ den Beobachtungen $y_i$ annähern kann 
 $$
 y_i \approx \hat{f}_p(x_i).
 $$
-Dies erklärt die Beobachtung, dass $\operatorname{RSS}_p$ monoton fallend ist in $p,$ also 
+Dies erklärt die Beobachtung aus @fig-RSSPoly2, dass $\operatorname{RSS}_p$ monoton fallend ist in $p,$ also 
 $$
 \operatorname{RSS}_p\geq \operatorname{RSS}_{p'}\quad\text{für}\quad p < p'.
 $$  
@@ -598,23 +601,23 @@ Damit erlernt $\hat{f}_p(x_i)$ von $y_i$
 * den erwünschten Teil $f(x_i)$
 * aber auch den unerwünschten Fehlerterm $\varepsilon_i$ 😭
 
-Das erlernte Model $\hat{f}_p(x_i)$ ist fehlerbehaftet, d.h. $\hat{f}_p(x_i)\not\approx f(x_i).$  
+Das erlernte Modell $\hat{f}_p(x_i)$ ist fehlerbehaftet, d.h. $\hat{f}_p(x_i)\not\approx f(x_i).$  
 
 <!-- Obwohl die $\operatorname{RSS}$ minimal ist, ist das geschätzte Model $\hat{f}_p(x_i)$ fehlerbehaftet.  -->
 
 
-#### Mittlerer quadratischer Fehlers bzgl. der Testdaten  {-}
+### Mittlerer quadratischer Fehlers bzgl. Testdaten  {-}
 
 Um eine Überanpassung an die Trainingsdaten zu verhindern, müss man die Prädiktionsgüte von $\hat{f}_p(x_i)$ mit Hilfe **neuer  Testdaten** überprüfen. 
 
 Eine häufig betrachtete Größe ist der mittlere quadrierte Prädiktionsfehler (mean squared prediction error, MSPE)
 $$
-\operatorname{MSPE}_{Test}=\frac{1}{m}\sum_{i=1}^m\left(y^{Test}_i - \hat{f}_p(x^{Test}_i)\right)^2,
+\operatorname{MSPE}^{Test}_p=\frac{1}{m}\sum_{i=1}^m\left(y^{Test}_i - \hat{f}_p(x^{Test}_i)\right)^2,
 $$
 wobei 
 
 * $(y^{Test}_i,x^{Test}_i),$ $i=1,\dots,m$ die Testdaten bezeichnet,
-* $\hat{f}_p$ jedoch auf Basis der Trainingsdaten berechnet wurde. 
+* $\hat{f}_p$ jedoch auf Basis der Trainingsdaten (kleinste Quadrate Methode) berechnet wurde. 
 
 Die Trainings- und Testdaten müssen voneinander unabhängig sein, sodass 
 $$
@@ -622,13 +625,14 @@ $$
 &\operatorname{MSPE}^{Test}_p
 =\frac{1}{m}\sum_{i=1}^m\left(y^{Test}_i - \hat{f}_p(x^{Test}_i)\right)^2\\ 
 &=\frac{1}{m}\sum_{i=1}^m\left((f(x^{Test}_i)+\varepsilon^{Test}_i) - \hat{f}_p(x^{Test}_i)\right)^2\\ 
-&=\underbrace{\frac{1}{m}\sum_{i=1}^m\left(f(x^{Test}_i)-\hat{f}_p(x^{Test}_i)\right)^2}_{\approx E\left(\left(f(X)-\hat{f}_p(X)\right)^2\right)}
-+\underbrace{\frac{1}{m}\sum_{i=1}^m\left(\varepsilon_i^{Test}\right)^2}_{\approx \operatorname{Var}(\varepsilon)} 
--\underbrace{\frac{1}{m}\sum_{i=1}^m\varepsilon_i^{Test}\hat{f}_p(x^{Test}_i)}_{\approx 0}
+&=\underbrace{\frac{1}{m}\sum_{i=1}^m\left(f(x^{Test}_i)-\hat{f}_p(x^{Test}_i)\right)^2}_{\approx E\left(\left(f(X)-\hat{f}_p(X)\right)^2\right)}\\
+&\;\;\;+\underbrace{\frac{1}{m}\sum_{i=1}^m\left(\varepsilon_i^{Test}\right)^2}_{\approx \operatorname{Var}(\varepsilon)} 
+-\underbrace{\frac{1}{m}\sum_{i=1}^m\varepsilon_i^{Test}\hat{f}_p(x^{Test}_i)}_{\approx 0}\\
+&\approx E\left(\left(f(X)-\hat{f}_p(X)\right)^2\right) + \operatorname{Var}(\varepsilon)
 \end{align*}
 $$
 
-Die Minimierung von $\operatorname{MSPE}^{Test}_p$ bzgl $p$ entspricht also (approximativ for große $m$) einer Minimierung von 
+Die Minimierung von $\operatorname{MSPE}^{Test}_p$ bzgl $p$ entspricht also (approximativ für große $m$) einer Minimierung von 
 $$
 E\left(\left(f(X)-\hat{f}_p(X)\right)^2\right).
 $$ 
@@ -638,7 +642,7 @@ $\operatorname{MSPE}^{Test}_p$ stellt damit ein korrigiertes kleinste Quadrate K
 
 ## Resampling Methoden zur Modellauswahl
 
-#### Maschinelles Lernen versus Strukturelle Modelle {-}
+<!-- #### Maschinelles Lernen versus Strukturelle Modelle {-} -->
 
 <!-- Das oben veranschaulichte Problem der Überanpassung (Overfitting) ist eng damit verbunden, dass wir hier ein sehr flexibles Regressionsmodell (Polynomregression) betrachten. Viele der möglichen Polynomfunktionen sind unsinnig, da sie nicht die strukturellen Einschränkungen des betrachteten Datenproblems berücksichtigen. Falls ein gesichertes Wissen zu den zugrundeliegenden, strukturellen Zusammenhängen zwischen der Zielvariable $Y$ und den Prädiktorvariablen $X$ existiert, sollte man diese strukturellen Zusammenhängen auch im statistischen Modell berücksichtigen. (Immer mit den Expert\*Innen des Faches sprechen!) Im besten Falle gibt es ein **strukturelles Modell** zu den systematischen Zusammenhängen $f$ zwischen $Y$ und $X$, welches genügend Einschränkungen bietet, sodass alle unsinnigen Modellierungen vermieden werden können. In solchen Idealfällen führt die Minimierung der Trainingsdaten-RSS zu keinem Problem der Überanpassung.  -->
 
@@ -798,7 +802,7 @@ par(mfrow=c(1,1))
 > **Achtung:** Auch eine Modellauswahl ist fehlerhaft und stellt lediglich eine Schätzung (mit Schätzfehlern) des besten Prädiktionsmodelles innerhalb der betrachteten Klasse von Prädiktionsmodellen (hier Polynomregressionen) dar. 
 
 
-Abbildung @fig-MSPE zeigt jedoch ein Problem der Validierungsdaten-Methode. Die Trainingsdaten und die Validierungsdaten haben kleinere Stichprobenumfänge ($n_{Train}<n$ und $n_{Valid}<n$) was zu einer **erhöhten Schätzgenauigkeit in der MSPE-Schätzung** führt. 
+@fig-MSPE zeigt jedoch ein Problem der Validierungsdaten-Methode. Die Trainingsdaten und die Validierungsdaten haben kleinere Stichprobenumfänge ($n_{Train}<n$ und $n_{Valid}<n$) was zu einer **erhöhten Schätzgenauigkeit in der MSPE-Schätzung** führt. 
 ```{r MSPE, fig.align="center", echo=FALSE}
 #| label: fig-MSPE
 #| fig-cap: Zehn verschiedene MSPE-Berechnungen basierend auf zehn verschiedenen, zufälligen Aufteilungen der Daten in Trainings- und Validierungsdaten.
@@ -849,7 +853,7 @@ for(r in 1:R){
 
 Die $k$-fache (z.B. $k=5$ oder $k=10$) Kreuzvalidierung ist eine Vorgehensweise zur Bewertung der Leistung einer Schätzprozedur (Algorithmus) im Kontext des maschinellen Lernens. Als Schätzprozedur verwenden wir wieder das Beispiel der Polynomregression mit unbekanntem Polynomgrad $p$, welcher zusammen mit den Modellparametern $\beta_0,\beta_1,\dots,\beta_p$ aus den Daten erlernt werden muss. 
 
-Die $k$-fache Kreuzvalidierung stellt eine Verbesserung der Validierungsdaten-Methode dar, da sie faktisch die Stichprobenumfänge in den Trainingsdaten und Validierungsdaten erhöht. Wie bei der Validierungsdaten-Methode wird der Datensatz in Trainings- und Validierungsdaten aufgeteilt -- jedoch $k$-fach. Abbildung  @fig-kfoldcv zeigt ein Beispiel der Datenaufteilung bei der $5$-fachen Kreuzvalidierung. 
+Die $k$-fache Kreuzvalidierung stellt eine Verbesserung der Validierungsdaten-Methode dar, da sie faktisch die Stichprobenumfänge in den Trainingsdaten und Validierungsdaten erhöht. Wie bei der Validierungsdaten-Methode wird der Datensatz in Trainings- und Validierungsdaten aufgeteilt -- jedoch $k$-fach. @fig-kfoldcv zeigt ein Beispiel der Datenaufteilung bei der $5$-fachen Kreuzvalidierung. 
 
 ```{r fig-kfoldcv, include=knitr::is_html_output(), echo=FALSE, out.width='70%', fig.cap="Datenaufteilung in Trainings- und Validierungsdaten bei der $5$-fachen Kreuzvalidierung."}
 knitr::include_graphics("images/5-fold_cross-validation.png")
@@ -895,10 +899,10 @@ knitr::include_graphics("images/Car_Pollution.jpg")
 ```
 
 
-Nun haben wir das Werkzeug, um die nicht linearen Zusammenhänge zwischen der **Zielvariable** $Y=$`Verbrauch` und den **Prädiktorvariablen** $G=$`Gewicht`, $P=$`PS` und $H=$`Hubraum` im Datensatz `Auto_df` zu berücksichtigen (siehe Abbildung @fig-pairsplot) und allein mit Hilfe der Daten zu erlernen. Wir folgen hier der Herangehensweise des **maschinellen Lernens** und lassen die **Daten für sich selbst sprechen**.   
+Nun haben wir das Werkzeug, um die nicht linearen Zusammenhänge zwischen der **Zielvariable** $Y=$`Verbrauch` und den **Prädiktorvariablen** $G=$`Gewicht`, $P=$`PS` und $H=$`Hubraum` im Datensatz `Auto_df` zu berücksichtigen (siehe @fig-pairsplot) und allein mit Hilfe der Daten zu erlernen. Wir folgen hier der Herangehensweise des **maschinellen Lernens** und lassen die **Daten für sich selbst sprechen**.   
 
 
-Da Abbildung @fig-pairsplot sehr ähnliche Zusammenhänge zwischen der Zielvariable $Y=$`Verbrauch` und den Prädiktorvariablen $G=$`Gewicht`, $P=$`PS` und $H=$`Hubraum` vermuten lässt, betrachten wir zunächst ein vereinfachtest Polynomregressionsmodell, bei dem für alle Prädiktorvariablen der gleiche Polynomgrad $p$ verwendet wird.  
+Da @fig-pairsplot sehr ähnliche Zusammenhänge zwischen der Zielvariable $Y=$`Verbrauch` und den Prädiktorvariablen $G=$`Gewicht`, $P=$`PS` und $H=$`Hubraum` vermuten lässt, betrachten wir zunächst ein vereinfachtest Polynomregressionsmodell, bei dem für alle Prädiktorvariablen der gleiche Polynomgrad $p$ verwendet wird.  
 $$
 \begin{align*}
 Y_i = \beta_0 + \notag
@@ -952,7 +956,7 @@ points(y = CV_k[which.min(CV_k)],
 
 
 
-Auch der $5$-fache Kreuzvalidierungswert $\operatorname{CV}_{(5)}$ ist lediglich eine zufallsbehaftete Schätzung des unbekannten mittleren quadratischen Prädiktionsfehlers $E[(Y-\hat{Y})^2]$. Um eine Idee von der Präzision und Stabilität der Modellauswahl mittels der Minimierung von $\operatorname{CV}_{(5)}$ zu bekommen, können wir die zufälligen, $5$-fachen Aufteilungen der Daten in Trainins- und Validierungsdaten wiederholen und den Effekt alternativer Datenaufteilungen betrachten. Abbildung @fig-AutoCV2 zeigt, dass die Minimierung des Kreuzvalidierungswertes $\operatorname{CV}_{(5)}$ auch in Wiederholungen häufig das Modell mit Polynomgrad $p=2$ auswählt. Der Polynomgrad $p=2$ scheint also eine vertauenswürde Modellauswahl darzustellen.  
+Auch der $5$-fache Kreuzvalidierungswert $\operatorname{CV}_{(5)}$ ist lediglich eine zufallsbehaftete Schätzung des unbekannten mittleren quadratischen Prädiktionsfehlers $E[(Y-\hat{Y})^2]$. Um eine Idee von der Präzision und Stabilität der Modellauswahl mittels der Minimierung von $\operatorname{CV}_{(5)}$ zu bekommen, können wir die zufälligen, $5$-fachen Aufteilungen der Daten in Trainins- und Validierungsdaten wiederholen und den Effekt alternativer Datenaufteilungen betrachten. @fig-AutoCV2 zeigt, dass die Minimierung des Kreuzvalidierungswertes $\operatorname{CV}_{(5)}$ auch in Wiederholungen häufig das Modell mit Polynomgrad $p=2$ auswählt. Der Polynomgrad $p=2$ scheint also eine vertauenswürde Modellauswahl darzustellen.  
 ```{r AutoCV2, fig.align="center", echo=FALSE}
 #| label: fig-AutoCV2
 #| fig-cap: Zehn verschiedene $\operatorname{CV}_{(k)}$-Berechnungen basierend auf zehn verschiedenen, zufälligen Wiederholungen der $5$-fachen Kreuzvalidierung.
@@ -1009,7 +1013,7 @@ for(r in 1:R){
 Das Polynomregressionsmodell mit $p=2$ stellt also ein gutes Prädiktionsmodell dar. Wir verwenden nun dieses Modell, um nach auffälligen Unterschiedenen in den herstellerseitigen  Verbrauchsangaben $y_i$ und unseren Prädiktionen zu suchen. Gerade **stark negative Residuen** $y_i-\hat{y}_i$ sind verdächtig, da es auf eine Schönung der Verbrauchsangaben hindeuten könnte. 
 
 
-Folgender R-Code schätzt zunächst das Polynomregressionsmodell mit $p=2$, berechnet dann die Residuen $y_i-\hat{y}_i$ und veranschaulicht die größte negative Abweichung in Abbildung @fig-mazda.
+Folgender R-Code schätzt zunächst das Polynomregressionsmodell mit $p=2$, berechnet dann die Residuen $y_i-\hat{y}_i$ und veranschaulicht die größte negative Abweichung in @fig-mazda.
 ```{r mazda, fig.align="center", echo=TRUE}
 #| label: fig-mazda
 #| fig-cap: Polynomregression im Anwendungsbeispiel zum Benzinverbrauch. Die größte negative Abweichung der Verbrauchsangabe vom zu erwartenden Verbrauch zeigt ein Mazda RX-3 von 1973.
@@ -1038,7 +1042,7 @@ par(mar=c(5.1, 4.1, 4.1, 2.1))
 ```
 
 
-Wir haben hier tatsächlich einen besonderen Fall gefunden. Der Mazda RX-3 (1973) (Abbildung @fig-mazda2) lief mit einem sehr sparsamen [Wankelmotor](https://de.wikipedia.org/wiki/Wankelmotor). Dieser Motor war sogar so außergewöhnlich sparsam, dass es vielerlei [Streitigkeiten](https://nepis.epa.gov/Exe/ZyNET.exe/9100X47O.txt?ZyActionD=ZyDocument&Client=EPA&Index=Prior%20to%201976&Docs=&Query=&Time=&EndTime=&SearchMethod=1&TocRestrict=n&Toc=&TocEntry=&QField=&QFieldYear=&QFieldMonth=&QFieldDay=&UseQField=&IntQFieldOp=0&ExtQFieldOp=0&XmlQuery=&File=D%3A%5CZYFILES%5CINDEX%20DATA%5C70THRU75%5CTXT%5C00000016%5C9100X47O.txt&User=ANONYMOUS&Password=anonymous&SortMethod=h%7C-&MaximumDocuments=1&FuzzyDegree=0&ImageQuality=r75g8/r75g8/x150y150g16/i425&Display=hpfr&DefSeekPage=x&SearchBack=ZyActionL&Back=ZyActionS&BackDesc=Results%20page&MaximumPages=1&ZyEntry=2#) um die vermeintlich zu niedrigen Verbrauchsangaben gab. 
+Wir haben hier tatsächlich einen besonderen Fall gefunden. Der Mazda RX-3 (1973) (@fig-mazda2) lief mit einem sehr sparsamen [Wankelmotor](https://de.wikipedia.org/wiki/Wankelmotor). Dieser Motor war sogar so außergewöhnlich sparsam, dass es vielerlei [Streitigkeiten](https://nepis.epa.gov/Exe/ZyNET.exe/9100X47O.txt?ZyActionD=ZyDocument&Client=EPA&Index=Prior%20to%201976&Docs=&Query=&Time=&EndTime=&SearchMethod=1&TocRestrict=n&Toc=&TocEntry=&QField=&QFieldYear=&QFieldMonth=&QFieldDay=&UseQField=&IntQFieldOp=0&ExtQFieldOp=0&XmlQuery=&File=D%3A%5CZYFILES%5CINDEX%20DATA%5C70THRU75%5CTXT%5C00000016%5C9100X47O.txt&User=ANONYMOUS&Password=anonymous&SortMethod=h%7C-&MaximumDocuments=1&FuzzyDegree=0&ImageQuality=r75g8/r75g8/x150y150g16/i425&Display=hpfr&DefSeekPage=x&SearchBack=ZyActionL&Back=ZyActionS&BackDesc=Results%20page&MaximumPages=1&ZyEntry=2#) um die vermeintlich zu niedrigen Verbrauchsangaben gab. 
 
 
 ```{r mazda2, include=knitr::is_html_output(), echo=FALSE, out.width='70%'}
