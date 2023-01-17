@@ -422,7 +422,7 @@ $$ -->
 
 ## Das Polynomregressionsmodell {#sec-PolyReg}
 
-Betrachten wir zunächst den Fall von einfachen Prädiktorvariable $X\in\mathbb{R},$ z.B. $X=$`PS`.
+Betrachten wir zunächst den Fall einer einfachen Prädiktorvariable $X\in\mathbb{R},$ z.B. $X=$`PS`.
 
 Das **Polynomregressionsmodell** 
 $$
