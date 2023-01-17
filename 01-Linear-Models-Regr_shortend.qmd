@@ -422,15 +422,16 @@ $$ -->
 
 ## Das Polynomregressionsmodell {#sec-PolyReg}
 
+Betrachten wir zunächst den Fall von einfachen Prädiktorvariable $X\in\mathbb{R},$ z.B. $X=$`PS`.
+
 Das **Polynomregressionsmodell** 
 $$
-f_p(X) = \beta_0 + \beta_1 X_1 + \beta_2 X_1^2 + \dots + \beta_p X_1^p  
+f_p(X) = \beta_0 + \beta_1 X + \beta_2 X^2 + \dots + \beta_p X^p  
 $${#eq-PolRegMod}
-ist eine Möglichkeit, die allgemeine Regressionsfunktion $f(X)=E(Y|X)$ zu schätzen (lernen). 
+ist eine einfache Möglichkeit, die allgemeine Regressionsfunktion $f(X)=E(Y|X)$ zu schätzen (lernen). 
 
-Die Polynomstruktur erlaubt es, die nicht linearen Beziehungen zwischen der Zielvariable $Y$ und den Prädiktorvariablen $X$ in unserem Benzinverbrauchsproblem (siehe @fig-pairsplot) zu berücksichtigen. 
-
-So kann, zum Beispiel, der nicht lineare Zusammenhang zwischen `Verbrauch` und Leistung `PS` sehr flexibel als Polynomfunktion modelliert werden:
+<!-- Die Polynomstruktur erlaubt es, nicht linearen Beziehungen zwischen der Zielvariable $Y$ und der Prädiktorvariable $X\in\mathbb{R}$ in unserem Benzinverbrauchsproblem (siehe @fig-pairsplot) zu berücksichtigen.  -->
+So kann, zum Beispiel, der nicht lineare Zusammenhang (@fig-pairsplot) zwischen `Verbrauch` und Leistung `PS` sehr flexibel als Polynomfunktion modelliert werden:
 $$
 \texttt{Verbrauch}(\texttt{PS}) = \beta_0 + \beta_1 \texttt{PS} + \beta_2 \texttt{PS}^2 + \dots + \beta_p \texttt{PS}^p
 $$
@@ -441,11 +442,11 @@ Je höher der Grad $p$ des Polynoms, desto flexibler ist ein Polynomregressionsm
 
 Für einen gegebenen Polynomgrad $p$, lassen sich die unbekannten Modellparameter einfach  mit Hilfe der Methode der kleinsten Quadrate schätzen: 
 $$
-\hat{f}_p(X) = \hat\beta_0 + \hat\beta_1 X_1 + \hat\beta_2 X_1^2 + \dots + \hat\beta_p X_1^p  
+\hat{f}_p(X) = \hat\beta_0 + \hat\beta_1 X + \hat\beta_2 X^2 + \dots + \hat\beta_p X^p  
 $$
 mit 
 $$
-\hat\beta = (X'X)^{-1}X'Y,
+\hat\beta = (\mathbb{X}'\mathbb{X})^{-1}\mathbb{X}'\mathbb{Y},
 $$  
 wobei
 $$
@@ -459,15 +460,15 @@ $$
   \end{matrix}
 \right),
 \quad
-X=\left(\begin{matrix}
-  1     &x_{11}&x_{11}^2&\dots   & x_{11}^p\\
+\mathbb{X}=\left(\begin{matrix}
+  1     &x_{1}&x_{1}^2&\dots   & x_{1}^p\\
   \vdots&\vdots&\vdots  & \ddots & \vdots  \\
-  1     &x_{n1}&x_{n1}^2&\dots   & x_{n1}^p\\
+  1     &x_{n}&x_{n}^2&\dots   & x_{n}^p\\
   \end{matrix}\right)
 \quad
 \text{und}
 \quad
-Y=\left(
+\mathbb{Y}=\left(
   \begin{matrix}
   y_1\\
   \vdots\\

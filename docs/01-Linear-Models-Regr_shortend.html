@@ -596,20 +596,21 @@ $$ -->
 </section>
 <section id="sec-PolyReg" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="sec-PolyReg"><span class="header-section-number">2.2</span> Das Polynomregressionsmodell</h2>
+<p>Betrachten wir zunächst den Fall von einfachen Prädiktorvariable <span class="math inline">\(X\in\mathbb{R},\)</span> z.B. <span class="math inline">\(X=\)</span><code>PS</code>.</p>
 <p>Das <strong>Polynomregressionsmodell</strong> <span id="eq-PolRegMod"><span class="math display">\[
-f_p(X) = \beta_0 + \beta_1 X_1 + \beta_2 X_1^2 + \dots + \beta_p X_1^p  
-\tag{2.1}\]</span></span> ist eine Möglichkeit, die allgemeine Regressionsfunktion <span class="math inline">\(f(X)=E(Y|X)\)</span> zu schätzen (lernen).</p>
-<p>Die Polynomstruktur erlaubt es, die nicht linearen Beziehungen zwischen der Zielvariable <span class="math inline">\(Y\)</span> und den Prädiktorvariablen <span class="math inline">\(X\)</span> in unserem Benzinverbrauchsproblem (siehe <a href="#fig-pairsplot">Figure&nbsp;<span>2.1</span></a>) zu berücksichtigen.</p>
-<p>So kann, zum Beispiel, der nicht lineare Zusammenhang zwischen <code>Verbrauch</code> und Leistung <code>PS</code> sehr flexibel als Polynomfunktion modelliert werden: <span class="math display">\[
+f_p(X) = \beta_0 + \beta_1 X + \beta_2 X^2 + \dots + \beta_p X^p  
+\tag{2.1}\]</span></span> ist eine einfache Möglichkeit, die allgemeine Regressionsfunktion <span class="math inline">\(f(X)=E(Y|X)\)</span> zu schätzen (lernen).</p>
+<!-- Die Polynomstruktur erlaubt es, nicht linearen Beziehungen zwischen der Zielvariable $Y$ und der Prädiktorvariable $X\in\mathbb{R}$ in unserem Benzinverbrauchsproblem (siehe @fig-pairsplot) zu berücksichtigen.  -->
+<p>So kann, zum Beispiel, der nicht lineare Zusammenhang (<a href="#fig-pairsplot">Figure&nbsp;<span>2.1</span></a>) zwischen <code>Verbrauch</code> und Leistung <code>PS</code> sehr flexibel als Polynomfunktion modelliert werden: <span class="math display">\[
 \texttt{Verbrauch}(\texttt{PS}) = \beta_0 + \beta_1 \texttt{PS} + \beta_2 \texttt{PS}^2 + \dots + \beta_p \texttt{PS}^p
 \]</span> Je höher der Grad <span class="math inline">\(p\)</span> des Polynoms, desto flexibler ist ein Polynomregressionsmodell (<a href="#fig-polynom">Figure&nbsp;<span>2.4</span></a>).</p>
 <blockquote class="blockquote">
 <p>Das Polynomregressionsmodell (<a href="#eq-PolRegMod">Equation&nbsp;<span>2.1</span></a>) ist für alle Polynomgrade <span class="math inline">\(p\)</span> ein <strong><em>lineares</em> Regressionsmodell</strong>, denn es ist linear bezüglich der Modellparameter <span class="math inline">\(\beta_0, \beta_1, \dots, \beta_p\)</span>.</p>
 </blockquote>
 <p>Für einen gegebenen Polynomgrad <span class="math inline">\(p\)</span>, lassen sich die unbekannten Modellparameter einfach mit Hilfe der Methode der kleinsten Quadrate schätzen: <span class="math display">\[
-\hat{f}_p(X) = \hat\beta_0 + \hat\beta_1 X_1 + \hat\beta_2 X_1^2 + \dots + \hat\beta_p X_1^p  
+\hat{f}_p(X) = \hat\beta_0 + \hat\beta_1 X + \hat\beta_2 X^2 + \dots + \hat\beta_p X^p  
 \]</span> mit <span class="math display">\[
-\hat\beta = (X'X)^{-1}X'Y,
+\hat\beta = (\mathbb{X}'\mathbb{X})^{-1}\mathbb{X}'\mathbb{Y},
 \]</span><br>
 wobei <span class="math display">\[
 \begin{align*}
@@ -622,15 +623,15 @@ wobei <span class="math display">\[
   \end{matrix}
 \right),
 \quad
-X=\left(\begin{matrix}
-  1     &amp;x_{11}&amp;x_{11}^2&amp;\dots   &amp; x_{11}^p\\
+\mathbb{X}=\left(\begin{matrix}
+  1     &amp;x_{1}&amp;x_{1}^2&amp;\dots   &amp; x_{1}^p\\
   \vdots&amp;\vdots&amp;\vdots  &amp; \ddots &amp; \vdots  \\
-  1     &amp;x_{n1}&amp;x_{n1}^2&amp;\dots   &amp; x_{n1}^p\\
+  1     &amp;x_{n}&amp;x_{n}^2&amp;\dots   &amp; x_{n}^p\\
   \end{matrix}\right)
 \quad
 \text{und}
 \quad
-Y=\left(
+\mathbb{Y}=\left(
   \begin{matrix}
   y_1\\
   \vdots\\
